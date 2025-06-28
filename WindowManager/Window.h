@@ -48,18 +48,28 @@ private:
     Window(){
         this->default_intiializer(800,600,"VulkTools Window");
     }
-    Window(int width, int height){
+    Window(const int width,const int height){
         this->default_intiializer(width,height,"VulkTools Window");
     }
-    Window(int width, int height,std::string title) {
+    Window(const int width,const int height, const std::string &title) {
         this->default_intiializer(width,height,title);
     }
-
-    ~Window(){
+    void destroy() {
+        this->window_initialize_succeed = false;
+        this->ExtensionList.clear();
+        this->tasklist.clear();
+        this->_title.clear();
+        this->required_extension_count = 0;
         glfwDestroyWindow(this->window);
         glfwTerminate();
     }
-    GLFWwindow* getWindow() {
+
+    ~Window(){
+        this->destroy();
+    }
+
+    GLFWwindow *getWindow() {
+        if (!this->window_initialize_succeed) throw std::runtime_error("WindowManager is not ready yet");
         return this->window;
     }
 
