@@ -21,7 +21,7 @@ VkApplicationInfo createAppInfo(std::string appName, std::string engineName) {
     return appInfo;
 }
 
-VkInstanceCreateInfo createInstanceInfo(VkApplicationInfo &appInfo, const std::vector<const char *> &requiredExtensions, std::optional<std::vector<const char *>> layers) {
+VkInstanceCreateInfo createInstanceInfo(const VkApplicationInfo &appInfo, const std::vector<const char *> &requiredExtensions, std::optional<std::vector<const char *>> layers) {
     if (requiredExtensions.empty())throw std::runtime_error(VULK_RUNTIME_ERROR("Required Extension Not Found"));
     VkInstanceCreateInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
