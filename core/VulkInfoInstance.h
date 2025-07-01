@@ -7,12 +7,12 @@
 #include <string>
 #include <vector>
 #include <vulkan/vulkan.h>
-
+#include <optional>
 
 VkApplicationInfo createAppInfo(std::string appName,std::string engineName);
 
 VkInstanceCreateInfo
-createInstanceInfo(VkApplicationInfo &appInfo, const std::vector<const char *> &requiredExtensions, std::vector<const char *> &layers);
+createInstanceInfo(VkApplicationInfo &appInfo, const std::vector<const char *> &requiredExtensions, std::optional<std::vector<const char *>> layers=std::nullopt);
 
 
 #endif //VULKINSTANCE_H

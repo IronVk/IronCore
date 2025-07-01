@@ -3,6 +3,9 @@
 //
 
 #include "VulkInfoInstance.h"
+
+#include <optional>
+
 #include "../Util/VULK_Diagnostic.h"
 #include <stdexcept>
 
@@ -18,19 +21,21 @@ VkApplicationInfo createAppInfo(std::string appName, std::string engineName) {
     return appInfo;
 }
 
-VkInstanceCreateInfo createInstanceInfo(VkApplicationInfo &appInfo, const std::vector<const char *> &requiredExtensions, std::vector<const char *> &layers) {
+VkInstanceCreateInfo createInstanceInfo(VkApplicationInfo &appInfo, const std::vector<const char *> &requiredExtensions, std::optional<std::vector<const char *>> layers) {
     if (requiredExtensions.empty())throw std::runtime_error(VULK_RUNTIME_ERROR("Required Extension Not Found"));
     VkInstanceCreateInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     info.pApplicationInfo = &appInfo;
     info.enabledExtensionCount = static_cast<uint32_t>(requiredExtensions.size());
     info.ppEnabledExtensionNames = requiredExtensions.data();
-    if (!layers.empty()) {
-        info.enabledLayerCount = static_cast<uint32_t>(layers.size());
-        info.ppEnabledLayerNames = layers.data();
+    if (layers.has_value()) {
+        const auto layer = std::move(*layers);
+        info.enabledLayerCount = static_cast<uint32_t>(layer.size());
+        info.ppEnabledLayerNames = layer.data();
     }else {
         info.enabledLayerCount = 0;
         info.ppEnabledLayerNames = nullptr;
     }
     return info;
 }
+

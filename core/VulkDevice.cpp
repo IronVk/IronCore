@@ -39,4 +39,25 @@ VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> 
     return physical_devices[0];
 }
 
+std::vector<VkQueueFamilyProperties> getQueueFamilies(const VkPhysicalDevice& physical_device) {
+    uint32_t queueFamilyCount = 0;
+    vkGetPhysicalDeviceQueueFamilyProperties(physical_device,&queueFamilyCount,nullptr);
+    auto queueFamilyList = std::vector<VkQueueFamilyProperties>(queueFamilyCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(physical_device,&queueFamilyCount,queueFamilyList.data());
+    if (queueFamilyList.empty())throw std::runtime_error(VULK_RUNTIME_ERROR("No QUEUE FAMILIES FOUND"));
+    return queueFamilyList;
+}
+
+QueueFamilyIndices getGraphicsQueueFamilyIndices(const std::vector<VkQueueFamilyProperties>& queueFamilyList) {
+    QueueFamilyIndices Indices;
+    for (uint8_t i=0;i<queueFamilyList.capacity();i++) {
+        const auto queueFamily = queueFamilyList[i];
+        //? checking if queue family has at least one queue then checking if  first byte of queueFlags binary is 1 using bit manipulation
+        if (queueFamily.queueCount> 0  && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+            Indices.graphicsFamilyIndex = i;
+            if (Indices.isValidGraphicsFamily())break;
+        }
+    }
+    return Indices;
+}
 
