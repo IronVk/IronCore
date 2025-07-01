@@ -3,7 +3,7 @@
 //
 
 #include "VulkInfoInstance.h"
-#include "../Util/VULK_Diagonistic.h"
+#include "../Util/VULK_Diagnostic.h"
 #include <stdexcept>
 
 
@@ -19,13 +19,13 @@ VkApplicationInfo createAppInfo(std::string appName, std::string engineName) {
 }
 
 VkInstanceCreateInfo createInstanceInfo(VkApplicationInfo &appInfo, const std::vector<const char *> &requiredExtensions, std::vector<const char *> &layers) {
-    if (requiredExtensions.empty())throw std::runtime_error(VULK_RUNTIME_ERROR+" ");
+    if (requiredExtensions.empty())throw std::runtime_error(VULK_RUNTIME_ERROR("Required Extension Not Found"));
     VkInstanceCreateInfo info = {};
     info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     info.pApplicationInfo = &appInfo;
     info.enabledExtensionCount = static_cast<uint32_t>(requiredExtensions.size());
     info.ppEnabledExtensionNames = requiredExtensions.data();
-    if (std::empty!=nullptr && !layers.empty()) {
+    if (!layers.empty()) {
         info.enabledLayerCount = static_cast<uint32_t>(layers.size());
         info.ppEnabledLayerNames = layers.data();
     }else {
