@@ -7,7 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <vulkan/vulkan.h>
-#include "../Util/VULK_Diagnostic.h"
+#include "../Util/diagnostic/VULK_Diagnostic.h"
 
 bool checkInstanceExtensionSupport(const std::vector<const char *> *inputExtensionList) {
     uint32_t extCount = 0;

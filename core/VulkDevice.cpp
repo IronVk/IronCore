@@ -6,9 +6,9 @@
 #include <iostream>
 #include <vector>
 #include <vulkan/vulkan.h>
-#include "../Util/VULK_Diagnostic.h"
+#include "../Util/diagnostic/VULK_Diagnostic.h"
 
-std::vector<VkPhysicalDevice> getDeviceList(VkInstance &instance) {
+std::vector<VkPhysicalDevice> getPhysicalDeviceList(VkInstance &instance) {
     uint32_t physicalDeviceCount = 0;
     if (vkEnumeratePhysicalDevices(instance,&physicalDeviceCount,nullptr )!=VK_SUCCESS || physicalDeviceCount<1)throw std::runtime_error(VULK_RUNTIME_ERROR("No Device Found"));// ! if no device found
     auto physicalDevices = std::vector<VkPhysicalDevice>(physicalDeviceCount);
@@ -50,12 +50,13 @@ std::vector<VkQueueFamilyProperties> getQueueFamilies(const VkPhysicalDevice& ph
 
 QueueFamilyIndices getGraphicsQueueFamilyIndices(const std::vector<VkQueueFamilyProperties>& queueFamilyList) {
     QueueFamilyIndices Indices;
-    for (uint8_t i=0;i<queueFamilyList.capacity();i++) {
+    for (uint8_t i=0;i<queueFamilyList.size();i++) {
         const auto queueFamily = queueFamilyList[i];
         //? checking if queue family has at least one queue then checking if  first byte of queueFlags binary is 1 using bit manipulation
-        if (queueFamily.queueCount> 0  && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+        if (queueFamily.queueCount> 0  && (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
             Indices.graphicsFamilyIndex = i;
-            if (Indices.isValidGraphicsFamily())break;
+            if (Indices.isValidGraphicsFamily()) break;
+
         }
     }
     return Indices;

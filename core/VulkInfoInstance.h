@@ -11,8 +11,7 @@
 
 VkApplicationInfo createAppInfo(std::string appName,std::string engineName);
 
-VkInstanceCreateInfo
-createInstanceInfo(const VkApplicationInfo &appInfo, const std::vector<const char *> &requiredExtensions, std::optional<std::vector<const char *>> layers=std::nullopt);
+VkInstanceCreateInfo createInstanceInfo(const VkApplicationInfo &appInfo, std::vector<const char *> &requiredExtensions, std::optional<std::vector<const char *>> layers);
 
 
 #endif //VULKINSTANCE_H

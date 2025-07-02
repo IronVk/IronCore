@@ -9,7 +9,7 @@
 
 
 bool checkInstanceExtensionSupport(const std::vector<const char*>* inputExtensionList);
-bool checkValidationLayerSupport();
+bool checkValidationLayerSupport(const std::vector<const char *> *providedValidationLayer) ;
 
 
 #endif //VULKVALIDATEINSTANCEANDDEVICE_H

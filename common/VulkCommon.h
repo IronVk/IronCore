@@ -6,6 +6,13 @@
 #define VULKCOMMON_H
 #include <vulkan/vulkan.h>
 
+typedef struct {
+    int graphicsFamilyIndex;
+    bool isValidGraphicsFamily() const {
+        return graphicsFamilyIndex >=0;
+    }
+} QueueFamilyIndices;
+
 // type to hold device related infos
 typedef  struct {
     VkPhysicalDevice physicalDevice;
@@ -18,14 +25,9 @@ typedef struct {
     VkInstance Instance;
     MainDevice Device;
     VkDebugUtilsMessengerEXT debugMessenger;
+    QueueFamilyIndices queueFamilyIndices;
 } VkContext;
 
-typedef struct {
-    int graphicsFamilyIndex;
-    bool isValidGraphicsFamily() const {
-        return graphicsFamilyIndex >0;
-    }
-} QueueFamilyIndices;
 
 
 #endif //VULKCOMMON_H

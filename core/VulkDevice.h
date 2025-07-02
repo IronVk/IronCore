@@ -10,7 +10,7 @@
 #include "../common/VulkCommon.h"
 //Device Related Functionalities
 //? 1. Physical Device
-std::vector<VkPhysicalDevice> getDeviceList(VkInstance& instance);
+std::vector<VkPhysicalDevice> getPhysicalDeviceList(VkInstance& instance);
 
 VkPhysicalDeviceProperties getPhysicalDeviceProperties(const VkPhysicalDevice &physical_device);
 

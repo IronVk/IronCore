@@ -6,26 +6,32 @@
 #define VULKCONTEXT_H
 #include <string>
 #include <vector>
-
+#include <optional>
+#include "VulkDebug.h"
 #include "../common/VulkCommon.h"
 
 
 class VulkContext {
 private:
     VkContext context;
-    MainDevice device;
     std::string appName;
     std::string engineName;
+    bool useValidation;
+    std::optional<std::vector<const char *>> validation_layer = std::make_optional<std::vector<const char*>>({ "VK_LAYER_KHRONOS_validation"});
     std::vector<const char *> requiredExtensions;
-    void __intialize_vulkan__context();
+
 public:
     VulkContext();
     ~VulkContext();
+    void dropContext();
+    void createContext();
     void setAppName(std::string appName);
     void setEngineName(std::string engineName);
-    void setRequiredExtensions(std::vector<const char *> requiredExtensions);
+    void enableValidation();
+    void disableValidation();
+    void setRequiredExtensions(std::vector<const char *>& requiredExtensions);
     VkContext& getContext();
-    [[nodiscard]] const VkContext& getReadOnlyContext() const;
+    MainDevice& getDevice();
 };
 
 

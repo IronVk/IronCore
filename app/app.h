@@ -10,10 +10,20 @@
 #ifdef VULK_GLFW
 #    include "../external/glfw/WindowManager.h"
 #endif
+#include "../core/VulkContext.h"
 
 class app {
+private:
+    VulkContext appContext;
 
-
+public:
+    //! test check implementation
+    app(std::vector<const char *> requiredExtensions) {
+        this->appContext.setAppName("default");
+        this->appContext.setRequiredExtensions(requiredExtensions);
+        this->appContext.enableValidation();
+        this->appContext.createContext();
+    }
 };
 
 
