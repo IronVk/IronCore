@@ -4,11 +4,12 @@
 #pragma once
 #ifndef INSTANCEINITIALIZATIONERROR_H
 #define INSTANCEINITIALIZATIONERROR_H
+#include <iostream>
 #include <stdexcept>
-
+#include <exception>
 #include "VULK_Diagnostic.h"
 
-class InstanceInitializationError : public std::exception {
+class InstanceInitializationError final : public std::exception {
 private:
     std::string message;
 public:

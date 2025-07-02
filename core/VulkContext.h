@@ -17,8 +17,7 @@ private:
     std::string appName;
     std::string engineName;
     bool useValidation;
-    std::optional<std::vector<const char *>> validation_layer = std::make_optional<std::vector<const char*>>({ "VK_LAYER_KHRONOS_validation"});
-    std::vector<const char *> requiredExtensions;
+    ExtensionAdapter extensionAdapter;
 
 public:
     VulkContext();
@@ -29,7 +28,7 @@ public:
     void setEngineName(std::string engineName);
     void enableValidation();
     void disableValidation();
-    void setRequiredExtensions(std::vector<const char *>& requiredExtensions);
+    void setRequiredExtensions(const std::vector<const char *>& requiredExtensions);
     VkContext& getContext();
     MainDevice& getDevice();
 };

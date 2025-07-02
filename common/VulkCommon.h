@@ -5,6 +5,7 @@
 #ifndef VULKCOMMON_H
 #define VULKCOMMON_H
 #include <vulkan/vulkan.h>
+#include <vector>
 
 typedef struct {
     int graphicsFamilyIndex;
@@ -28,6 +29,10 @@ typedef struct {
     QueueFamilyIndices queueFamilyIndices;
 } VkContext;
 
+typedef struct {
+    std::vector<const char*> extensions;
+    std::vector<const char*> validationLayers;
+} ExtensionAdapter;
 
 
 #endif //VULKCOMMON_H

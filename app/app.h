@@ -18,10 +18,11 @@ private:
 
 public:
     //! test check implementation
-    app(std::vector<const char *> requiredExtensions) {
-        this->appContext.setAppName("default");
-        this->appContext.setRequiredExtensions(requiredExtensions);
+    app(const std::vector<const char *>& requiredExtensions) {
         this->appContext.enableValidation();
+        this->appContext.setAppName("default");
+        this->appContext.setEngineName("VulkEngine");
+        this->appContext.setRequiredExtensions(requiredExtensions);
         this->appContext.createContext();
     }
 };

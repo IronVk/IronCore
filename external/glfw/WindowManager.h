@@ -10,6 +10,9 @@
 #include<functional>
 #include <utility>
 #include<vector>
+#include "../../Util/diagnostic/VULK_Diagnostic.h"
+#include <stdio.h>
+
 
 
 class WindowManager {
@@ -30,17 +33,16 @@ private:
                 throw std::runtime_error("VulkTools GLFW initialization failed");
                 return;
             }
+            glfwWindowHint(GLFW_CLIENT_API,GLFW_NO_API);
             this->window = glfwCreateWindow(this->width, this->height, this->_title.c_str(), nullptr, nullptr);
             if (!this->window) {
+                std::cout << "VulkTools GLFW window creation failed"<<stderr << std::endl;
+                glfwTerminate();
                 throw std::runtime_error("VulkTools Failed to create GLFW window");
             }
-            glfwWindowHint(GLFW_CLIENT_API,GLFW_NO_API);
             glfwWindowHint(GLFW_RESIZABLE,GLFW_FALSE);
+            glfwWindowHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
             this->window_initialize_succeed = true;
-            //initialize vulkan helpers
-            const char** required_extensions = glfwGetRequiredInstanceExtensions(&this->required_extension_count);
-            std::vector<const char*> extensionList(required_extensions,required_extensions + this->required_extension_count);
-            this->ExtensionList = std::move(extensionList);
         }catch (std::exception& e) {
             std::cout<<"VulkTool WinManager Failed: " << e.what() << std::endl;
         }
@@ -49,6 +51,11 @@ private:
 public:
     WindowManager() {
         this->default_initializer(800,600,"VulkTools Window");
+        if (!glfwVulkanSupported())throw std::runtime_error(VULK_RUNTIME_ERROR("Vulkan is not supported"));
+        //initialize vulkan helpers
+        const char** required_extensions = glfwGetRequiredInstanceExtensions(&this->required_extension_count);
+        std::vector<const char*> extensionList(required_extensions,required_extensions + this->required_extension_count);
+        this->ExtensionList = std::move(extensionList);
     }
     WindowManager(const int width,const int height){
         this->default_initializer(width,height,"VulkTools Window");

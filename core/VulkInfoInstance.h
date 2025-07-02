@@ -4,14 +4,13 @@
 
 #ifndef VULKINSTANCE_H
 #define VULKINSTANCE_H
-#include <string>
-#include <vector>
+#include <iostream>
 #include <vulkan/vulkan.h>
-#include <optional>
+#include "../common/VulkCommon.h"
 
 VkApplicationInfo createAppInfo(std::string appName,std::string engineName);
 
-VkInstanceCreateInfo createInstanceInfo(const VkApplicationInfo &appInfo, std::vector<const char *> &requiredExtensions, std::optional<std::vector<const char *>> layers);
+VkInstanceCreateInfo createInstanceInfo(const VkApplicationInfo &appInfo, ExtensionAdapter& extAdapter,bool enableValidation);
 
 
 #endif //VULKINSTANCE_H

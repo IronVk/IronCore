@@ -5,20 +5,11 @@
 #ifndef VULKDEBUG_H
 #define VULKDEBUG_H
 #include <vector>
-
 #include "../Util/diagnostic/VULK_Diagnostic.h"
-
-bool checkValidationLayerSupport(const std::vector<const char*>& inputExtensionList);
-
-#include <vulkan/vulkan.h>
-#include <iostream>
 #include <string>
-#include <bitset>
-#include <functional>
 #include <cstring>
 #include <vulkan/vulkan.h>
 #include <iostream>
-#include <string>
 
 class VulkanDebugMessenger {
 private:
