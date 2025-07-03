@@ -73,7 +73,7 @@ public:
         VulkanDebugMessenger* self = static_cast<VulkanDebugMessenger*>(pUserData);
         if ((messageSeverity & self->enabledSeverities) &&
             (messageType & self->enabledTypes)) {
-            std::cerr << VULK_INTERNAL_ERROR(pCallbackData->pMessage) << std::endl;
+            std::cerr << VULK_INTERNAL_MESSAGE(pCallbackData->pMessage) << std::endl;
         }
         return VK_FALSE;
     }
@@ -102,6 +102,13 @@ public:
             return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
         } else {
             return VK_ERROR_EXTENSION_NOT_PRESENT;
+        }
+    }
+
+    static void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
+        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+        if (func != nullptr) {
+            func(instance, debugMessenger, pAllocator);
         }
     }
 };

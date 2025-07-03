@@ -4,9 +4,11 @@
 
 #include "VulkDevice.h"
 #include <iostream>
+#include <optional>
 #include <vector>
-#include <vulkan/vulkan.h>
+#include "../Util/diagnostic/InstanceInitializationError.h"
 #include "../Util/diagnostic/VULK_Diagnostic.h"
+#include <vulkan/vulkan.h>
 
 std::vector<VkPhysicalDevice> getPhysicalDeviceList(VkInstance &instance) {
     uint32_t physicalDeviceCount = 0;
@@ -21,10 +23,11 @@ VkPhysicalDeviceProperties getPhysicalDeviceProperties(const VkPhysicalDevice &p
     vkGetPhysicalDeviceProperties(physical_device,&properties);
     return properties;
 }
-VkPhysicalDeviceFeatures getPhysicalDeviceFeatures(const VkPhysicalDevice &physical_device) {
-    VkPhysicalDeviceFeatures features;
-    vkGetPhysicalDeviceFeatures(physical_device,&features);
-    return features;
+VkPhysicalDeviceFeatures getPhysicalDeviceFeatures(const VkPhysicalDevice &physicalDevice) {
+    // Get the features supported by the GPU
+    VkPhysicalDeviceFeatures supportedFeatures;
+    vkGetPhysicalDeviceFeatures(physicalDevice, &supportedFeatures);
+    return supportedFeatures;
 }
 
 VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> &physical_devices) {
@@ -33,6 +36,7 @@ VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> 
         auto featureSet = getPhysicalDeviceFeatures(device);
         auto properties = getPhysicalDeviceProperties(device);
         if (featureSet.geometryShader && properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+            std::cout<<"selecting: "<<properties.deviceName<<std::endl;
             return device;
         }
     }
@@ -61,4 +65,39 @@ QueueFamilyIndices getGraphicsQueueFamilyIndices(const std::vector<VkQueueFamily
     }
     return Indices;
 }
+
+
+
+// Logical Device Helpers
+VkDeviceQueueCreateInfo createDeviceQueueInfo(QueueFamilyIndices indices) {
+    if (!indices.isValidGraphicsFamily())throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Could not initialize device queue create info"));
+    const float queuePriority = 1.0f;
+    VkDeviceQueueCreateInfo deviceQueueCreateInfo = {};
+    deviceQueueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+    deviceQueueCreateInfo.queueCount = 1;
+    deviceQueueCreateInfo.queueFamilyIndex = indices.graphicsFamilyIndex;
+    deviceQueueCreateInfo.pQueuePriorities = &queuePriority;
+    return deviceQueueCreateInfo;
+}
+
+VkDeviceCreateInfo createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueCreateInfo, const VkPhysicalDevice &physical_device, bool useValidation, std::vector<const char *> &validationLayers) {
+    if (!physical_device) throw std::runtime_error(VULK_RUNTIME_ERROR("Could not create logical device.Not valid physical device found"));
+    VkPhysicalDeviceFeatures deviceFeatures = getPhysicalDeviceFeatures(physical_device);
+    VkDeviceCreateInfo deviceCreateInfo = {};
+    deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    deviceCreateInfo.queueCreateInfoCount = 1;
+    deviceCreateInfo.pQueueCreateInfos = &queueCreateInfo;
+    deviceCreateInfo.enabledExtensionCount = 0; // we dont need it for device
+    deviceCreateInfo.ppEnabledExtensionNames = nullptr; // we're not using any extensions for our logical device
+    deviceCreateInfo.pEnabledFeatures = nullptr; //TODO: keep doing R&D what is actually happening
+    if (useValidation && !validationLayers.empty()) {
+        deviceCreateInfo.enabledLayerCount = validationLayers.size();
+        deviceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+    }
+    return deviceCreateInfo;
+
+}
+
+
+
 

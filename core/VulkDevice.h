@@ -6,7 +6,6 @@
 #define VULKDEVICE_H
 #include <vector>
 #include <vulkan/vulkan.h>
-
 #include "../common/VulkCommon.h"
 //Device Related Functionalities
 //? 1. Physical Device
@@ -25,8 +24,11 @@ QueueFamilyIndices getGraphicsQueueFamilyIndices(const std::vector<VkQueueFamily
 
 
 //? 2. Logical Device
+VkDeviceQueueCreateInfo createDeviceQueueInfo(QueueFamilyIndices indices);
 
-
+VkDeviceCreateInfo
+createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueCreateInfo,
+    const VkPhysicalDevice& physical_device,bool useValidation,std::vector<char const*>& validationLayers);
 
 
 
