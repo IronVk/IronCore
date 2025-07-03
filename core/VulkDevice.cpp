@@ -87,7 +87,7 @@ VkDeviceCreateInfo createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueC
     deviceCreateInfo.pQueueCreateInfos = &queueCreateInfo;
     deviceCreateInfo.enabledExtensionCount = 0; // we dont need it for device
     deviceCreateInfo.ppEnabledExtensionNames = nullptr; // we're not using any extensions for our logical device
-    deviceCreateInfo.pEnabledFeatures = &device.deviceFeatures; //TODO: keep doing R&D what is actually happening
+    deviceCreateInfo.pEnabledFeatures = &device.deviceFeatures;
     if (useValidation && !validationLayers.empty()) {
         deviceCreateInfo.enabledLayerCount = validationLayers.size();
         deviceCreateInfo.ppEnabledLayerNames = validationLayers.data();
