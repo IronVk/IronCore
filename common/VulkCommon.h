@@ -18,6 +18,7 @@ typedef struct {
 typedef  struct {
     VkPhysicalDevice physicalDevice;
     VkDevice logicalDevice;
+    VkPhysicalDeviceFeatures deviceFeatures;
 } MainDevice;
 
 

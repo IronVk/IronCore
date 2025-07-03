@@ -36,7 +36,7 @@ VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> 
         auto featureSet = getPhysicalDeviceFeatures(device);
         auto properties = getPhysicalDeviceProperties(device);
         if (featureSet.geometryShader && properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
-            std::cout<<"selecting: "<<properties.deviceName<<std::endl;
+            std::cout<<"selecting: "<<properties.deviceName<<" ["<<properties.deviceID<<"] "<<std::endl;
             return device;
         }
     }
@@ -80,16 +80,14 @@ VkDeviceQueueCreateInfo createDeviceQueueInfo(QueueFamilyIndices indices) {
     return deviceQueueCreateInfo;
 }
 
-VkDeviceCreateInfo createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueCreateInfo, const VkPhysicalDevice &physical_device, bool useValidation, std::vector<const char *> &validationLayers) {
-    if (!physical_device) throw std::runtime_error(VULK_RUNTIME_ERROR("Could not create logical device.Not valid physical device found"));
-    VkPhysicalDeviceFeatures deviceFeatures = getPhysicalDeviceFeatures(physical_device);
+VkDeviceCreateInfo createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueCreateInfo, const MainDevice& device, bool useValidation, std::vector<const char *> &validationLayers) {
     VkDeviceCreateInfo deviceCreateInfo = {};
     deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     deviceCreateInfo.queueCreateInfoCount = 1;
     deviceCreateInfo.pQueueCreateInfos = &queueCreateInfo;
     deviceCreateInfo.enabledExtensionCount = 0; // we dont need it for device
     deviceCreateInfo.ppEnabledExtensionNames = nullptr; // we're not using any extensions for our logical device
-    deviceCreateInfo.pEnabledFeatures = nullptr; //TODO: keep doing R&D what is actually happening
+    deviceCreateInfo.pEnabledFeatures = &device.deviceFeatures; //TODO: keep doing R&D what is actually happening
     if (useValidation && !validationLayers.empty()) {
         deviceCreateInfo.enabledLayerCount = validationLayers.size();
         deviceCreateInfo.ppEnabledLayerNames = validationLayers.data();

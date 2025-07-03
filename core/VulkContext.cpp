@@ -61,10 +61,10 @@ void VulkContext::createContext() {
     }
     this->context.Device.physicalDevice = device;
     this->context.queueFamilyIndices = Indices;
+    this->context.Device.deviceFeatures = getPhysicalDeviceFeatures(this->context.Device.physicalDevice);
     //Create Physical Device
     auto deviceQueueInfo = createDeviceQueueInfo(Indices);
-    const auto logicalDeviceCreateInfo = createLogicalDeviceInfo(deviceQueueInfo,this->context.Device.physicalDevice,this->useValidation,this->extensionAdapter.validationLayers);
-
+    const auto logicalDeviceCreateInfo = createLogicalDeviceInfo(deviceQueueInfo,this->context.Device,this->useValidation,this->extensionAdapter.validationLayers);
     if (vkCreateDevice(this->context.Device.physicalDevice,&logicalDeviceCreateInfo,nullptr,&this->context.Device.logicalDevice)!=VK_SUCCESS) {
         const auto deviceCreateStatus = vkCreateDevice(this->context.Device.physicalDevice,&logicalDeviceCreateInfo,nullptr,&this->context.Device.logicalDevice);
         std::cerr<<"Device Creation Failed:  "<<deviceCreateStatus<<std::endl;
