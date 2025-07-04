@@ -11,20 +11,21 @@
 #    include "../external/glfw/WindowManager.h"
 #endif
 #include "../core/VulkContext.h"
-
+#include "conf/VulkConfig.h"
 class app {
 private:
-    VulkContext appContext;
+    VulkConf createConfStruct;
+    VulkContext* appContext;
 
 public:
     //! test check implementation
-    app(const std::vector<const char *>& requiredExtensions) {
-        this->appContext.enableValidation();
-        this->appContext.setAppName("default");
-        this->appContext.setEngineName("VulkEngine");
-        this->appContext.setRequiredExtensions(requiredExtensions);
-        this->appContext.createContext();
-    }
+    app();
+    ~app();
+    VulkConf& getCreateConfStruct();
+    void setConfig(VulkConf config);
+    void build();
+
+
 };
 
 

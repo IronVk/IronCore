@@ -7,6 +7,8 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 
+#include "../external/glfw/WindowManager.h"
+
 typedef struct {
     int graphicsFamilyIndex;
     bool isValidGraphicsFamily() const {
@@ -23,6 +25,7 @@ typedef  struct {
 
 
 
+
 typedef struct {
     VkInstance Instance;
     MainDevice Device;
@@ -31,9 +34,16 @@ typedef struct {
 } VkContext;
 
 typedef struct {
+    GLFWwindow *Window;
+    VkSurfaceKHR surface;
+    VkSwapchainKHR swapchain;
+} DisplayAdapter;
+
+typedef struct {
     std::vector<const char*> extensions;
     std::vector<const char*> validationLayers;
 } ExtensionAdapter;
+
 
 
 #endif //VULKCOMMON_H

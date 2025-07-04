@@ -9,14 +9,18 @@
 #include "VulkInfoInstance.h"
 #include "../Util/diagnostic/InstanceInitializationError.h"
 
-VulkContext::VulkContext() {
-        this->useValidation = false;
-        this->appName = "default";
-        this->engineName = "VulkEngine";
+VulkContext::VulkContext(VulkConf vulk_conf)  {
+        this->useValidation = vulk_conf.build_mode == BuildMode::DEV;
+        this->appName = vulk_conf.app_name;
+        this->engineName = vulk_conf.engine_name;
+        this->displayAdapter.Window = vulk_conf.window;
+        this->displayAdapter.surface = VK_NULL_HANDLE;
+        this->displayAdapter.swapchain = VK_NULL_HANDLE;
         this->context.Instance = VK_NULL_HANDLE;
         this->context.Device.physicalDevice = VK_NULL_HANDLE;
         this->context.Device.logicalDevice = VK_NULL_HANDLE;
         this->extensionAdapter.validationLayers = { "VK_LAYER_KHRONOS_validation"};
+        this->extensionAdapter.extensions = vulk_conf.extensions;
 }
 
 
@@ -71,30 +75,16 @@ void VulkContext::createContext() {
         this->dropContext();
         throw std::runtime_error(VULK_RUNTIME_ERROR("Logical Device Creation Failed"));
     }
+    //TODO: GET DEVICE QUEUE CREATED BY LOGICAL DEVICE
 
 }
 
 
 
 
-void VulkContext::setAppName(std::string appName) {
-    this->appName = appName;
-}
-void VulkContext::setEngineName(std::string engineName) {
-    this->engineName = engineName;
-}
 
-void VulkContext::setRequiredExtensions(const std::vector<const char *>& requiredExtensions) {
-    this->extensionAdapter.extensions = requiredExtensions;
-}
 
-void VulkContext::enableValidation() {
-    this->useValidation=true;
-}
 
-void VulkContext::disableValidation() {
-    this->useValidation=false;
-}
 
 void VulkContext::dropContext() {
     if (this->extensionAdapter.extensions.empty() && this->extensionAdapter.validationLayers.empty()) return;

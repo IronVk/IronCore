@@ -8,27 +8,24 @@
 #include <vector>
 #include <optional>
 #include "VulkDebug.h"
+#include "../app/conf/VulkConfig.h"
 #include "../common/VulkCommon.h"
 
 
 class VulkContext {
 private:
     VkContext context;
+    DisplayAdapter displayAdapter;
     std::string appName;
     std::string engineName;
     bool useValidation;
     ExtensionAdapter extensionAdapter;
 
 public:
-    VulkContext();
+    VulkContext(VulkConf vulk_conf) ;
     ~VulkContext();
     void dropContext();
     void createContext();
-    void setAppName(std::string appName);
-    void setEngineName(std::string engineName);
-    void enableValidation();
-    void disableValidation();
-    void setRequiredExtensions(const std::vector<const char *>& requiredExtensions);
     VkContext& getContext();
     MainDevice& getDevice();
 };
