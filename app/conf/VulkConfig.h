@@ -4,7 +4,6 @@
 #pragma once
 #ifndef VULKCONFIG_H
 #define VULKCONFIG_H
-#include <any>
 #include <iostream>
 #include <vector>
 #include <GLFW/glfw3.h>
@@ -26,9 +25,12 @@ typedef struct {
 } Validation;
 
 typedef struct {
+    std::string window_title;
     std::string app_name;
     std::string engine_name;
     GLFWwindow* window;
+    int window_width;
+    int window_height;
     BuildMode build_mode;
     Validation vkValidate;
     std::vector<const char *> extensions;

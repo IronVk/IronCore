@@ -23,7 +23,10 @@ typedef  struct {
     VkPhysicalDeviceFeatures deviceFeatures;
 } MainDevice;
 
-
+typedef struct {
+    VkQueue graphicsQueue;
+    VkQueue presentationQueue;
+} QueueList;
 
 
 typedef struct {

@@ -17,6 +17,18 @@ private:
     VkDebugUtilsMessageTypeFlagsEXT enabledTypes = 0;
 
 public:
+
+    void enableAllDebugLayers() {
+        this->enableSeverity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT);
+        this->enableSeverity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT);
+        this->enableSeverity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT);
+        this->enableSeverity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT);
+        //enable types
+        this->enableType(VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT);
+        this->enableType(VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT);
+        this->enableType(VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT);
+    }
+
     // Enable specific message severity
     void enableSeverity(VkDebugUtilsMessageSeverityFlagBitsEXT severity) {
         enabledSeverities |= severity;

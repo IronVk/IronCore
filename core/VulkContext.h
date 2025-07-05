@@ -16,13 +16,14 @@ class VulkContext {
 private:
     VkContext context;
     DisplayAdapter displayAdapter;
+    QueueList queueList;
     std::string appName;
     std::string engineName;
     bool useValidation;
     ExtensionAdapter extensionAdapter;
 
 public:
-    VulkContext(VulkConf vulk_conf) ;
+    VulkContext(const VulkConf& vulk_conf) ;
     ~VulkContext();
     void dropContext();
     void createContext();

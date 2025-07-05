@@ -59,9 +59,17 @@ public:
     }
     WindowManager(const int width,const int height){
         this->default_initializer(width,height,"VulkTools Window");
+        //initialize vulkan helpers
+        const char** required_extensions = glfwGetRequiredInstanceExtensions(&this->required_extension_count);
+        std::vector<const char*> extensionList(required_extensions,required_extensions + this->required_extension_count);
+        this->ExtensionList = std::move(extensionList);
     }
     WindowManager(const int width,const int height, const std::string &title) {
         this->default_initializer(width,height,title);
+        //initialize vulkan helpers
+        const char** required_extensions = glfwGetRequiredInstanceExtensions(&this->required_extension_count);
+        std::vector<const char*> extensionList(required_extensions,required_extensions + this->required_extension_count);
+        this->ExtensionList = std::move(extensionList);
     }
     ~WindowManager(){
         this->destroy();
