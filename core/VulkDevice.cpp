@@ -4,7 +4,7 @@
 
 #include "VulkDevice.h"
 #include <iostream>
-#include <optional>
+#include <cstring>
 #include <vector>
 #include "../Util/diagnostic/InstanceInitializationError.h"
 #include "../Util/diagnostic/VULK_Diagnostic.h"
@@ -30,12 +30,14 @@ VkPhysicalDeviceFeatures getPhysicalDeviceFeatures(const VkPhysicalDevice &physi
     return supportedFeatures;
 }
 
-VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> &physical_devices) {
+VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> &physical_devices,std::vector<const char*>& given_extensions) {
     if (physical_devices.empty())throw std::logic_error(VULK_LOGIC_ERROR("Can\'t pick from Empty Physical Device List"));
-    for (const auto device:physical_devices ) {
+    int devices_list_len = physical_devices.size();
+    for (auto i=0; i < devices_list_len; i++ ) {
+        VkPhysicalDevice device = physical_devices[i];
         auto featureSet = getPhysicalDeviceFeatures(device);
         auto properties = getPhysicalDeviceProperties(device);
-        if (featureSet.geometryShader && properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
+        if (featureSet.geometryShader && properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && checkPhyicalDeviceExtensionSupport(device,given_extensions)) {
             std::cout<<"selecting: "<<properties.deviceName<<" ["<<properties.deviceID<<"] "<<std::endl;
             return device;
         }
@@ -64,6 +66,33 @@ QueueFamilyIndices getGraphicsQueueFamilyIndices(const std::vector<VkQueueFamily
         }
     }
     return Indices;
+}
+bool doesQueueFamilySupportPresentation(const VkPhysicalDevice &physical_device, VkSurfaceKHR &surface, int index) {
+    VkBool32 does_support_presentation = VK_FALSE;
+    vkGetPhysicalDeviceSurfaceSupportKHR(physical_device,index,surface,&does_support_presentation);
+    return does_support_presentation==VK_TRUE;
+}
+bool checkPhyicalDeviceExtensionSupport(VkPhysicalDevice &device, std::vector<const char *> &given_extensions) {
+    uint32_t ext_count = 0;
+    vkEnumerateDeviceExtensionProperties(device,nullptr,&ext_count,nullptr);
+    if (ext_count<0)return false;
+    std::vector<VkExtensionProperties> extensionHolder = std::vector<VkExtensionProperties>(ext_count);
+    vkEnumerateDeviceExtensionProperties(device,nullptr,&ext_count,extensionHolder.data());
+    for (const auto &ext:given_extensions) {
+        auto found = false;
+        for (const auto &available_ext:extensionHolder) {
+            if (strcmp(available_ext.extensionName,ext)==0) {
+                printf("FOUND: %s",ext);
+                found=true;
+                break;
+            }
+        }
+        if (!found) {
+            printf("NOT FOUND: %s",ext);
+            return false;
+        };
+    }
+    return true;
 }
 
 

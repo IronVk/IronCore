@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vulkan/vulkan.h>
 #include "../Util/diagnostic/VULK_Diagnostic.h"
-
+//TODO: search this function call through full code base...
 bool checkInstanceExtensionSupport(const std::vector<const char *> *inputExtensionList) {
     uint32_t extCount = 0;
     vkEnumerateInstanceExtensionProperties(nullptr, &extCount, nullptr);

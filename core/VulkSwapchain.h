@@ -4,12 +4,10 @@
 
 #ifndef VULKSWAPCHAIN_H
 #define VULKSWAPCHAIN_H
+#include "VulkInfoInstance.h"
 
 
-
-class VulkSwapchain {
-
-};
+bool createSurface(VkInstance instance, GLFWwindow& window, VkSurfaceKHR& surface) ;
 
 
 

@@ -7,6 +7,7 @@
 #include "VulkDebug.h"
 #include "VulkDevice.h"
 #include "VulkInfoInstance.h"
+#include "VulkSwapchain.h"
 #include "../Util/diagnostic/InstanceInitializationError.h"
 
 VulkContext::VulkContext(const VulkConf& vulk_conf)  {
@@ -21,6 +22,7 @@ VulkContext::VulkContext(const VulkConf& vulk_conf)  {
         this->context.Device.logicalDevice = VK_NULL_HANDLE;
         this->extensionAdapter.validationLayers = { "VK_LAYER_KHRONOS_validation"};
         this->extensionAdapter.extensions = vulk_conf.extensions;
+        this->extensionAdapter.extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 }
 
 
@@ -38,23 +40,27 @@ void VulkContext::createContext() {
     if (vkCreateInstance(&instanceInfo,nullptr,&this->context.Instance)!=VK_SUCCESS) {
         throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Context"));
     };
+
+    if (createSurface(this->context.Instance,*this->displayAdapter.Window,this->displayAdapter.surface)!=true) {
+        throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Surface"));
+    };
     // ? case if validation layer is on
     if (this->useValidation ) {
         //*attach validation layer
         VulkanDebugMessenger debugMessenger;
         //!enable all serverity and types
         debugMessenger.enableAllDebugLayers();
-
         const auto createInfo = debugMessenger.getCreateInfo();
         if (debugMessenger.CreateDebugUtilsMessengerEXT(this->context.Instance,&createInfo,nullptr,&this->context.debugMessenger)!=VK_SUCCESS) {
             throw std::runtime_error(VULK_RUNTIME_ERROR("Failed To Setup Debug Layer"));
         }
     }
-
-    const auto device = pickSuitablePhysicalDevice(getPhysicalDeviceList(this->context.Instance)); //* picking suitable physical  device
+    const auto device = pickSuitablePhysicalDevice(getPhysicalDeviceList(this->context.Instance),this->extensionAdapter.extensions); //* picking suitable physical  device
     if (device==VK_NULL_HANDLE) throw std::runtime_error(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Context"));
     auto DeviceQueueFamilyList = getQueueFamilies(device); //* getting queue family list from our physical device
-    auto Indices = getGraphicsQueueFamilyIndices(DeviceQueueFamilyList);//* selecting graphics queue index from queue family list
+    QueueFamilyIndices Indices = getGraphicsQueueFamilyIndices(DeviceQueueFamilyList);//* selecting graphics queue index from queue family list
+    if (!doesQueueFamilySupportPresentation(device,this->displayAdapter.surface,Indices.graphicsFamilyIndex))throw std::runtime_error(VULK_RUNTIME_ERROR("Presentation Support Error"));
+    Indices.presentationFamilyIndex = Indices.graphicsFamilyIndex;
     if (!Indices.isValidGraphicsFamily()) {
         this->dropContext();
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to pick Graphics Queue From  Context."));
@@ -87,6 +93,7 @@ void VulkContext::dropContext() {
     this->extensionAdapter.validationLayers.clear();
     this->appName.clear();
     this->engineName.clear();
+    vkDestroySurfaceKHR(this->context.Instance,this->displayAdapter.surface,nullptr);
     if (this->useValidation) {
         VulkanDebugMessenger::DestroyDebugUtilsMessengerEXT(this->context.Instance, this->context.debugMessenger, nullptr);
         this->useValidation=false;

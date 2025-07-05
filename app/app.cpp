@@ -33,6 +33,7 @@ void app::build() {
     this->createConfStruct.build_mode = this->createConfStruct.build_mode?this->createConfStruct.build_mode:BuildMode::DEV;
     WindowManager* window_manager = new WindowManager(this->createConfStruct.window_width, this->createConfStruct.window_height,this->createConfStruct.window_title);
     this->createConfStruct.extensions = window_manager->getRequiredInstanceExtensionList();
+    this->createConfStruct.window = window_manager->getWindow();
     this->appContext = new VulkContext(this->createConfStruct);
     appContext->createContext();
     window_manager->launch();
