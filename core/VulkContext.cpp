@@ -45,22 +45,12 @@ void VulkContext::createContext() {
     };
     this->extensionAdapter.extensions.clear(); //* we have already created instance so we don't need to check instance level extension support
     this->extensionAdapter.extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);//* we have created surface so now it's time to check swapchain support
-    // ? case if validation layer is on
-    if (this->useValidation ) {
-        //*attach validation layer
-        VulkanDebugMessenger debugMessenger;
-        //!enable all serverity and types
-        debugMessenger.enableAllDebugLayers();
-        const auto createInfo = debugMessenger.getCreateInfo();
-        if (debugMessenger.CreateDebugUtilsMessengerEXT(this->context.Instance,&createInfo,nullptr,&this->context.debugMessenger)!=VK_SUCCESS) {
-            throw std::runtime_error(VULK_RUNTIME_ERROR("Failed To Setup Debug Layer"));
-        }
-    }
+    this->setupDebugLayer();    // ? case if validation layer is on
     const auto device = pickSuitablePhysicalDevice(getPhysicalDeviceList(this->context.Instance),this->extensionAdapter.extensions); //* picking suitable physical  device
     if (device==VK_NULL_HANDLE) throw std::runtime_error(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Context"));
     auto DeviceQueueFamilyList = getQueueFamilies(device); //* getting queue family list from our physical device
     QueueFamilyIndices Indices = getGraphicsQueueFamilyIndices(DeviceQueueFamilyList);//* selecting graphics queue index from queue family list
-    this->displayAdapter.swapChainInfo = getSwapChainInfo(device,this->displayAdapter);
+    this->displayAdapter.swapChainInfo = getSwapChainInfo(device,this->displayAdapter); //* getting SwapChain Info from Selected Device
     if (!doesQueueFamilySupportPresentation(device,this->displayAdapter.surface,Indices.graphicsFamilyIndex))throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to Identify Presentation Support From  Device."));
     Indices.presentationFamilyIndex = Indices.graphicsFamilyIndex;
     if (!Indices.isValidGraphicsFamily()) {
@@ -85,6 +75,19 @@ void VulkContext::createContext() {
 void VulkContext::acquireDeviceQueues() {
     vkGetDeviceQueue(this->context.Device.logicalDevice,this->context.queueFamilyIndices.graphicsFamilyIndex,0,&this->queueList.graphicsQueue); // * storing reference of graphics queue create by logical device
     vkGetDeviceQueue(this->context.Device.logicalDevice,this->context.queueFamilyIndices.presentationFamilyIndex,0,&this->queueList.presentationQueue); // * storing reference of presentation queue create by logical device
+}
+
+void VulkContext::setupDebugLayer() {
+    if (this->useValidation ) {
+        //*attach validation layer
+        VulkanDebugMessenger debugMessenger;
+        //!enable all serverity and types
+        debugMessenger.enableAllDebugLayers();
+        const auto createInfo = debugMessenger.getCreateInfo();
+        if (debugMessenger.CreateDebugUtilsMessengerEXT(this->context.Instance,&createInfo,nullptr,&this->context.debugMessenger)!=VK_SUCCESS) {
+            throw std::runtime_error(VULK_RUNTIME_ERROR("Failed To Setup Debug Layer"));
+        }
+    }
 }
 
 

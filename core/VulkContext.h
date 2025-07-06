@@ -23,6 +23,7 @@ private:
     ExtensionAdapter extensionAdapter;
     // helper functions
     void acquireDeviceQueues();
+    void setupDebugLayer();
 public:
     VulkContext(const VulkConf& vulk_conf) ;
     ~VulkContext();
