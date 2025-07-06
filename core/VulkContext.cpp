@@ -9,7 +9,7 @@
 #include "VulkInfoInstance.h"
 #include "VulkSwapchain.h"
 #include "../Util/diagnostic/InstanceInitializationError.h"
-
+//* constructor
 VulkContext::VulkContext(const VulkConf& vulk_conf)  {
         this->useValidation = vulk_conf.build_mode == BuildMode::DEV;
         this->appName = vulk_conf.app_name;
@@ -22,11 +22,10 @@ VulkContext::VulkContext(const VulkConf& vulk_conf)  {
         this->context.Device.logicalDevice = VK_NULL_HANDLE;
         this->extensionAdapter.validationLayers = { "VK_LAYER_KHRONOS_validation"};
         this->extensionAdapter.extensions = vulk_conf.extensions;
-        this->extensionAdapter.extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 }
 
 
-
+//! destructor
 VulkContext::~VulkContext() {
     this->dropContext();
 }
@@ -36,7 +35,6 @@ void VulkContext::createContext() {
     if (this->appName.empty() || this->engineName.empty() || this->extensionAdapter.extensions.empty()) throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Required Info Missing to create Vulk Context"));
     auto appInfo = createAppInfo(this->appName, this->engineName);
     const VkInstanceCreateInfo instanceInfo = createInstanceInfo(appInfo, this->extensionAdapter,this->useValidation);
-
     if (vkCreateInstance(&instanceInfo,nullptr,&this->context.Instance)!=VK_SUCCESS) {
         throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Context"));
     };
@@ -44,6 +42,8 @@ void VulkContext::createContext() {
     if (createSurface(this->context.Instance,*this->displayAdapter.Window,this->displayAdapter.surface)!=true) {
         throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Surface"));
     };
+    this->extensionAdapter.extensions.clear(); //* we have already created instance so we don't need to check instance level extension support
+    this->extensionAdapter.extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);//* we have created surface so now it's time to check swapchain support
     // ? case if validation layer is on
     if (this->useValidation ) {
         //*attach validation layer
@@ -59,11 +59,11 @@ void VulkContext::createContext() {
     if (device==VK_NULL_HANDLE) throw std::runtime_error(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Context"));
     auto DeviceQueueFamilyList = getQueueFamilies(device); //* getting queue family list from our physical device
     QueueFamilyIndices Indices = getGraphicsQueueFamilyIndices(DeviceQueueFamilyList);//* selecting graphics queue index from queue family list
-    if (!doesQueueFamilySupportPresentation(device,this->displayAdapter.surface,Indices.graphicsFamilyIndex))throw std::runtime_error(VULK_RUNTIME_ERROR("Presentation Support Error"));
+    if (!doesQueueFamilySupportPresentation(device,this->displayAdapter.surface,Indices.graphicsFamilyIndex))throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to Identify Presentation Support From  Device."));
     Indices.presentationFamilyIndex = Indices.graphicsFamilyIndex;
     if (!Indices.isValidGraphicsFamily()) {
         this->dropContext();
-        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to pick Graphics Queue From  Context."));
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to pick Graphics Queue From  Device."));
     }
     //? holding reference
     this->context.Device.physicalDevice = device;

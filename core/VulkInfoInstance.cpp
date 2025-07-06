@@ -40,8 +40,6 @@ VkInstanceCreateInfo createInstanceInfo(const VkApplicationInfo &appInfo, Extens
         info.ppEnabledLayerNames = nullptr;
     }
     info.pNext = nullptr;
-
-
     return info;
 }
 

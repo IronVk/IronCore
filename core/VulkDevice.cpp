@@ -37,12 +37,35 @@ VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> 
         VkPhysicalDevice device = physical_devices[i];
         auto featureSet = getPhysicalDeviceFeatures(device);
         auto properties = getPhysicalDeviceProperties(device);
-        if (featureSet.geometryShader && properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && checkPhyicalDeviceExtensionSupport(device,given_extensions)) {
-            std::cout<<"selecting: "<<properties.deviceName<<" ["<<properties.deviceID<<"] "<<std::endl;
+        if (featureSet.geometryShader && (properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU || properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && checkPhysicalDeviceExtensionSupport(device,given_extensions)) {
+            std::printf("Selecting %s\n",properties.deviceName);
             return device;
         }
     }
     return physical_devices[0];
+}
+
+bool checkPhysicalDeviceExtensionSupport(VkPhysicalDevice &device, std::vector<const char *> &given_extensions) {
+    uint32_t ext_count = 0;
+    vkEnumerateDeviceExtensionProperties(device,nullptr,&ext_count,nullptr);
+    if (ext_count<0)return false;
+    std::vector<VkExtensionProperties> extensionHolder = std::vector<VkExtensionProperties>(ext_count);
+    vkEnumerateDeviceExtensionProperties(device,nullptr,&ext_count,extensionHolder.data());
+    //std::cout<<"extension count: "<<given_extensions.size()<<std::endl;
+    for (const auto &ext:given_extensions) {
+        auto found = false;
+        for (const auto &available_ext:extensionHolder) {
+            //std::cout<<"current given extension: "<<ext<<"\t checking with available: "<<available_ext.extensionName<<std::endl;
+            if (strcmp(available_ext.extensionName,ext)==0) {
+                found=true;
+                break;
+            }
+        }
+        if (!found) {
+            return false;
+        };
+    }
+    return true;
 }
 
 std::vector<VkQueueFamilyProperties> getQueueFamilies(const VkPhysicalDevice& physical_device) {
@@ -72,28 +95,7 @@ bool doesQueueFamilySupportPresentation(const VkPhysicalDevice &physical_device,
     vkGetPhysicalDeviceSurfaceSupportKHR(physical_device,index,surface,&does_support_presentation);
     return does_support_presentation==VK_TRUE;
 }
-bool checkPhyicalDeviceExtensionSupport(VkPhysicalDevice &device, std::vector<const char *> &given_extensions) {
-    uint32_t ext_count = 0;
-    vkEnumerateDeviceExtensionProperties(device,nullptr,&ext_count,nullptr);
-    if (ext_count<0)return false;
-    std::vector<VkExtensionProperties> extensionHolder = std::vector<VkExtensionProperties>(ext_count);
-    vkEnumerateDeviceExtensionProperties(device,nullptr,&ext_count,extensionHolder.data());
-    for (const auto &ext:given_extensions) {
-        auto found = false;
-        for (const auto &available_ext:extensionHolder) {
-            if (strcmp(available_ext.extensionName,ext)==0) {
-                printf("FOUND: %s",ext);
-                found=true;
-                break;
-            }
-        }
-        if (!found) {
-            printf("NOT FOUND: %s",ext);
-            return false;
-        };
-    }
-    return true;
-}
+
 
 
 

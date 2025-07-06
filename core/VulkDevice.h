@@ -22,7 +22,7 @@ std::vector<VkQueueFamilyProperties> getQueueFamilies(const VkPhysicalDevice &ph
 
 QueueFamilyIndices getGraphicsQueueFamilyIndices(const std::vector<VkQueueFamilyProperties>& queueFamilyList);
 bool doesQueueFamilySupportPresentation(const VkPhysicalDevice &physical_device,VkSurfaceKHR& surface,int index);
-bool checkPhyicalDeviceExtensionSupport(VkPhysicalDevice& physical_device,std::vector<const char*>& given_extensions);
+bool checkPhysicalDeviceExtensionSupport(VkPhysicalDevice& physical_device,std::vector<const char*>& given_extensions);
 
 //? 2. Logical Device
 VkDeviceQueueCreateInfo createDeviceQueueInfo(QueueFamilyIndices indices);
