@@ -40,16 +40,26 @@ typedef struct {
     QueueFamilyIndices queueFamilyIndices;
 } VkContext;
 
+
+typedef struct {
+    VkSurfaceCapabilitiesKHR surfaceCapabilities;
+    std::vector<VkSurfaceFormatKHR> surfaceFormats;
+    std::vector<VkPresentModeKHR> presentModes;
+} SwapChainInfo;
+
 typedef struct {
     GLFWwindow *Window;
     VkSurfaceKHR surface;
     VkSwapchainKHR swapchain;
+    SwapChainInfo swapChainInfo;
 } DisplayAdapter;
 
 typedef struct {
     std::vector<const char*> extensions;
     std::vector<const char*> validationLayers;
 } ExtensionAdapter;
+
+
 
 
 

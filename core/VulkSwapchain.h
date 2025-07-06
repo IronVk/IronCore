@@ -9,6 +9,7 @@
 
 bool createSurface(VkInstance instance, GLFWwindow& window, VkSurfaceKHR& surface) ;
 
+SwapChainInfo getSwapChainInfo(const VkPhysicalDevice& physical_device,const DisplayAdapter& display_adapter);
 
 
 #endif //VULKSWAPCHAIN_H

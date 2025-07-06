@@ -22,6 +22,7 @@ VulkContext::VulkContext(const VulkConf& vulk_conf)  {
         this->context.Device.logicalDevice = VK_NULL_HANDLE;
         this->extensionAdapter.validationLayers = { "VK_LAYER_KHRONOS_validation"};
         this->extensionAdapter.extensions = vulk_conf.extensions;
+
 }
 
 
@@ -59,6 +60,7 @@ void VulkContext::createContext() {
     if (device==VK_NULL_HANDLE) throw std::runtime_error(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Context"));
     auto DeviceQueueFamilyList = getQueueFamilies(device); //* getting queue family list from our physical device
     QueueFamilyIndices Indices = getGraphicsQueueFamilyIndices(DeviceQueueFamilyList);//* selecting graphics queue index from queue family list
+    this->displayAdapter.swapChainInfo = getSwapChainInfo(device,this->displayAdapter);
     if (!doesQueueFamilySupportPresentation(device,this->displayAdapter.surface,Indices.graphicsFamilyIndex))throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to Identify Presentation Support From  Device."));
     Indices.presentationFamilyIndex = Indices.graphicsFamilyIndex;
     if (!Indices.isValidGraphicsFamily()) {
@@ -76,11 +78,14 @@ void VulkContext::createContext() {
         this->dropContext();
         throw std::runtime_error(VULK_RUNTIME_ERROR("Logical Device Creation Failed"));
     }
-    vkGetDeviceQueue(this->context.Device.logicalDevice,this->context.queueFamilyIndices.graphicsFamilyIndex,0,&this->queueList.graphicsQueue); // * storing reference of graphics queue create by logical device
-
+    this->acquireDeviceQueues();
 }
 
 
+void VulkContext::acquireDeviceQueues() {
+    vkGetDeviceQueue(this->context.Device.logicalDevice,this->context.queueFamilyIndices.graphicsFamilyIndex,0,&this->queueList.graphicsQueue); // * storing reference of graphics queue create by logical device
+    vkGetDeviceQueue(this->context.Device.logicalDevice,this->context.queueFamilyIndices.presentationFamilyIndex,0,&this->queueList.presentationQueue); // * storing reference of presentation queue create by logical device
+}
 
 
 

@@ -21,7 +21,8 @@ private:
     std::string engineName;
     bool useValidation;
     ExtensionAdapter extensionAdapter;
-
+    // helper functions
+    void acquireDeviceQueues();
 public:
     VulkContext(const VulkConf& vulk_conf) ;
     ~VulkContext();
