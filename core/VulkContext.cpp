@@ -33,7 +33,7 @@ VulkContext::~VulkContext() {
 
 
 void VulkContext::createContext() {
-    if (this->appName.empty() || this->engineName.empty() || this->extensionAdapter.extensions.empty()) throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Required Info Missing to create Vulk Context"));
+    if (glfwVulkanSupported()!=GLFW_TRUE || this->appName.empty() || this->engineName.empty() || this->extensionAdapter.extensions.empty()) throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Vulk Context Creatrion Failed"));
     auto appInfo = createAppInfo(this->appName, this->engineName);
     const VkInstanceCreateInfo instanceInfo = createInstanceInfo(appInfo, this->extensionAdapter,this->useValidation);
     if (vkCreateInstance(&instanceInfo,nullptr,&this->context.Instance)!=VK_SUCCESS) {
