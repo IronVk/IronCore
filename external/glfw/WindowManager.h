@@ -20,6 +20,8 @@ private:
     std::string _title;
     GLFWwindow* window{};
     int width{}, height{};
+    int WindowScreenWidth;
+    int WindowScreenHeight;
     uint32_t required_extension_count = 0;
     bool window_initialize_succeed = false;
     std::vector<std::function<void()>> tasklist;
@@ -33,6 +35,13 @@ private:
                 throw std::runtime_error("VulkTools GLFW initialization failed");
                 return;
             }
+            GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+            if (!monitor) {
+                std::cerr << "Failed to get primary monitor\n";
+                glfwTerminate();
+                return;
+            }
+            const GLFWvidmode* mode = glfwGetVideoMode(monitor);
             glfwWindowHint(GLFW_CLIENT_API,GLFW_NO_API);
             this->window = glfwCreateWindow(this->width, this->height, this->_title.c_str(), nullptr, nullptr);
             if (!this->window) {
@@ -42,11 +51,15 @@ private:
             }
             glfwWindowHint(GLFW_RESIZABLE,GLFW_FALSE);
             glfwWindowHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+            this->WindowScreenWidth= mode->width;
+            this->WindowScreenHeight= mode->height;
             this->window_initialize_succeed = true;
         }catch (std::exception& e) {
             std::cout<<"VulkTool WinManager Failed: " << e.what() << std::endl;
         }
     }
+
+    void keyCallBacks() const;
 
 public:
     WindowManager() {
@@ -88,6 +101,14 @@ public:
         glfwTerminate();
     }
 
+    [[nodiscard]] int MonitorWidth() const {
+        return  this->WindowScreenWidth;
+    }
+
+    [[nodiscard]] int MonitorHeight() const {
+        return  this->WindowScreenHeight;
+    }
+
     template<typename Func, typename... Args>
     void  onTick(Func func, Args... args) {
         if (!this->window_initialize_succeed)return;
@@ -97,6 +118,7 @@ public:
         if (!this->window_initialize_succeed) throw std::runtime_error("WindowManager is not ready yet");
         while (!glfwWindowShouldClose(this->getWindow())) {
             glfwPollEvents();
+            this->keyCallBacks();
             for (auto &task: this->tasklist) {
                 try {
                     task();
