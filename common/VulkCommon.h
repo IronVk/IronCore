@@ -38,7 +38,7 @@ typedef struct {
     MainDevice Device;
     VkDebugUtilsMessengerEXT debugMessenger;
     QueueFamilyIndices queueFamilyIndices;
-} VkContext;
+} AppContext;
 
 
 typedef struct {
@@ -48,18 +48,24 @@ typedef struct {
 } SwapChainInfo;
 
 typedef struct {
+    VkImage image;
+    VkImageView imageView;
+}SwapChainImage;
+
+typedef struct {
     GLFWwindow *Window;
     VkSurfaceKHR surface;
     VkSwapchainKHR swapchain;
     SwapChainInfo swapChainInfo;
+    VkFormat swapChainImageFormat;
+    VkExtent2D swapChainExtent;
+    std::vector<SwapChainImage> swapChainImages;
 } DisplayAdapter;
 
 typedef struct {
     std::vector<const char*> extensions;
     std::vector<const char*> validationLayers;
 } ExtensionAdapter;
-
-
 
 
 

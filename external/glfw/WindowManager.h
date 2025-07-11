@@ -5,15 +5,14 @@
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
 #define GLFW_INCLUDE_VULKAN
-#include <iostream>
-#include <GLFW/glfw3.h>
-#include<functional>
-#include <utility>
-#include<vector>
 #include "../../Util/diagnostic/VULK_Diagnostic.h"
+#include <GLFW/glfw3.h>
+#include <bits/this_thread_sleep.h>
+#include <functional>
+#include <iostream>
 #include <stdio.h>
-
-
+#include <utility>
+#include <vector>
 
 class WindowManager {
 private:
@@ -49,6 +48,7 @@ private:
                 glfwTerminate();
                 throw std::runtime_error("VulkTools Failed to create GLFW window");
             }
+            glfwSetWindowPos(this->window,200,200);
             glfwWindowHint(GLFW_RESIZABLE,GLFW_FALSE);
             glfwWindowHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
             this->WindowScreenWidth= mode->width;
@@ -124,9 +124,10 @@ public:
                     task();
                 }catch (std::exception &e) {
                     const auto what = e.what();
-                    std::cout<<"WindowManager Encountered Error: "<<what<<"\n";
+                    std::cerr<<"WindowManager Encountered Error: "<<what<<"\n";
                 }
             }
+            std::this_thread::sleep_for(std::chrono::milliseconds(33));
         }
     }
 

@@ -14,7 +14,7 @@
 
 class VulkContext {
 private:
-    VkContext context;
+    AppContext context;
     DisplayAdapter displayAdapter;
     QueueList queueList;
     std::string appName;
@@ -29,7 +29,8 @@ public:
     ~VulkContext();
     void dropContext();
     void createContext();
-    VkContext& getContext();
+    void setupSwapChain();
+    AppContext& getContext();
     MainDevice& getDevice();
 };
 

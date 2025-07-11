@@ -11,5 +11,8 @@ bool createSurface(VkInstance instance, GLFWwindow& window, VkSurfaceKHR& surfac
 
 SwapChainInfo getSwapChainInfo(const VkPhysicalDevice& physical_device,const DisplayAdapter& display_adapter);
 
+VkSurfaceFormatKHR pickSuitableSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &formats);
+VkPresentModeKHR pickSuitablePresentMode(const std::vector<VkPresentModeKHR> &presentationModes);
+VkExtent2D pickSuitableExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
 #endif //VULKSWAPCHAIN_H
