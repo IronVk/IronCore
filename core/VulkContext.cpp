@@ -62,14 +62,14 @@ void VulkContext::createContext() {
     this->context.queueFamilyIndices = Indices;
     this->context.Device.deviceFeatures = getPhysicalDeviceFeatures(this->context.Device.physicalDevice);
     //?Create Logical Device
-    auto deviceQueueInfo = createDeviceQueueInfo(Indices); // * getting device queue info
+    const auto deviceQueueInfo = createDeviceQueueInfo(Indices); // * getting device queue info
     const auto logicalDeviceCreateInfo = createLogicalDeviceInfo(deviceQueueInfo,this->context.Device,this->useValidation,this->extensionAdapter); //* Creating logical device create info
     if (vkCreateDevice(this->context.Device.physicalDevice,&logicalDeviceCreateInfo,nullptr,&this->context.Device.logicalDevice)!=VK_SUCCESS) {
         this->dropContext();
         throw std::runtime_error(VULK_RUNTIME_ERROR("Logical Device Creation Failed"));
     }
     this->acquireDeviceQueues();
-    //we can now clear extensions as all process successfully completed
+    //we can now clear extensions as all process successfully completed. self paknami
     this->extensionAdapter.extensions.clear();
     this->extensionAdapter.validationLayers.clear();
 }
@@ -83,7 +83,6 @@ void VulkContext::setupSwapChain() {
             .image = img,
             .imageView = createImageView(this->context,this->displayAdapter,img)
         });
-
     }
 
 

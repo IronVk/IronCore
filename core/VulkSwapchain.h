@@ -1,7 +1,7 @@
 //
 // Created by adnan on 6/30/25.
 //
-
+#pragma once
 #ifndef VULKSWAPCHAIN_H
 #define VULKSWAPCHAIN_H
 #include "VulkInfoInstance.h"
