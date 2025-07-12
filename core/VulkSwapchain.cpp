@@ -107,5 +107,28 @@ bool createSwapChain(AppContext& context,DisplayAdapter& displayAdapter) {
     if (vkCreateSwapchainKHR(context.Device.logicalDevice,&swapChainCreateInfo,nullptr,&displayAdapter.swapchain)!=VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create Vulk Swap Chain"));
     }
+    displayAdapter.swapChainImageFormat = surfaceFormat.format;
+    displayAdapter.swapChainExtent = swapChainExtent;
     return true;
+}
+
+std::vector<VkImage> getSwapChainImages(AppContext& context,DisplayAdapter& displayAdapter) {
+    std::vector<VkImage> swapChainImages;
+    uint32_t imageCount = 0;
+    vkGetSwapchainImagesKHR(context.Device.logicalDevice,displayAdapter.swapchain,&imageCount,nullptr);
+    if (imageCount==0) throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to get swapchain images"));
+    swapChainImages.resize(imageCount);
+    vkGetSwapchainImagesKHR(context.Device.logicalDevice,displayAdapter.swapchain,&imageCount,swapChainImages.data());
+    return swapChainImages;
+}
+
+VkImageView createImageView(AppContext& context,DisplayAdapter& displayAdapter,VkImage& img) {
+    VkImageViewCreateInfo imageViewCreateInfo = {};
+    imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+    imageViewCreateInfo.image = img;
+    imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+    imageViewCreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+    imageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+    imageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+    imageViewCreateInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
 }

@@ -43,9 +43,9 @@ void VulkContext::createContext() {
     if (createSurface(this->context.Instance,*this->displayAdapter.Window,this->displayAdapter.surface)!=true) {
         throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Surface"));
     };
+    this->setupDebugLayer();    // ? case if validation layer is on
     this->extensionAdapter.extensions.clear(); //* we have already created instance so we don't need to check instance level extension support
     this->extensionAdapter.extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);//* we have created surface so now it's time to check swapchain support
-    this->setupDebugLayer();    // ? case if validation layer is on
     const auto device = pickSuitablePhysicalDevice(getPhysicalDeviceList(this->context.Instance),this->extensionAdapter.extensions); //* picking suitable physical  device
     if (device==VK_NULL_HANDLE) throw std::runtime_error(VULK_INSTANCE_INITIALIZATION_ERROR("Failed to create Vulk Context"));
     auto DeviceQueueFamilyList = getQueueFamilies(device); //* getting queue family list from our physical device
@@ -63,17 +63,24 @@ void VulkContext::createContext() {
     this->context.Device.deviceFeatures = getPhysicalDeviceFeatures(this->context.Device.physicalDevice);
     //?Create Logical Device
     auto deviceQueueInfo = createDeviceQueueInfo(Indices); // * getting device queue info
-    const auto logicalDeviceCreateInfo = createLogicalDeviceInfo(deviceQueueInfo,this->context.Device,this->useValidation,this->extensionAdapter.validationLayers); //* Creating logical device create info
+    const auto logicalDeviceCreateInfo = createLogicalDeviceInfo(deviceQueueInfo,this->context.Device,this->useValidation,this->extensionAdapter); //* Creating logical device create info
     if (vkCreateDevice(this->context.Device.physicalDevice,&logicalDeviceCreateInfo,nullptr,&this->context.Device.logicalDevice)!=VK_SUCCESS) {
         this->dropContext();
         throw std::runtime_error(VULK_RUNTIME_ERROR("Logical Device Creation Failed"));
     }
     this->acquireDeviceQueues();
+    //we can now clear extensions as all process successfully completed
+    this->extensionAdapter.extensions.clear();
+    this->extensionAdapter.validationLayers.clear();
+    //TODO: move swapchain setup from here
+    this->setupSwapChain();
 }
 
 void VulkContext::setupSwapChain() {
-    const bool status = createSwapChain(this->context,this->displayAdapter);
-    std::cout<<status<<std::endl;
+    if (createSwapChain(this->context,this->displayAdapter)!=true)throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create Vulk Swap Chain"));
+    std::vector<VkImage> imageList = getSwapChainImages(this->context,this->displayAdapter);
+    this->displayAdapter.swapChainImages.resize(imageList.size());
+
 
 
 

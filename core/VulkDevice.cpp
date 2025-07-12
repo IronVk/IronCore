@@ -111,17 +111,17 @@ VkDeviceQueueCreateInfo createDeviceQueueInfo(QueueFamilyIndices indices) {
     return deviceQueueCreateInfo;
 }
 
-VkDeviceCreateInfo createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueCreateInfo, const MainDevice& device, bool useValidation, std::vector<const char *> &validationLayers) {
+VkDeviceCreateInfo createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueCreateInfo, const MainDevice& device, bool useValidation,ExtensionAdapter &extensionAdapter) {
     VkDeviceCreateInfo deviceCreateInfo = {};
     deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     deviceCreateInfo.queueCreateInfoCount = 1;
     deviceCreateInfo.pQueueCreateInfos = &queueCreateInfo;
-    deviceCreateInfo.enabledExtensionCount = 0; // we dont need it for device
-    deviceCreateInfo.ppEnabledExtensionNames = nullptr; // we're not using any extensions for our logical device
+    deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensionAdapter.extensions.size()); // we dont need it for device
+    deviceCreateInfo.ppEnabledExtensionNames = extensionAdapter.extensions.data(); // we're not using any extensions for our logical device
     deviceCreateInfo.pEnabledFeatures = &device.deviceFeatures;
-    if (useValidation && !validationLayers.empty()) {
-        deviceCreateInfo.enabledLayerCount = validationLayers.size();
-        deviceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+    if (useValidation && !extensionAdapter.validationLayers.empty()) {
+        deviceCreateInfo.enabledLayerCount = extensionAdapter.validationLayers.size();
+        deviceCreateInfo.ppEnabledLayerNames = extensionAdapter.validationLayers.data();
     }
     return deviceCreateInfo;
 

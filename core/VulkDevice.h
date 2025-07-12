@@ -29,7 +29,7 @@ VkDeviceQueueCreateInfo createDeviceQueueInfo(QueueFamilyIndices indices);
 
 VkDeviceCreateInfo
 createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueCreateInfo,
-    const MainDevice& device,bool useValidation,std::vector<char const*>& validationLayers);
+    const MainDevice& device,bool useValidation,ExtensionAdapter &extensionAdapter);
 
 
 
