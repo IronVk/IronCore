@@ -14,5 +14,6 @@ SwapChainInfo getSwapChainInfo(const VkPhysicalDevice& physical_device,const Dis
 VkSurfaceFormatKHR pickSuitableSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &formats);
 VkPresentModeKHR pickSuitablePresentMode(const std::vector<VkPresentModeKHR> &presentationModes);
 VkExtent2D pickSuitableExtent(const VkSurfaceCapabilitiesKHR &capabilities);
+bool createSwapChain(AppContext& context,DisplayAdapter& displayAdapter);
 
 #endif //VULKSWAPCHAIN_H

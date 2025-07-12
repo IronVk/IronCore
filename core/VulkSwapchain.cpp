@@ -63,3 +63,49 @@ VkExtent2D pickSuitableExtent(const VkSurfaceCapabilitiesKHR &capabilities) {
         ) throw std::runtime_error(VULK_RUNTIME_ERROR("Invalid Extent. Fallback Failed"));
     return currentExtent;
 }
+
+bool createSwapChain(AppContext& context,DisplayAdapter& displayAdapter) {
+    const auto& surfaceCapabilities = displayAdapter.swapChainInfo.surfaceCapabilities;
+    if (surfaceCapabilities.maxImageCount<1)throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to get swapchain max image count"));
+    //? pick suitable surface formats
+    VkSurfaceFormatKHR surfaceFormat = pickSuitableSurfaceFormat(displayAdapter.swapChainInfo.surfaceFormats);
+    //? pick suitable present mode
+    VkPresentModeKHR presentMode = pickSuitablePresentMode(displayAdapter.swapChainInfo.presentModes);
+    //? pick image resolution
+    VkExtent2D swapChainExtent = pickSuitableExtent(surfaceCapabilities);
+    uint32_t imageCount = static_cast<uint32_t>(surfaceCapabilities.minImageCount+1);
+    if (surfaceCapabilities.maxImageCount<imageCount)imageCount=surfaceCapabilities.maxImageCount;
+    VkSwapchainCreateInfoKHR swapChainCreateInfo = {};
+    swapChainCreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+    swapChainCreateInfo.surface = displayAdapter.surface;
+    swapChainCreateInfo.minImageCount = imageCount; // Enabling Triple Buffer. 1 front 2 back
+    swapChainCreateInfo.imageFormat = surfaceFormat.format;
+    swapChainCreateInfo.imageColorSpace = surfaceFormat.colorSpace;
+    swapChainCreateInfo.imageExtent = swapChainExtent;
+    swapChainCreateInfo.imageArrayLayers = 1; //* numbers of layers for each image in chain
+    swapChainCreateInfo.imageUsage =  VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // what attachment we will be using
+    swapChainCreateInfo.preTransform = surfaceCapabilities.currentTransform; // transform to perform on swap chain
+    swapChainCreateInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // how to blend with external graphics , like how to blend with things outside of window area
+    swapChainCreateInfo.clipped = VK_TRUE;     //Clipping part of image which are off screen
+    swapChainCreateInfo.presentMode = presentMode;
+    if (context.queueFamilyIndices.graphicsFamilyIndex==context.queueFamilyIndices.presentationFamilyIndex) {
+        swapChainCreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        swapChainCreateInfo.queueFamilyIndexCount = 0;
+        swapChainCreateInfo.pQueueFamilyIndices = nullptr;
+    }else {
+        // ? Image will be share between queue families concurrently
+        uint32_t queueFamilyIndices[]={
+            static_cast<uint32_t>(context.queueFamilyIndices.graphicsFamilyIndex),
+            static_cast<uint32_t>(context.queueFamilyIndices.presentationFamilyIndex),
+          };
+        swapChainCreateInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+        swapChainCreateInfo.queueFamilyIndexCount = 2;
+        swapChainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
+    }
+    //! if we have old swapChain then we will pass it it to oldSwapChain, which is mainly used when resizing screen
+    swapChainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
+    if (vkCreateSwapchainKHR(context.Device.logicalDevice,&swapChainCreateInfo,nullptr,&displayAdapter.swapchain)!=VK_SUCCESS) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create Vulk Swap Chain"));
+    }
+    return true;
+}
