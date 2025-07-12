@@ -131,4 +131,14 @@ VkImageView createImageView(AppContext& context,DisplayAdapter& displayAdapter,V
     imageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
     imageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
     imageViewCreateInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+    imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+    imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+    imageViewCreateInfo.subresourceRange.levelCount = 1;
+    imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+    imageViewCreateInfo.subresourceRange.layerCount = 1;
+    VkImageView imageView = VK_NULL_HANDLE;
+    if (vkCreateImageView(context.Device.logicalDevice,&imageViewCreateInfo,nullptr,&imageView)!=VK_SUCCESS) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create Vulk Image View"));
+    }
+    return imageView;
 }

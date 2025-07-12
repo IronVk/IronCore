@@ -72,15 +72,19 @@ void VulkContext::createContext() {
     //we can now clear extensions as all process successfully completed
     this->extensionAdapter.extensions.clear();
     this->extensionAdapter.validationLayers.clear();
-    //TODO: move swapchain setup from here
-    this->setupSwapChain();
 }
 
 void VulkContext::setupSwapChain() {
     if (createSwapChain(this->context,this->displayAdapter)!=true)throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create Vulk Swap Chain"));
     std::vector<VkImage> imageList = getSwapChainImages(this->context,this->displayAdapter);
     this->displayAdapter.swapChainImages.resize(imageList.size());
+    for (auto& img : imageList) {
+        this->displayAdapter.swapChainImages.push_back(SwapChainImage{
+            .image = img,
+            .imageView = createImageView(this->context,this->displayAdapter,img)
+        });
 
+    }
 
 
 
@@ -112,6 +116,10 @@ void VulkContext::setupDebugLayer() {
 
 void VulkContext::dropContext() {
     if (this->extensionAdapter.extensions.empty() && this->extensionAdapter.validationLayers.empty()) return;
+    for (auto& img : this->displayAdapter.swapChainImages) {
+      vkDestroyImage(this->context.Device.logicalDevice,img.image,nullptr);
+      vkDestroyImageView(this->context.Device.logicalDevice,img.imageView,nullptr);
+    }
     this->extensionAdapter.extensions.clear();
     this->extensionAdapter.validationLayers.clear();
     this->appName.clear();

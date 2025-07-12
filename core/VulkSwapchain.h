@@ -16,5 +16,5 @@ VkPresentModeKHR pickSuitablePresentMode(const std::vector<VkPresentModeKHR> &pr
 VkExtent2D pickSuitableExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 bool createSwapChain(AppContext& context,DisplayAdapter& displayAdapter);
 std::vector<VkImage> getSwapChainImages(AppContext& context,DisplayAdapter& displayAdapter);
-VkImageView createImageView(AppContext& context,DisplayAdapter& displayAdapter);
+VkImageView createImageView(AppContext& context,DisplayAdapter& displayAdapter,VkImage& img);
 #endif //VULKSWAPCHAIN_H

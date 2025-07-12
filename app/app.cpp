@@ -36,6 +36,7 @@ void app::build() {
     this->createConfStruct.window = window_manager->getWindow();
     this->appContext = new VulkContext(this->createConfStruct);
     appContext->createContext();
+    appContext->setupSwapChain();
     window_manager->launch();
     window_manager->destroy();
 }
