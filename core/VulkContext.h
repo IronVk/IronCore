@@ -1,13 +1,10 @@
 //
 // Created by adnan on 6/30/25.
 //
-
+#pragma once
 #ifndef VULKCONTEXT_H
 #define VULKCONTEXT_H
 #include <string>
-#include <vector>
-#include <optional>
-#include "VulkDebug.h"
 #include "../app/conf/VulkConfig.h"
 #include "../common/VulkCommon.h"
 

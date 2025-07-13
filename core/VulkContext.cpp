@@ -3,12 +3,12 @@
 //
 
 #include "VulkContext.h"
-#include <iostream>
 #include "VulkDebug.h"
 #include "VulkDevice.h"
 #include "VulkInfoInstance.h"
 #include "VulkSwapchain.h"
 #include "../Util/diagnostic/InstanceInitializationError.h"
+
 //* constructor
 VulkContext::VulkContext(const VulkConf& vulk_conf)  {
         this->useValidation = vulk_conf.build_mode == BuildMode::DEV;
@@ -22,7 +22,6 @@ VulkContext::VulkContext(const VulkConf& vulk_conf)  {
         this->context.Device.logicalDevice = VK_NULL_HANDLE;
         this->extensionAdapter.validationLayers = { "VK_LAYER_KHRONOS_validation"};
         this->extensionAdapter.extensions = vulk_conf.extensions;
-
 }
 
 
@@ -79,14 +78,13 @@ void VulkContext::setupSwapChain() {
     std::vector<VkImage> imageList = getSwapChainImages(this->context,this->displayAdapter);
     this->displayAdapter.swapChainImages.resize(imageList.size());
     for (auto& img : imageList) {
-        this->displayAdapter.swapChainImages.push_back(SwapChainImage{
-            .image = img,
-            .imageView = createImageView(this->context,this->displayAdapter,img)
-        });
+        this->displayAdapter.swapChainImages.push_back(
+            SwapChainImage{
+                    .image = img,
+                    .imageView = createImageView(this->context,this->displayAdapter,img)
+            }
+        );
     }
-
-
-
 }
 
 
@@ -114,13 +112,11 @@ void VulkContext::setupDebugLayer() {
 
 
 void VulkContext::dropContext() {
-    if (this->extensionAdapter.extensions.empty() && this->extensionAdapter.validationLayers.empty()) return;
-    for (auto& img : this->displayAdapter.swapChainImages) {
-      vkDestroyImage(this->context.Device.logicalDevice,img.image,nullptr);
-      vkDestroyImageView(this->context.Device.logicalDevice,img.imageView,nullptr);
+    vkDestroySwapchainKHR(this->context.Device.logicalDevice,this->displayAdapter.swapchain,nullptr);
+    for (const auto &[image, imageView] : this->displayAdapter.swapChainImages) {
+      vkDestroyImageView(this->context.Device.logicalDevice,imageView,nullptr);
     }
-    this->extensionAdapter.extensions.clear();
-    this->extensionAdapter.validationLayers.clear();
+    this->displayAdapter.swapChainImages.clear();
     this->appName.clear();
     this->engineName.clear();
     vkDestroySurfaceKHR(this->context.Instance,this->displayAdapter.surface,nullptr);
@@ -131,4 +127,6 @@ void VulkContext::dropContext() {
     if (this->context.Device.logicalDevice!=VK_NULL_HANDLE)vkDestroyDevice(this->context.Device.logicalDevice,nullptr);
     if (this->context.Instance!=VK_NULL_HANDLE)vkDestroyInstance(this->context.Instance,nullptr);
     this->context.Instance=VK_NULL_HANDLE;
+    this->context.Device.logicalDevice=VK_NULL_HANDLE;
+    this->context = {};
 }

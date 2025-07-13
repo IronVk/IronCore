@@ -102,7 +102,7 @@ bool createSwapChain(AppContext& context,DisplayAdapter& displayAdapter) {
         swapChainCreateInfo.queueFamilyIndexCount = 2;
         swapChainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
     }
-    //! if we have old swapChain then we will pass it it to oldSwapChain, which is mainly used when resizing screen
+    //! if we have old swapChain then we will pass it it to oldSwapChain, which is mainly used when resizing screen.
     swapChainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
     if (vkCreateSwapchainKHR(context.Device.logicalDevice,&swapChainCreateInfo,nullptr,&displayAdapter.swapchain)!=VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create Vulk Swap Chain"));
