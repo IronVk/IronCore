@@ -34,6 +34,8 @@ typedef struct {
     BuildMode build_mode;
     Validation vkValidate;
     std::vector<const char *> extensions;
+    std::vector<char> fragSpirData;
+    std::vector<char> vertSpirData;
 } VulkConf;
 
 
