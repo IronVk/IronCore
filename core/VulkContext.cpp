@@ -3,14 +3,20 @@
 //
 
 #include "VulkContext.h"
+
+#include <format>
+
+
 #include "VulkDebug.h"
 #include "VulkDevice.h"
 #include "VulkInfoInstance.h"
 #include "VulkSwapchain.h"
+#include "../Util/SpirParser.h"
 #include "../Util/diagnostic/InstanceInitializationError.h"
 
 //* constructor
 VulkContext::VulkContext(const VulkConf& vulk_conf)  {
+        this->applicationConf = vulk_conf;
         this->useValidation = vulk_conf.build_mode == BuildMode::DEV;
         this->appName = vulk_conf.app_name;
         this->engineName = vulk_conf.engine_name;
@@ -106,7 +112,14 @@ void VulkContext::setupDebugLayer() {
     }
 }
 
-
+void VulkContext::createGraphicsPipeline() {
+    graphicsPipeline.setDisplayAdapter(this->displayAdapter);
+    graphicsPipeline.setMainDevice(this->context.Device);
+    const auto vertSpirChars = SpirParser::parseSpirV(std::format("{}.spv",this->applicationConf.vertShaderPath));
+    const auto fragSpirChars = SpirParser::parseSpirV(std::format("{}.spv",this->applicationConf.fragShaderPath));
+    graphicsPipeline.createVerteShaderStage(vertSpirChars);
+    graphicsPipeline.createFragmentShaderStage(fragSpirChars);
+}
 
 
 

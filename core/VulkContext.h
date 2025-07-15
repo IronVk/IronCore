@@ -7,10 +7,11 @@
 #include <string>
 #include "../app/conf/VulkConfig.h"
 #include "../common/VulkCommon.h"
-
+#include "../pipeline/Graphics/GraphicsPipeline.h"
 
 class VulkContext {
 private:
+    VulkConf applicationConf;
     AppContext context;
     DisplayAdapter displayAdapter;
     QueueList queueList;
@@ -18,15 +19,20 @@ private:
     std::string engineName;
     bool useValidation;
     ExtensionAdapter extensionAdapter;
+    GraphicsPipeline graphicsPipeline;
     // helper functions
     void acquireDeviceQueues();
     void setupDebugLayer();
+
+    //shader compilation
+
 public:
     VulkContext(const VulkConf& vulk_conf) ;
     ~VulkContext();
     void dropContext();
     void createContext();
     void setupSwapChain();
+    void createGraphicsPipeline();
     AppContext& getContext();
     MainDevice& getDevice();
 };

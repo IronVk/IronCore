@@ -3,9 +3,7 @@
 //
 
 #include "app.h"
-
-#include <memory>
-
+#include <format>
 #include "../Util/diagnostic/InstanceInitializationError.h"
 
 app::app() {
@@ -17,7 +15,7 @@ app::~app() {
 }
 
 
-VulkConf &app::getCreateConfStruct() {
+VulkConf& app::getCreateConfStruct() {
     return this->createConfStruct;
 }
 void app::setConfig(VulkConf config) {
@@ -31,12 +29,21 @@ void app::build() {
     this->createConfStruct.window_width = this->createConfStruct.window_width ?this->createConfStruct.window_width: 800;
     this->createConfStruct.window_height = this->createConfStruct.window_height?this->createConfStruct.window_height : 600;
     this->createConfStruct.build_mode = this->createConfStruct.build_mode?this->createConfStruct.build_mode:BuildMode::DEV;
+    //!compile shader
+    const auto vertex_path = this->createConfStruct.vertShaderPath;
+    const auto fragment_path = this->createConfStruct.fragShaderPath;
+    std::string command_to_compile_vertex_shader = std::format("glslangValidator -V {} -o {}.spv",vertex_path,vertex_path);
+    std::string command_to_compile_fragment_shader = std::format("glslangValidator -V {} -o {}.spv",fragment_path,fragment_path);
+    if (std::system(command_to_compile_vertex_shader.c_str())!=0||std::system(command_to_compile_fragment_shader.c_str())!=0) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to compile Shader"));
+    }
     WindowManager* window_manager = new WindowManager(this->createConfStruct.window_width, this->createConfStruct.window_height,this->createConfStruct.window_title);
     this->createConfStruct.extensions = window_manager->getRequiredInstanceExtensionList();
     this->createConfStruct.window = window_manager->getWindow();
     this->appContext = new VulkContext(this->createConfStruct);
     appContext->createContext();
     appContext->setupSwapChain();
+    appContext->createGraphicsPipeline();
     window_manager->launch();
     window_manager->destroy();
 }
