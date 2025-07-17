@@ -26,9 +26,6 @@ void app::setConfig(VulkConf config) {
 void app::build() {
     if (this->createConfStruct.app_name.empty() ||
         this->createConfStruct.engine_name.empty() || this->createConfStruct.window_title.empty())throw InstanceInitializationError(VULK_INSTANCE_INITIALIZATION_ERROR("Required Parameter Missing"));
-    this->createConfStruct.window_width = this->createConfStruct.window_width ?this->createConfStruct.window_width: 800;
-    this->createConfStruct.window_height = this->createConfStruct.window_height?this->createConfStruct.window_height : 600;
-    this->createConfStruct.build_mode = this->createConfStruct.build_mode?this->createConfStruct.build_mode:BuildMode::DEV;
     //!compile shader
     const auto vertex_path = this->createConfStruct.vertShaderPath;
     const auto fragment_path = this->createConfStruct.fragShaderPath;
@@ -37,6 +34,11 @@ void app::build() {
     if (std::system(command_to_compile_vertex_shader.c_str())!=0||std::system(command_to_compile_fragment_shader.c_str())!=0) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to compile Shader"));
     }
+
+    //# start app
+    this->createConfStruct.window_width = this->createConfStruct.window_width ?this->createConfStruct.window_width: 800;
+    this->createConfStruct.window_height = this->createConfStruct.window_height?this->createConfStruct.window_height : 600;
+    this->createConfStruct.build_mode = this->createConfStruct.build_mode?this->createConfStruct.build_mode:BuildMode::DEV;
     WindowManager* window_manager = new WindowManager(this->createConfStruct.window_width, this->createConfStruct.window_height,this->createConfStruct.window_title);
     this->createConfStruct.extensions = window_manager->getRequiredInstanceExtensionList();
     this->createConfStruct.window = window_manager->getWindow();

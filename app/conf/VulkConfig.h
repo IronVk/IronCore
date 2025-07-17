@@ -38,6 +38,9 @@ typedef struct {
     const char* vertShaderPath;
 } VulkConf;
 
+typedef struct {
+
+}GraphicsPipelineStateController;
 
 
 

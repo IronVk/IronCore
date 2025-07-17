@@ -9,6 +9,7 @@
 GraphicsPipeline::GraphicsPipeline() {
     this->vertexShaderStage ={};
     this->fragmentShaderStage ={};
+    this->vertexInputInfo = {};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -59,6 +60,10 @@ void GraphicsPipeline::createFragmentShaderStage(const std::vector<char>& fragme
     vkDestroyShaderModule(this->devices.logicalDevice,shaderModule,nullptr);
 }
 
-GraphicsPipeline::~GraphicsPipeline() {
-
+void GraphicsPipeline::setVertexInputInfo() {
+    this->vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+    this->vertexInputInfo.vertexBindingDescriptionCount = 0;
+    this->vertexInputInfo.pVertexBindingDescriptions = nullptr;
+    this->vertexInputInfo.vertexAttributeDescriptionCount = 0;
+    this->vertexInputInfo.pVertexAttributeDescriptions = nullptr;
 }

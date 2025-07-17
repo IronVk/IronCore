@@ -15,13 +15,30 @@ private:
     DisplayAdapter displayAdapter;
     VkPipelineShaderStageCreateInfo  vertexShaderStage;
     VkPipelineShaderStageCreateInfo  fragmentShaderStage;
+    //? GRAPHICS PIPELINE STATE HOLDER
+    VkPipelineVertexInputStateCreateInfo vertexInputInfo;
 public:
+    //* constructor
     GraphicsPipeline();
-    ~GraphicsPipeline();
+
+    //! destructor
+    ~GraphicsPipeline()=default;
+
+    //* setters
     void setDisplayAdapter(const DisplayAdapter& displayAdapter);
     void setMainDevice(const MainDevice& device);
+
+    //* shader stages
     void createVerteShaderStage(const std::vector<char>& vertexShader);
     void createFragmentShaderStage(const std::vector<char>& fragmentShader);
+
+    //* pipeline stages
+    //#stage 1
+    void setVertexInputInfo();
+
+    //#stage 2
+
+
 
 };
 

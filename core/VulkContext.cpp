@@ -28,6 +28,8 @@ VulkContext::VulkContext(const VulkConf& vulk_conf)  {
         this->context.Device.logicalDevice = VK_NULL_HANDLE;
         this->extensionAdapter.validationLayers = { "VK_LAYER_KHRONOS_validation"};
         this->extensionAdapter.extensions = vulk_conf.extensions;
+        this->queueList.graphicsQueue = VK_NULL_HANDLE;
+        this->queueList.presentationQueue = VK_NULL_HANDLE;
 }
 
 
