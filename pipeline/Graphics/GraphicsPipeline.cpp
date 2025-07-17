@@ -9,7 +9,8 @@
 GraphicsPipeline::GraphicsPipeline() {
     this->vertexShaderStage ={};
     this->fragmentShaderStage ={};
-    this->vertexInputInfo = {};
+    this->vertexInputCreateInfo = {};
+    this->inputAssemblyCreateInfo = {};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -68,3 +69,7 @@ void GraphicsPipeline::setVertexInputInfo() {
     this->vertexInputCreateInfo.pVertexAttributeDescriptions = nullptr;
 }
 
+
+void GraphicsPipeline::setInputAssembly() {
+    this->inputAssemblyCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+}
