@@ -37,7 +37,7 @@ public:
     void setVertexInputInfo();
 
     //#stage 2
-
+    void setInputAssembly();
 
 
 };

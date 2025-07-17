@@ -67,3 +67,4 @@ void GraphicsPipeline::setVertexInputInfo() {
     this->vertexInputInfo.vertexAttributeDescriptionCount = 0;
     this->vertexInputInfo.pVertexAttributeDescriptions = nullptr;
 }
+
