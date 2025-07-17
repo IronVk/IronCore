@@ -61,10 +61,10 @@ void GraphicsPipeline::createFragmentShaderStage(const std::vector<char>& fragme
 }
 
 void GraphicsPipeline::setVertexInputInfo() {
-    this->vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-    this->vertexInputInfo.vertexBindingDescriptionCount = 0;
-    this->vertexInputInfo.pVertexBindingDescriptions = nullptr;
-    this->vertexInputInfo.vertexAttributeDescriptionCount = 0;
-    this->vertexInputInfo.pVertexAttributeDescriptions = nullptr;
+    this->vertexInputCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+    this->vertexInputCreateInfo.vertexBindingDescriptionCount = 0;
+    this->vertexInputCreateInfo.pVertexBindingDescriptions = nullptr;
+    this->vertexInputCreateInfo.vertexAttributeDescriptionCount = 0;
+    this->vertexInputCreateInfo.pVertexAttributeDescriptions = nullptr;
 }
 
