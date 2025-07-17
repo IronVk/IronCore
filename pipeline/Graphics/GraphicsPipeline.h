@@ -17,7 +17,7 @@ private:
     VkPipelineShaderStageCreateInfo  fragmentShaderStage;
     //? GRAPHICS PIPELINE STATE HOLDER
     VkPipelineVertexInputStateCreateInfo vertexInputCreateInfo;
-    VkPipelineInputAssemblyStateCreateInfo inputAssembly;
+    VkPipelineInputAssemblyStateCreateInfo inputAssemblyCreateInfo;
 public:
     //* constructor
     GraphicsPipeline();
