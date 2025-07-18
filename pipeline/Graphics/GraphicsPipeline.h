@@ -34,10 +34,10 @@ public:
     void createFragmentShaderStage(const std::vector<char>& fragmentShader);
 
     //* pipeline stages
-    //#stage 1
+    //#stage 1: set vertex input info
     void setVertexInputInfo();
 
-    //#stage 2
+    //#stage 2: setupInput assembly describes two things: what kind of geometry will be drawn from the vertices and if primitive restart should be enabled
     void setInputAssembly();
 
 
