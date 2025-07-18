@@ -11,6 +11,7 @@ GraphicsPipeline::GraphicsPipeline() {
     this->fragmentShaderStage ={};
     this->vertexInputCreateInfo = {};
     this->inputAssemblyCreateInfo = {};
+    this->viewportCreateInfo = {};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -61,7 +62,7 @@ void GraphicsPipeline::createFragmentShaderStage(const std::vector<char>& fragme
     vkDestroyShaderModule(this->devices.logicalDevice,shaderModule,nullptr);
 }
 
-void GraphicsPipeline::setVertexInputInfo() {
+void GraphicsPipeline::setupVertexInputInfo() {
     this->vertexInputCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     this->vertexInputCreateInfo.vertexBindingDescriptionCount = 0;
     this->vertexInputCreateInfo.pVertexBindingDescriptions = nullptr;
@@ -70,7 +71,13 @@ void GraphicsPipeline::setVertexInputInfo() {
 }
 
 
-void GraphicsPipeline::setInputAssembly() {
+void GraphicsPipeline::setupInputAssembly() {
     this->inputAssemblyCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
     this->inputAssemblyCreateInfo.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+    this->inputAssemblyCreateInfo.primitiveRestartEnable = VK_FALSE;
+}
+
+
+void GraphicsPipeline::setupViewport() {
+
 }

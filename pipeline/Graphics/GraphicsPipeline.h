@@ -18,6 +18,7 @@ private:
     //? GRAPHICS PIPELINE STATE HOLDER
     VkPipelineVertexInputStateCreateInfo vertexInputCreateInfo;
     VkPipelineInputAssemblyStateCreateInfo inputAssemblyCreateInfo;
+    VkViewport viewportCreateInfo;
 public:
     //* constructor
     GraphicsPipeline();
@@ -35,10 +36,14 @@ public:
 
     //* pipeline stages
     //#stage 1: set vertex input info
-    void setVertexInputInfo();
+    void setupVertexInputInfo();
 
     //#stage 2: setupInput assembly describes two things: what kind of geometry will be drawn from the vertices and if primitive restart should be enabled
-    void setInputAssembly();
+    void setupInputAssembly();
+
+    //# stage 3: VIEWPORT & SCISSOR describe how you want to raster image in you window or screen.
+    void setupViewport();
+
 
 
 };
