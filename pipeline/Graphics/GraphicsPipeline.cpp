@@ -80,12 +80,17 @@ void GraphicsPipeline::setupInputAssembly() {
 
 
 void GraphicsPipeline::setupViewportAndScissors() {
-    //? ViewportCreateInfo
+    //? Initializing ViewportCreateInfo
     this->viewportCreateInfo.x = 0.0f;
     this->viewportCreateInfo.y = 0.0f;
     this->viewportCreateInfo.width = static_cast<float>(this->displayAdapter.swapChainExtent.width);
     this->viewportCreateInfo.height = static_cast<float>(this->displayAdapter.swapChainExtent.height);
     this->viewportCreateInfo.minDepth = 0.0f;
     this->viewportCreateInfo.maxDepth = 1.0f;
+
+    //? Initializing viewport scissors
+    this->scissorCreateInfo.offset.x = 0.0f;
+    this->scissorCreateInfo.offset.y = 0.0f;
+    this->scissorCreateInfo.extent = this->displayAdapter.swapChainExtent;
 
 }
