@@ -14,6 +14,7 @@ GraphicsPipeline::GraphicsPipeline() {
     this->viewportInfo = {};
     this->scissorInfo = {};
     this->viewportStateCreateInfo = {};
+    this->rasterizationStateCreateInfo = {};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -100,4 +101,16 @@ void GraphicsPipeline::setupViewportState() {
     this->viewportStateCreateInfo.scissorCount = 1;
     this->viewportStateCreateInfo.pViewports = &this->viewportInfo;
     this->viewportStateCreateInfo.pScissors = &this->scissorInfo;
+}
+
+
+void GraphicsPipeline::setupRasterizationState() {
+    this->rasterizationStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+    this->rasterizationStateCreateInfo.depthClampEnable = VK_FALSE;
+    this->rasterizationStateCreateInfo.rasterizerDiscardEnable = VK_FALSE;
+    this->rasterizationStateCreateInfo.polygonMode = VK_POLYGON_MODE_FILL;
+    this->rasterizationStateCreateInfo.lineWidth = 1.0f;
+    this->rasterizationStateCreateInfo.cullMode = VK_CULL_MODE_BACK_BIT;
+    this->rasterizationStateCreateInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
+
 }

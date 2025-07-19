@@ -21,6 +21,7 @@ private:
     VkViewport viewportInfo;
     VkRect2D scissorInfo;
     VkPipelineViewportStateCreateInfo viewportStateCreateInfo;
+    VkPipelineRasterizationStateCreateInfo rasterizationStateCreateInfo;
 public:
     //* constructor
     GraphicsPipeline();
@@ -47,6 +48,8 @@ public:
     void setupViewportState();
 
     //@ Rasterization
+    //# stage 3: setting up ratering steps
+    void setupRasterizationState();
 
 
 
