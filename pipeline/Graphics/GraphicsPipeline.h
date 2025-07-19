@@ -19,6 +19,7 @@ private:
     VkPipelineVertexInputStateCreateInfo vertexInputCreateInfo;
     VkPipelineInputAssemblyStateCreateInfo inputAssemblyCreateInfo;
     VkViewport viewportCreateInfo;
+    VkRect2D scissorCreateInfo;
 public:
     //* constructor
     GraphicsPipeline();
@@ -42,7 +43,7 @@ public:
     void setupInputAssembly();
 
     //# stage 3: VIEWPORT & SCISSOR describe how you want to raster image in you window or screen.
-    void setupViewport();
+    void setupViewportAndScissors();
 
 
 

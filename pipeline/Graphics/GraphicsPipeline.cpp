@@ -12,6 +12,7 @@ GraphicsPipeline::GraphicsPipeline() {
     this->vertexInputCreateInfo = {};
     this->inputAssemblyCreateInfo = {};
     this->viewportCreateInfo = {};
+    this->scissorCreateInfo = {};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -78,6 +79,13 @@ void GraphicsPipeline::setupInputAssembly() {
 }
 
 
-void GraphicsPipeline::setupViewport() {
+void GraphicsPipeline::setupViewportAndScissors() {
+    //? ViewportCreateInfo
+    this->viewportCreateInfo.x = 0.0f;
+    this->viewportCreateInfo.y = 0.0f;
+    this->viewportCreateInfo.width = static_cast<float>(this->displayAdapter.swapChainExtent.width);
+    this->viewportCreateInfo.height = static_cast<float>(this->displayAdapter.swapChainExtent.height);
+    this->viewportCreateInfo.minDepth = 0.0f;
+    this->viewportCreateInfo.maxDepth = 1.0f;
 
 }
