@@ -112,5 +112,6 @@ void GraphicsPipeline::setupRasterizationState() {
     this->rasterizationStateCreateInfo.lineWidth = 1.0f;
     this->rasterizationStateCreateInfo.cullMode = VK_CULL_MODE_BACK_BIT;
     this->rasterizationStateCreateInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
+    this->rasterizationStateCreateInfo.depthBiasClamp = VK_FALSE;
 
 }
