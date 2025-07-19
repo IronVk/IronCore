@@ -11,8 +11,9 @@ GraphicsPipeline::GraphicsPipeline() {
     this->fragmentShaderStage ={};
     this->vertexInputCreateInfo = {};
     this->inputAssemblyCreateInfo = {};
-    this->viewportCreateInfo = {};
-    this->scissorCreateInfo = {};
+    this->viewportInfo = {};
+    this->scissorInfo = {};
+    this->viewportStateCreateInfo = {};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -79,18 +80,24 @@ void GraphicsPipeline::setupInputAssembly() {
 }
 
 
-void GraphicsPipeline::setupViewportAndScissors() {
+void GraphicsPipeline::setupViewportState() {
     //? Initializing ViewportCreateInfo
-    this->viewportCreateInfo.x = 0.0f;
-    this->viewportCreateInfo.y = 0.0f;
-    this->viewportCreateInfo.width = static_cast<float>(this->displayAdapter.swapChainExtent.width);
-    this->viewportCreateInfo.height = static_cast<float>(this->displayAdapter.swapChainExtent.height);
-    this->viewportCreateInfo.minDepth = 0.0f;
-    this->viewportCreateInfo.maxDepth = 1.0f;
+    this->viewportInfo.x = 0.0f;
+    this->viewportInfo.y = 0.0f;
+    this->viewportInfo.width = static_cast<float>(this->displayAdapter.swapChainExtent.width);
+    this->viewportInfo.height = static_cast<float>(this->displayAdapter.swapChainExtent.height);
+    this->viewportInfo.minDepth = 0.0f;
+    this->viewportInfo.maxDepth = 1.0f;
 
     //? Initializing viewport scissors
-    this->scissorCreateInfo.offset.x = 0.0f;
-    this->scissorCreateInfo.offset.y = 0.0f;
-    this->scissorCreateInfo.extent = this->displayAdapter.swapChainExtent;
+    this->scissorInfo.offset.x = 0.0f;
+    this->scissorInfo.offset.y = 0.0f;
+    this->scissorInfo.extent = this->displayAdapter.swapChainExtent;
 
+    //? now setup viewport state
+    this->viewportStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    this->viewportStateCreateInfo.viewportCount = 1;
+    this->viewportStateCreateInfo.scissorCount = 1;
+    this->viewportStateCreateInfo.pViewports = &this->viewportInfo;
+    this->viewportStateCreateInfo.pScissors = &this->scissorInfo;
 }

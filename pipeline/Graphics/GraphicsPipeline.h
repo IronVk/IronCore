@@ -18,8 +18,9 @@ private:
     //? GRAPHICS PIPELINE STATE HOLDER
     VkPipelineVertexInputStateCreateInfo vertexInputCreateInfo;
     VkPipelineInputAssemblyStateCreateInfo inputAssemblyCreateInfo;
-    VkViewport viewportCreateInfo;
-    VkRect2D scissorCreateInfo;
+    VkViewport viewportInfo;
+    VkRect2D scissorInfo;
+    VkPipelineViewportStateCreateInfo viewportStateCreateInfo;
 public:
     //* constructor
     GraphicsPipeline();
@@ -42,8 +43,12 @@ public:
     //#stage 2: setupInput assembly describes two things: what kind of geometry will be drawn from the vertices and if primitive restart should be enabled
     void setupInputAssembly();
 
-    //# stage 3: VIEWPORT & SCISSOR describe how you want to raster image in you window or screen.
-    void setupViewportAndScissors();
+    //# stage 3: VIEWPORT, SCISSOR & VIEW_PORT_STATE [describe how you want to raster image in you window or screen].
+    void setupViewportState();
+
+    //@ Rasterization
+
+
 
 
 
