@@ -5,7 +5,7 @@
 #include "GraphicsPipeline.h"
 
 #include <vector>
-
+static const uint32_t COLOR_WRITE_MASK_RGBA = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 GraphicsPipeline::GraphicsPipeline() {
     this->vertexShaderStage ={};
     this->fragmentShaderStage ={};
@@ -16,6 +16,8 @@ GraphicsPipeline::GraphicsPipeline() {
     this->viewportStateCreateInfo = {};
     this->rasterizationStateCreateInfo = {};
     this->multisampleStateCreateInfo = {};
+    this->colorBlendAttachmentState={};
+    this->colorBlendStateCreateInfo={};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -131,3 +133,18 @@ void GraphicsPipeline::setupMultisampleState() {
     this->multisampleStateCreateInfo.alphaToCoverageEnable = VK_FALSE; // Optional
     this->multisampleStateCreateInfo.alphaToOneEnable = VK_FALSE; // Optional
 }
+
+void GraphicsPipeline::setupColorBlending() {
+    //? color blend attachment
+    this->colorBlendAttachmentState.colorWriteMask = COLOR_WRITE_MASK_RGBA;
+    this->colorBlendAttachmentState.blendEnable = VK_FALSE;
+    this->colorBlendAttachmentState
+    this->colorBlendAttachmentState
+    this->colorBlendAttachmentState
+    this->colorBlendAttachmentState
+    this->colorBlendAttachmentState
+    this->colorBlendAttachmentState
+}
+
+
+

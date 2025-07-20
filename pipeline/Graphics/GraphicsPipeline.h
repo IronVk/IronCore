@@ -23,6 +23,8 @@ private:
     VkPipelineViewportStateCreateInfo viewportStateCreateInfo;
     VkPipelineRasterizationStateCreateInfo rasterizationStateCreateInfo;
     VkPipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
+    VkPipelineColorBlendAttachmentState colorBlendAttachmentState;
+    VkPipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
 public:
     //* constructor
     GraphicsPipeline();
@@ -55,6 +57,9 @@ public:
 
     //# stage 4: Multisampling
     void setupMultisampleState();
+
+    //# stage 5: Blending
+    void setupColorBlending();
 
 
 
