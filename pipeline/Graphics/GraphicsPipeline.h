@@ -22,6 +22,7 @@ private:
     VkRect2D scissorInfo;
     VkPipelineViewportStateCreateInfo viewportStateCreateInfo;
     VkPipelineRasterizationStateCreateInfo rasterizationStateCreateInfo;
+    VkPipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
 public:
     //* constructor
     GraphicsPipeline();
@@ -37,6 +38,7 @@ public:
     void createVerteShaderStage(const std::vector<char>& vertexShader);
     void createFragmentShaderStage(const std::vector<char>& fragmentShader);
 
+
     //* pipeline stages
     //#stage 1: set vertex input info
     void setupVertexInputInfo();
@@ -50,6 +52,9 @@ public:
     //@ Rasterization
     //# stage 3: setting up ratering steps
     void setupRasterizationState();
+
+    //# stage 4: Multisampling
+    void setupMultisampleState();
 
 
 
