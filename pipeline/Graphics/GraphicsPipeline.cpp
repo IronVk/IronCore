@@ -137,13 +137,13 @@ void GraphicsPipeline::setupMultisampleState() {
 void GraphicsPipeline::setupColorBlending() {
     //? color blend attachment
     this->colorBlendAttachmentState.colorWriteMask = COLOR_WRITE_MASK_RGBA;
-    this->colorBlendAttachmentState.blendEnable = VK_FALSE;
-    this->colorBlendAttachmentState
-    this->colorBlendAttachmentState
-    this->colorBlendAttachmentState
-    this->colorBlendAttachmentState
-    this->colorBlendAttachmentState
-    this->colorBlendAttachmentState
+    this->colorBlendAttachmentState.blendEnable = VK_TRUE;
+    this->colorBlendAttachmentState.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+    this->colorBlendAttachmentState.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+    this->colorBlendAttachmentState.colorBlendOp = VK_BLEND_OP_ADD;
+    this->colorBlendAttachmentState.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+    this->colorBlendAttachmentState.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+    this->colorBlendAttachmentState.alphaBlendOp = VK_BLEND_OP_ADD;
 }
 
 
