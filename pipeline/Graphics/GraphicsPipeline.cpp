@@ -5,7 +5,7 @@
 #include "GraphicsPipeline.h"
 
 #include <vector>
-static const uint32_t COLOR_WRITE_MASK_RGBA = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+
 GraphicsPipeline::GraphicsPipeline() {
     this->vertexShaderStage ={};
     this->fragmentShaderStage ={};
@@ -136,7 +136,7 @@ void GraphicsPipeline::setupMultisampleState() {
 
 void GraphicsPipeline::setupColorBlending() {
     //? color blend attachment
-    this->colorBlendAttachmentState.colorWriteMask = COLOR_WRITE_MASK_RGBA;
+    this->colorBlendAttachmentState.colorWriteMask = COLOR_WRITE_MASK::RGBA;
     this->colorBlendAttachmentState.blendEnable = VK_TRUE;
     this->colorBlendAttachmentState.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
     this->colorBlendAttachmentState.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
