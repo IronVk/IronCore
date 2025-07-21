@@ -144,6 +144,13 @@ void GraphicsPipeline::setupColorBlending() {
     this->colorBlendAttachmentState.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
     this->colorBlendAttachmentState.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
     this->colorBlendAttachmentState.alphaBlendOp = VK_BLEND_OP_ADD;
+
+    //? color blend attachment.
+    this->colorBlendStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    this->colorBlendStateCreateInfo.logicOpEnable = VK_FALSE;
+    this->colorBlendStateCreateInfo.logicOpEnable = VK_LOGIC_OP_COPY;
+    this->colorBlendStateCreateInfo.attachmentCount = 1;
+    this->colorBlendStateCreateInfo.pAttachments = & this->colorBlendAttachmentState;
 }
 
 
