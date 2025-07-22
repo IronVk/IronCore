@@ -86,22 +86,22 @@ void GraphicsPipeline::setupInputAssembly() {
 
 void GraphicsPipeline::setupViewportState() {
     //? Initializing ViewportCreateInfo
-    this->viewportInfo.x = 0.0f;
-    this->viewportInfo.y = 0.0f;
+    this->viewportInfo.x = ZERO;
+    this->viewportInfo.y = ZERO;
     this->viewportInfo.width = static_cast<float>(this->displayAdapter.swapChainExtent.width);
     this->viewportInfo.height = static_cast<float>(this->displayAdapter.swapChainExtent.height);
-    this->viewportInfo.minDepth = 0.0f;
-    this->viewportInfo.maxDepth = 1.0f;
+    this->viewportInfo.minDepth = ZERO;
+    this->viewportInfo.maxDepth = ONE;
 
     //? Initializing viewport scissors
-    this->scissorInfo.offset.x = 0.0f;
-    this->scissorInfo.offset.y = 0.0f;
+    this->scissorInfo.offset.x = ZERO;
+    this->scissorInfo.offset.y = ZERO;
     this->scissorInfo.extent = this->displayAdapter.swapChainExtent;
 
     //? now setup viewport state
     this->viewportStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-    this->viewportStateCreateInfo.viewportCount = 1;
-    this->viewportStateCreateInfo.scissorCount = 1;
+    this->viewportStateCreateInfo.viewportCount = ONE;
+    this->viewportStateCreateInfo.scissorCount = ONE;
     this->viewportStateCreateInfo.pViewports = &this->viewportInfo;
     this->viewportStateCreateInfo.pScissors = &this->scissorInfo;
 }
@@ -112,14 +112,14 @@ void GraphicsPipeline::setupRasterizationState() {
     this->rasterizationStateCreateInfo.depthClampEnable = VK_FALSE;
     this->rasterizationStateCreateInfo.rasterizerDiscardEnable = VK_FALSE;
     this->rasterizationStateCreateInfo.polygonMode = VK_POLYGON_MODE_FILL;
-    this->rasterizationStateCreateInfo.lineWidth = 1.0f;
+    this->rasterizationStateCreateInfo.lineWidth = ONE;
     this->rasterizationStateCreateInfo.cullMode = VK_CULL_MODE_BACK_BIT;
     this->rasterizationStateCreateInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
     this->rasterizationStateCreateInfo.depthBiasClamp = VK_FALSE;
     this->rasterizationStateCreateInfo.depthBiasEnable = VK_FALSE;
-    this->rasterizationStateCreateInfo.depthBiasConstantFactor = 0.0f; // Optional
-    this->rasterizationStateCreateInfo.depthBiasClamp = 0.0f; // Optional
-    this->rasterizationStateCreateInfo.depthBiasSlopeFactor = 0.0f; // Optional
+    this->rasterizationStateCreateInfo.depthBiasConstantFactor = ZERO; // Optional
+    this->rasterizationStateCreateInfo.depthBiasClamp = ZERO; // Optional
+    this->rasterizationStateCreateInfo.depthBiasSlopeFactor = ZERO; // Optional
 
 }
 
@@ -128,7 +128,7 @@ void GraphicsPipeline::setupMultisampleState() {
     this->multisampleStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
     this->multisampleStateCreateInfo.sampleShadingEnable = VK_FALSE;
     this->multisampleStateCreateInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-    this->multisampleStateCreateInfo.minSampleShading = 1.0f; // Optional
+    this->multisampleStateCreateInfo.minSampleShading = ONE; // Optional
     this->multisampleStateCreateInfo.pSampleMask = nullptr; // Optional
     this->multisampleStateCreateInfo.alphaToCoverageEnable = VK_FALSE; // Optional
     this->multisampleStateCreateInfo.alphaToOneEnable = VK_FALSE; // Optional

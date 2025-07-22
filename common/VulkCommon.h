@@ -8,6 +8,9 @@
 #include <vector>
 
 #include "../external/glfw/WindowManager.h"
+#define ZERO 0.0
+#define ONE 1.0
+#define PI 3.14159265
 
 typedef struct {
     int graphicsFamilyIndex;
