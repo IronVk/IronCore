@@ -7,8 +7,8 @@
 #include <vector>
 
 GraphicsPipeline::GraphicsPipeline() {
-    this->vertexShaderStage ={};
-    this->fragmentShaderStage ={};
+    this->vertexShaderStage = {};
+    this->fragmentShaderStage = {};
     this->vertexInputCreateInfo = {};
     this->inputAssemblyCreateInfo = {};
     this->viewportInfo = {};
@@ -16,29 +16,28 @@ GraphicsPipeline::GraphicsPipeline() {
     this->viewportStateCreateInfo = {};
     this->rasterizationStateCreateInfo = {};
     this->multisampleStateCreateInfo = {};
-    this->colorBlendAttachmentState={};
-    this->colorBlendStateCreateInfo={};
+    this->colorBlendAttachmentState = {};
+    this->colorBlendStateCreateInfo = {};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
     this->displayAdapter = displayAdapter;
 }
 
-void GraphicsPipeline::setMainDevice(const MainDevice& device) {
+void GraphicsPipeline::setMainDevice(const MainDevice &device) {
     this->devices = device;
 }
 
 
-
-
-void GraphicsPipeline::createVerteShaderStage(const std::vector<char>& vertexCode) {
-    if (this->devices.logicalDevice==VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
+void GraphicsPipeline::createVerteShaderStage(const std::vector<char> &vertexCode) {
+    if (this->devices.logicalDevice == VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
     VkShaderModule shaderModule = VK_NULL_HANDLE;
     VkShaderModuleCreateInfo shaderModuleCreateInfo = {};
     shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
     shaderModuleCreateInfo.codeSize = vertexCode.size();
-    shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t*>(vertexCode.data());
-    if (vkCreateShaderModule(this->devices.logicalDevice,&shaderModuleCreateInfo,nullptr, &shaderModule) != VK_SUCCESS) {
+    shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t *>(vertexCode.data());
+    if (vkCreateShaderModule(this->devices.logicalDevice, &shaderModuleCreateInfo, nullptr, &shaderModule) !=
+        VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create shader module"));
     }
     this->vertexShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -46,18 +45,18 @@ void GraphicsPipeline::createVerteShaderStage(const std::vector<char>& vertexCod
     this->vertexShaderStage.module = shaderModule;
     this->vertexShaderStage.pName = "main";
     // ! destroy shader module
-    vkDestroyShaderModule(this->devices.logicalDevice,shaderModule,nullptr);
-
+    vkDestroyShaderModule(this->devices.logicalDevice, shaderModule, nullptr);
 }
 
-void GraphicsPipeline::createFragmentShaderStage(const std::vector<char>& fragmentShader) {
-    if (this->devices.logicalDevice==VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
+void GraphicsPipeline::createFragmentShaderStage(const std::vector<char> &fragmentShader) {
+    if (this->devices.logicalDevice == VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
     VkShaderModule shaderModule = VK_NULL_HANDLE;
     VkShaderModuleCreateInfo shaderModuleCreateInfo = {};
     shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
     shaderModuleCreateInfo.codeSize = fragmentShader.size();
-    shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t*>(fragmentShader.data());
-    if (vkCreateShaderModule(this->devices.logicalDevice,&shaderModuleCreateInfo,nullptr, &shaderModule) != VK_SUCCESS) {
+    shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t *>(fragmentShader.data());
+    if (vkCreateShaderModule(this->devices.logicalDevice, &shaderModuleCreateInfo, nullptr, &shaderModule) !=
+        VK_SUCCESS) {
         throw std::runtime_error("Failed to create shader module");
     }
     this->fragmentShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -65,7 +64,7 @@ void GraphicsPipeline::createFragmentShaderStage(const std::vector<char>& fragme
     this->fragmentShaderStage.module = shaderModule;
     this->fragmentShaderStage.pName = "main";
     // ! destroy shader module
-    vkDestroyShaderModule(this->devices.logicalDevice,shaderModule,nullptr);
+    vkDestroyShaderModule(this->devices.logicalDevice, shaderModule, nullptr);
 }
 
 void GraphicsPipeline::setupVertexInputInfo() {
@@ -120,7 +119,6 @@ void GraphicsPipeline::setupRasterizationState() {
     this->rasterizationStateCreateInfo.depthBiasConstantFactor = ZERO; // Optional
     this->rasterizationStateCreateInfo.depthBiasClamp = ZERO; // Optional
     this->rasterizationStateCreateInfo.depthBiasSlopeFactor = ZERO; // Optional
-
 }
 
 
@@ -150,12 +148,9 @@ void GraphicsPipeline::setupColorBlending() {
     this->colorBlendStateCreateInfo.logicOpEnable = VK_FALSE;
     this->colorBlendStateCreateInfo.logicOpEnable = VK_LOGIC_OP_COPY;
     this->colorBlendStateCreateInfo.attachmentCount = 1;
-    this->colorBlendStateCreateInfo.pAttachments = & this->colorBlendAttachmentState;
+    this->colorBlendStateCreateInfo.pAttachments = &this->colorBlendAttachmentState;
     this->colorBlendStateCreateInfo.blendConstants[0] = 0.0f;
     this->colorBlendStateCreateInfo.blendConstants[1] = 0.0f;
     this->colorBlendStateCreateInfo.blendConstants[2] = 0.0f;
     this->colorBlendStateCreateInfo.blendConstants[3] = 0.0f;
 }
-
-
-
