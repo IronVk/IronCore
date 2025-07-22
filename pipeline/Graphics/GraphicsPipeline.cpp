@@ -32,14 +32,14 @@ void GraphicsPipeline::setMainDevice(const MainDevice& device) {
 
 
 void GraphicsPipeline::createVerteShaderStage(const std::vector<char>& vertexCode) {
-    if (this->devices.logicalDevice==VK_NULL_HANDLE)throw std::runtime_error("Device is null");
+    if (this->devices.logicalDevice==VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
     VkShaderModule shaderModule = VK_NULL_HANDLE;
     VkShaderModuleCreateInfo shaderModuleCreateInfo = {};
     shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
     shaderModuleCreateInfo.codeSize = vertexCode.size();
     shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t*>(vertexCode.data());
     if (vkCreateShaderModule(this->devices.logicalDevice,&shaderModuleCreateInfo,nullptr, &shaderModule) != VK_SUCCESS) {
-        throw std::runtime_error("Failed to create shader module");
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create shader module"));
     }
     this->vertexShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
     this->vertexShaderStage.stage = VK_SHADER_STAGE_VERTEX_BIT;
@@ -51,7 +51,7 @@ void GraphicsPipeline::createVerteShaderStage(const std::vector<char>& vertexCod
 }
 
 void GraphicsPipeline::createFragmentShaderStage(const std::vector<char>& fragmentShader) {
-    if (this->devices.logicalDevice==VK_NULL_HANDLE)throw std::runtime_error("Device is null");
+    if (this->devices.logicalDevice==VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
     VkShaderModule shaderModule = VK_NULL_HANDLE;
     VkShaderModuleCreateInfo shaderModuleCreateInfo = {};
     shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
