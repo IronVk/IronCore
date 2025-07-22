@@ -15,16 +15,18 @@
 typedef struct {
     int graphicsFamilyIndex;
     int presentationFamilyIndex;
+
     bool isValidGraphicsFamily() const {
-        return graphicsFamilyIndex >=0;
+        return graphicsFamilyIndex >= 0;
     }
+
     bool isValidPresentationFamily() const {
-        return presentationFamilyIndex >=0;
+        return presentationFamilyIndex >= 0;
     }
 } QueueFamilyIndices;
 
 // type to hold device related infos
-typedef  struct {
+typedef struct {
     VkPhysicalDevice physicalDevice;
     VkDevice logicalDevice;
     VkPhysicalDeviceFeatures deviceFeatures;
@@ -53,7 +55,7 @@ typedef struct {
 typedef struct {
     VkImage image;
     VkImageView imageView;
-}SwapChainImage;
+} SwapChainImage;
 
 typedef struct {
     GLFWwindow *Window;
@@ -66,8 +68,8 @@ typedef struct {
 } DisplayAdapter;
 
 typedef struct {
-    std::vector<const char*> extensions;
-    std::vector<const char*> validationLayers;
+    std::vector<const char *> extensions;
+    std::vector<const char *> validationLayers;
 } ExtensionAdapter;
 
 typedef enum {
@@ -75,7 +77,7 @@ typedef enum {
     RGB = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT,
     RG = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT,
     R = VK_COLOR_COMPONENT_R_BIT
-}COLOR_WRITE_MASK;
+} COLOR_WRITE_MASK;
 
 
 #endif //VULKCOMMON_H
