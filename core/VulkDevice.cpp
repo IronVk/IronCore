@@ -38,7 +38,7 @@ VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> 
         auto featureSet = getPhysicalDeviceFeatures(device);
         auto properties = getPhysicalDeviceProperties(device);
         if (featureSet.geometryShader && (properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU || properties.deviceType==VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU) && checkPhysicalDeviceExtensionSupport(device,given_extensions)) {
-            std::printf("Selecting %s\n",properties.deviceName);
+            VLOG("Selecting ${}\n",properties.deviceName);
             return device;
         }
     }
