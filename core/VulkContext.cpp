@@ -118,7 +118,7 @@ void VulkContext::acquireDeviceQueues() {
 }
 
 void VulkContext::setupDebugLayer() {
-    if (prod_mode!=1) {
+    if (prod_mode==0) {
         //*attach validation layer
         VulkanDebugMessenger debugMessenger;
         //!enable all serverity and types
@@ -150,7 +150,7 @@ void VulkContext::dropContext() {
     this->appName.clear();
     this->engineName.clear();
     vkDestroySurfaceKHR(this->context.Instance, this->displayAdapter.surface, nullptr);
-    if (this->useValidation) {
+    if (prod_mode==0) {
         VulkanDebugMessenger::DestroyDebugUtilsMessengerEXT(this->context.Instance, this->context.debugMessenger,
                                                             nullptr);
         this->useValidation = false;

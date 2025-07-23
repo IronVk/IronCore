@@ -11,7 +11,8 @@
 #define ZERO 0.0
 #define ONE 1.0
 #define PI 3.14159265
-inline thread_local bool prod_mode; //  flag to check mode of the app
+inline thread_local bool prod_mode; //@ 🚩 flag to check mode of the app
+
 typedef struct {
     int graphicsFamilyIndex;
     int presentationFamilyIndex;
@@ -76,7 +77,10 @@ typedef enum {
     RGBA = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT,
     RGB = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT,
     RG = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT,
-    R = VK_COLOR_COMPONENT_R_BIT
+    R = VK_COLOR_COMPONENT_R_BIT,
+    G = VK_COLOR_COMPONENT_G_BIT,
+    B = VK_COLOR_COMPONENT_B_BIT,
+    A = VK_COLOR_COMPONENT_A_BIT
 } COLOR_WRITE_MASK;
 
 
