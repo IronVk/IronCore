@@ -34,7 +34,9 @@ std::string format_log(const std::string& x, Args&&... args) {
 
 // The macro: wraps everything into a log
 #define VLOG(x, ...) \
-std::cout<<"VULK::info::$" << format_log(x, ##__VA_ARGS__) << std::endl;
+if (prod_mode!=0) {\
+    std::cout<<"VULK::info::$" << format_log(x, ##__VA_ARGS__) << "\n";\
+}
 
 
 #define VULK_RUNTIME_ERROR(msg) ("VULK::RUNTIME::ERROR::$" + std::string(msg))

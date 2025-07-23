@@ -3,10 +3,7 @@
 //
 
 #include "VulkContext.h"
-
 #include <format>
-
-
 #include "VulkDebug.h"
 #include "VulkDevice.h"
 #include "VulkInfoInstance.h"
@@ -30,6 +27,7 @@ VulkContext::VulkContext(const VulkConf &vulk_conf) {
     this->extensionAdapter.extensions = vulk_conf.extensions;
     this->queueList.graphicsQueue = VK_NULL_HANDLE;
     this->queueList.presentationQueue = VK_NULL_HANDLE;
+    prod_mode=this->useValidation;
 }
 
 
@@ -120,7 +118,7 @@ void VulkContext::acquireDeviceQueues() {
 }
 
 void VulkContext::setupDebugLayer() {
-    if (this->useValidation) {
+    if (prod_mode!=1) {
         //*attach validation layer
         VulkanDebugMessenger debugMessenger;
         //!enable all serverity and types
