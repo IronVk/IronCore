@@ -4,6 +4,7 @@
 
 #include "app.h"
 #include <format>
+#include <utility>
 #include "../Util/diagnostic/InstanceInitializationError.h"
 
 app::app() {
@@ -19,7 +20,7 @@ VulkConf& app::getCreateConfStruct() {
     return this->createConfStruct;
 }
 void app::setConfig(VulkConf config) {
-    this->createConfStruct = config;
+    this->createConfStruct = std::move(config);
 }
 
 

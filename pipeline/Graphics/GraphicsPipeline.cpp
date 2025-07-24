@@ -149,8 +149,8 @@ void GraphicsPipeline::setupColorBlending() {
     this->colorBlendStateCreateInfo.logicOpEnable = VK_LOGIC_OP_COPY;
     this->colorBlendStateCreateInfo.attachmentCount = 1;
     this->colorBlendStateCreateInfo.pAttachments = &this->colorBlendAttachmentState;
-    this->colorBlendStateCreateInfo.blendConstants[0] = 0.0f;
-    this->colorBlendStateCreateInfo.blendConstants[1] = 0.0f;
-    this->colorBlendStateCreateInfo.blendConstants[2] = 0.0f;
-    this->colorBlendStateCreateInfo.blendConstants[3] = 0.0f;
+    this->colorBlendStateCreateInfo.blendConstants[0] = ZERO;
+    this->colorBlendStateCreateInfo.blendConstants[1] = ZERO;
+    this->colorBlendStateCreateInfo.blendConstants[2] = ZERO;
+    this->colorBlendStateCreateInfo.blendConstants[3] = ZERO;
 }

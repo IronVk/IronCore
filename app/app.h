@@ -8,6 +8,7 @@
 #include "../external/glfw/WindowManager.h"
 #include "../core/VulkContext.h"
 #include "conf/VulkConfig.h"
+
 class app {
 private:
     VulkConf createConfStruct;

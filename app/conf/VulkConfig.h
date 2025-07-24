@@ -23,6 +23,9 @@ typedef struct {
     bool enableMessageTypeValidation;
     bool enableMessageTypePerformance;
 } Validation;
+typedef struct {
+
+}GraphicsPipelineStateController;
 
 typedef struct {
     std::string window_title;
@@ -38,9 +41,7 @@ typedef struct {
     const char* vertShaderPath;
 } VulkConf;
 
-typedef struct {
 
-}GraphicsPipelineStateController;
 
 
 
