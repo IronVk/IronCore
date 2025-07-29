@@ -34,8 +34,8 @@ std::string format_log(const std::string& x, Args&&... args) {
 
 // The macro: wraps everything into a log
 #define VLOG(x, ...) \
-if (prod_mode!=0) {\
-    std::cout<<"VULK::info::$" << format_log(x, ##__VA_ARGS__) << "\n";\
+if (prod_mode==1) {\
+    std::cout<<"VULK::VLOG::$" << format_log(x, ##__VA_ARGS__) << "\n";\
 }
 
 

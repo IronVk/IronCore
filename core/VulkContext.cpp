@@ -118,7 +118,7 @@ void VulkContext::acquireDeviceQueues() {
 }
 
 void VulkContext::setupDebugLayer() {
-    if (prod_mode==0) {
+    if (prod_mode==1) {
         //*attach validation layer
         VulkanDebugMessenger debugMessenger;
         //!enable all serverity and types
