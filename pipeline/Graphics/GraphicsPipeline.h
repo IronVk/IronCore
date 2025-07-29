@@ -31,7 +31,10 @@ public:
     GraphicsPipeline();
 
     //! destructor
-    ~GraphicsPipeline()=default;
+    ~GraphicsPipeline();
+
+    //*Cleaner
+    void destroySelf();
 
     //* setters
     void setDisplayAdapter(const DisplayAdapter& displayAdapter);

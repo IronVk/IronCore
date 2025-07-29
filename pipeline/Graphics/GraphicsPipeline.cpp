@@ -160,6 +160,23 @@ void GraphicsPipeline::setupColorBlending() {
 void GraphicsPipeline::setupPipeLineLayout() {
     VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
     pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pipelineLayoutCreateInfo.setLayoutCount = 0;
+    pipelineLayoutCreateInfo.pSetLayouts = nullptr;
+    pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+    pipelineLayoutCreateInfo.pPushConstantRanges = nullptr;
+    if (vkCreatePipelineLayout(this->devices.logicalDevice,&pipelineLayoutCreateInfo,nullptr,&this->pipeLineLayout)!=VK_SUCCESS) {
+        throw std::runtime_error("failed to create pipeline layout");
+    }
 
 }
+
+void GraphicsPipeline::destroySelf() {
+    vkDestroyPipelineLayout(this->devices.logicalDevice,this->pipeLineLayout,nullptr);
+}
+
+
+GraphicsPipeline::~GraphicsPipeline() {
+
+}
+
 
