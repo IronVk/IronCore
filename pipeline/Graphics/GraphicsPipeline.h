@@ -25,6 +25,7 @@ private:
     VkPipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
     VkPipelineColorBlendAttachmentState colorBlendAttachmentState;
     VkPipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
+    VkPipelineLayout pipeLineLayout;
 public:
     //* constructor
     GraphicsPipeline();
@@ -60,6 +61,9 @@ public:
 
     //# stage 5: Blending
     void setupColorBlending();
+
+    //# stage 5: Blending
+    void setupPipeLineLayout();
 
 
 

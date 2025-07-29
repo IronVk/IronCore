@@ -18,6 +18,7 @@ GraphicsPipeline::GraphicsPipeline() {
     this->multisampleStateCreateInfo = {};
     this->colorBlendAttachmentState = {};
     this->colorBlendStateCreateInfo = {};
+    this->pipeLineLayout = {};
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -147,10 +148,17 @@ void GraphicsPipeline::setupColorBlending() {
     this->colorBlendStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
     this->colorBlendStateCreateInfo.logicOpEnable = VK_FALSE;
     this->colorBlendStateCreateInfo.logicOpEnable = VK_LOGIC_OP_COPY;
-    this->colorBlendStateCreateInfo.attachmentCount = 1;
+    this->colorBlendStateCreateInfo.attachmentCount = ONE;
     this->colorBlendStateCreateInfo.pAttachments = &this->colorBlendAttachmentState;
-    this->colorBlendStateCreateInfo.blendConstants[0] = ZERO;
-    this->colorBlendStateCreateInfo.blendConstants[1] = ZERO;
-    this->colorBlendStateCreateInfo.blendConstants[2] = ZERO;
-    this->colorBlendStateCreateInfo.blendConstants[3] = ZERO;
+    this->colorBlendStateCreateInfo.blendConstants[0] = ZERO;// Optional
+    this->colorBlendStateCreateInfo.blendConstants[1] = ZERO;// Optional
+    this->colorBlendStateCreateInfo.blendConstants[2] = ZERO;// Optional
+    this->colorBlendStateCreateInfo.blendConstants[3] = ZERO;// Optional
 }
+
+
+void GraphicsPipeline::setupPipeLineLayout() {
+
+
+}
+
