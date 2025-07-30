@@ -170,6 +170,11 @@ void GraphicsPipeline::setupPipeLineLayout() {
 
 }
 
+void GraphicsPipeline::createGraphicsPipeline() {
+
+}
+
+
 void GraphicsPipeline::destroySelf() {
     if (this->pipeLineLayout!=VK_NULL_HANDLE) {
         vkDestroyPipelineLayout(this->devices.logicalDevice,this->pipeLineLayout,nullptr);
