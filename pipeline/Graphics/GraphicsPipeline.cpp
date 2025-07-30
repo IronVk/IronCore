@@ -176,9 +176,21 @@ void GraphicsPipeline::createGraphicsPipeline() {
     graphicsPipelineCreateInfo.pInputAssemblyState = &this->inputAssemblyCreateInfo;
     graphicsPipelineCreateInfo.pViewportState = &this->viewportStateCreateInfo;
     graphicsPipelineCreateInfo.pDynamicState = nullptr;
-    graphicsPipelineCreateInfo.
+    graphicsPipelineCreateInfo.pRasterizationState = &this->rasterizationStateCreateInfo;
+    this->graphicsPipelineCreateInfo.pMultisampleState = &this->multisampleStateCreateInfo;
+    this->graphicsPipelineCreateInfo.pColorBlendState = &this->colorBlendStateCreateInfo;
+    this->graphicsPipelineCreateInfo.pDepthStencilState = nullptr;
+    this->graphicsPipelineCreateInfo.layout = this->pipeLineLayout;
+    this->graphicsPipelineCreateInfo.renderPass = this->renderPass;
+    this->graphicsPipelineCreateInfo.subpass = 0;
+    //* PIPELINE DERIVATIVES TO CREATE MULTIPLE PIPELINE THAT DERIVE FROM ONE ANOTHER FOR OPTIMIZATION
+    this->graphicsPipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
+    this->graphicsPipelineCreateInfo.basePipelineIndex = -1;
 
-
+    if (vkCreateGraphicsPipelines(
+        this->devices.logicalDevice,VK_NULL_HANDLE,1,&this->graphicsPipelineCreateInfo,nullptr,&this->graphicsPipeline)!=VK_SUCCESS) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("failed to create graphics pipeline"));
+    }
 
 
 

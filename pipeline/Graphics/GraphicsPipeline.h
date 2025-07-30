@@ -32,6 +32,7 @@ private:
     VkPipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
     VkPipelineLayout pipeLineLayout;
     VkGraphicsPipelineCreateInfo graphicsPipelineCreateInfo;
+    VkRenderPass renderPass;
     //#GRAPHICS PIPELINE
     VkPipeline graphicsPipeline;
 public:
