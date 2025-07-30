@@ -143,7 +143,7 @@ void VulkContext::createGraphicsPipeline() {
 
 void VulkContext::dropContext() {
     vkDestroySwapchainKHR(this->context.Device.logicalDevice, this->displayAdapter.swapchain, nullptr);
-    for (const auto &[image, imageView]: this->displayAdapter.swapChainImages) {
+    for (const auto &[_, imageView]: this->displayAdapter.swapChainImages) {
         vkDestroyImageView(this->context.Device.logicalDevice, imageView, nullptr);
     }
     this->displayAdapter.swapChainImages.clear();
@@ -162,3 +162,5 @@ void VulkContext::dropContext() {
     this->context.Device.logicalDevice = VK_NULL_HANDLE;
     this->context = {};
 }
+
+

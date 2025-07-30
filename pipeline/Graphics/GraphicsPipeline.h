@@ -26,12 +26,17 @@ private:
     VkPipelineColorBlendAttachmentState colorBlendAttachmentState;
     VkPipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
     VkPipelineLayout pipeLineLayout;
+    VkGraphicsPipelineCreateInfo graphicsPipelineCreateInfo;
+    //#GRAPHICS PIPELINE
+    VkPipeline graphicsPipeline;
 public:
     //* constructor
     GraphicsPipeline();
 
     //! destructor
     ~GraphicsPipeline();
+
+    VkPipeline& getGraphicsPipeline() { return graphicsPipeline; }
 
     //*Cleaner
     void destroySelf();
@@ -67,6 +72,9 @@ public:
 
     //# stage 5: Blending
     void setupPipeLineLayout();
+
+    //#stage 6: Create GraphicsPipeline
+    void createGraphicsPipeline();
 
 
 

@@ -42,6 +42,7 @@ VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> 
             return device;
         }
     }
+    VLOG("SUitable Device Detection Failed.Feature Missing.Fallback to Default Device")
     return physical_devices[0];
 }
 
