@@ -51,7 +51,7 @@ public:
     void setMainDevice(const MainDevice& device);
 
     //* shader stages
-    void createVerteShaderStage(const std::vector<char>& vertexShader);
+    void createVertexShaderStage(const std::vector<char>& vertexShader);
     void createFragmentShaderStage(const std::vector<char>& fragmentShader);
 
 

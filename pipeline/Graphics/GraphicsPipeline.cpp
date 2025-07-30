@@ -34,7 +34,7 @@ void GraphicsPipeline::setMainDevice(const MainDevice &device) {
 }
 
 
-void GraphicsPipeline::createVerteShaderStage(const std::vector<char> &vertexCode) {
+void GraphicsPipeline::createVertexShaderStage(const std::vector<char> &vertexCode) {
     if (this->devices.logicalDevice == VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
     VkShaderModuleCreateInfo shaderModuleCreateInfo = {};
     shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -75,13 +75,11 @@ void GraphicsPipeline::setupVertexInputInfo() {
     this->vertexInputCreateInfo.pVertexAttributeDescriptions = nullptr;
 }
 
-
 void GraphicsPipeline::setupInputAssembly() {
     this->inputAssemblyCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
     this->inputAssemblyCreateInfo.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
     this->inputAssemblyCreateInfo.primitiveRestartEnable = VK_FALSE;
 }
-
 
 void GraphicsPipeline::setupViewportState() {
     //? Initializing ViewportCreateInfo
@@ -105,7 +103,6 @@ void GraphicsPipeline::setupViewportState() {
     this->viewportStateCreateInfo.pScissors = &this->scissorInfo;
 }
 
-
 void GraphicsPipeline::setupRasterizationState() {
     this->rasterizationStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     this->rasterizationStateCreateInfo.depthClampEnable = VK_FALSE;
@@ -120,7 +117,6 @@ void GraphicsPipeline::setupRasterizationState() {
     this->rasterizationStateCreateInfo.depthBiasClamp = ZERO; // Optional
     this->rasterizationStateCreateInfo.depthBiasSlopeFactor = ZERO; // Optional
 }
-
 
 void GraphicsPipeline::setupMultisampleState() {
     this->multisampleStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
@@ -155,7 +151,6 @@ void GraphicsPipeline::setupColorBlending() {
     this->colorBlendStateCreateInfo.blendConstants[3] = ZERO;// Optional
 }
 
-
 void GraphicsPipeline::setupPipeLineLayout() {
     VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
     pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -170,8 +165,27 @@ void GraphicsPipeline::setupPipeLineLayout() {
 }
 
 void GraphicsPipeline::createGraphicsPipeline() {
+    VkPipelineShaderStageCreateInfo shaderStages[2]={
+        this->vertexShaderStage,
+        this->fragmentShaderStage
+    };
     graphicsPipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
     graphicsPipelineCreateInfo.stageCount = 2;
+    graphicsPipelineCreateInfo.pStages = shaderStages;
+    graphicsPipelineCreateInfo.pVertexInputState = &this->vertexInputCreateInfo;
+    graphicsPipelineCreateInfo.pInputAssemblyState = &this->inputAssemblyCreateInfo;
+    graphicsPipelineCreateInfo.pViewportState = &this->viewportStateCreateInfo;
+    graphicsPipelineCreateInfo.pDynamicState = nullptr;
+    graphicsPipelineCreateInfo.
+
+
+
+
+
+    // ! destroy shader module
+    vkDestroyShaderModule(this->devices.logicalDevice, this->vertexShaderModule, nullptr);
+    vkDestroyShaderModule(this->devices.logicalDevice, this->fragmentShaderModule, nullptr);
+
 }
 
 
@@ -181,9 +195,7 @@ void GraphicsPipeline::destroySelf() {
     }
 
 
-    // ! destroy shader module
-    vkDestroyShaderModule(this->devices.logicalDevice, this->vertexShaderModule, nullptr);
-    vkDestroyShaderModule(this->devices.logicalDevice, this->fragmentShaderModule, nullptr);
+
 }
 
 
