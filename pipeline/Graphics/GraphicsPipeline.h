@@ -11,6 +11,11 @@
 
 class GraphicsPipeline {
 private:
+    //!temporary shader module holder
+    VkShaderModule vertexShaderModule;
+    VkShaderModule fragmentShaderModule;
+
+    //?Required lifetime instances
     MainDevice devices;
     DisplayAdapter displayAdapter;
     VkPipelineShaderStageCreateInfo  vertexShaderStage;

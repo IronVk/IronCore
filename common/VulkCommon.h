@@ -8,9 +8,9 @@
 #include <vector>
 
 #include "../external/glfw/WindowManager.h"
+#define PI 3.14159265358
 #define ZERO 0.0
 #define ONE 1.0
-#define PI 3.14159265
 inline thread_local bool prod_mode; //@ 🚩 flag to check mode of the app
 
 typedef struct {

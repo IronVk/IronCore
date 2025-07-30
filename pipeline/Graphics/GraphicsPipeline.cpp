@@ -19,6 +19,10 @@ GraphicsPipeline::GraphicsPipeline() {
     this->colorBlendAttachmentState = {};
     this->colorBlendStateCreateInfo = {};
     this->pipeLineLayout = {};
+    this->graphicsPipelineCreateInfo = {};
+    this->graphicsPipeline = VK_NULL_HANDLE;
+    this->vertexShaderModule = VK_NULL_HANDLE;
+    this->fragmentShaderModule = VK_NULL_HANDLE;
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
@@ -32,47 +36,42 @@ void GraphicsPipeline::setMainDevice(const MainDevice &device) {
 
 void GraphicsPipeline::createVerteShaderStage(const std::vector<char> &vertexCode) {
     if (this->devices.logicalDevice == VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
-    VkShaderModule shaderModule = VK_NULL_HANDLE;
     VkShaderModuleCreateInfo shaderModuleCreateInfo = {};
     shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
     shaderModuleCreateInfo.codeSize = vertexCode.size();
     shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t *>(vertexCode.data());
-    if (vkCreateShaderModule(this->devices.logicalDevice, &shaderModuleCreateInfo, nullptr, &shaderModule) !=
+    if (vkCreateShaderModule(this->devices.logicalDevice, &shaderModuleCreateInfo, nullptr, &this->vertexShaderModule) !=
         VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create shader module"));
     }
     this->vertexShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
     this->vertexShaderStage.stage = VK_SHADER_STAGE_VERTEX_BIT;
-    this->vertexShaderStage.module = shaderModule;
+    this->vertexShaderStage.module = this->vertexShaderModule;
     this->vertexShaderStage.pName = "main";
-    // ! destroy shader module
-    vkDestroyShaderModule(this->devices.logicalDevice, shaderModule, nullptr);
+
 }
 
 void GraphicsPipeline::createFragmentShaderStage(const std::vector<char> &fragmentShader) {
     if (this->devices.logicalDevice == VK_NULL_HANDLE)throw std::runtime_error(VULK_RUNTIME_ERROR("Device is null"));
-    VkShaderModule shaderModule = VK_NULL_HANDLE;
     VkShaderModuleCreateInfo shaderModuleCreateInfo = {};
     shaderModuleCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
     shaderModuleCreateInfo.codeSize = fragmentShader.size();
     shaderModuleCreateInfo.pCode = reinterpret_cast<const uint32_t *>(fragmentShader.data());
-    if (vkCreateShaderModule(this->devices.logicalDevice, &shaderModuleCreateInfo, nullptr, &shaderModule) !=
+    if (vkCreateShaderModule(this->devices.logicalDevice, &shaderModuleCreateInfo, nullptr, &this->fragmentShaderModule) !=
         VK_SUCCESS) {
-        throw std::runtime_error("Failed to create shader module");
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create shader module"));
     }
     this->fragmentShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
     this->fragmentShaderStage.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-    this->fragmentShaderStage.module = shaderModule;
+    this->fragmentShaderStage.module = this->fragmentShaderModule;
     this->fragmentShaderStage.pName = "main";
-    // ! destroy shader module
-    vkDestroyShaderModule(this->devices.logicalDevice, shaderModule, nullptr);
 }
 
 void GraphicsPipeline::setupVertexInputInfo() {
     this->vertexInputCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-    this->vertexInputCreateInfo.vertexBindingDescriptionCount = 0;
+    this->vertexInputCreateInfo.vertexBindingDescriptionCount = ZERO;
     this->vertexInputCreateInfo.pVertexBindingDescriptions = nullptr;
-    this->vertexInputCreateInfo.vertexAttributeDescriptionCount = 0;
+    this->vertexInputCreateInfo.vertexAttributeDescriptionCount = ZERO;
     this->vertexInputCreateInfo.pVertexAttributeDescriptions = nullptr;
 }
 
@@ -171,7 +170,8 @@ void GraphicsPipeline::setupPipeLineLayout() {
 }
 
 void GraphicsPipeline::createGraphicsPipeline() {
-
+    graphicsPipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+    graphicsPipelineCreateInfo.stageCount = 2;
 }
 
 
@@ -179,6 +179,11 @@ void GraphicsPipeline::destroySelf() {
     if (this->pipeLineLayout!=VK_NULL_HANDLE) {
         vkDestroyPipelineLayout(this->devices.logicalDevice,this->pipeLineLayout,nullptr);
     }
+
+
+    // ! destroy shader module
+    vkDestroyShaderModule(this->devices.logicalDevice, this->vertexShaderModule, nullptr);
+    vkDestroyShaderModule(this->devices.logicalDevice, this->fragmentShaderModule, nullptr);
 }
 
 
