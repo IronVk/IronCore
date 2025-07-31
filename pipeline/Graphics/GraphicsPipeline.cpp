@@ -23,6 +23,7 @@ GraphicsPipeline::GraphicsPipeline() {
     this->graphicsPipeline = VK_NULL_HANDLE;
     this->vertexShaderModule = VK_NULL_HANDLE;
     this->fragmentShaderModule = VK_NULL_HANDLE;
+    this->renderPass=VK_NULL_HANDLE;
 }
 
 void GraphicsPipeline::setDisplayAdapter(const DisplayAdapter &displayAdapter) {
