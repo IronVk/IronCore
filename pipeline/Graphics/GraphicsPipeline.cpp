@@ -176,6 +176,11 @@ void GraphicsPipeline::setupRenderPass() {
     colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED; //* we don't care what previous layout the image was in
     colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
+    VkAttachmentReference colorAttachmentRef = {};
+    colorAttachmentRef.attachment = ZERO;
+    colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+
 
 
 }
