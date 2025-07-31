@@ -79,7 +79,10 @@ public:
     //# stage 5: Blending
     void setupPipeLineLayout();
 
-    //#stage 6: Create GraphicsPipeline
+    //# stage 5: Create Render pass
+    void setupRenderPass();
+
+    //#stage 7: Create GraphicsPipeline
     void createGraphicsPipeline();
 
 
