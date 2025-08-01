@@ -210,7 +210,7 @@ void GraphicsPipeline::createGraphicsPipeline() {
     this->graphicsPipelineCreateInfo.basePipelineIndex = -1;
 
     if (vkCreateGraphicsPipelines(
-        this->devices.logicalDevice,VK_NULL_HANDLE,1,&this->graphicsPipelineCreateInfo,nullptr,&this->graphicsPipeline)!=VK_SUCCESS) {
+        this->devices.logicalDevice,VK_NULL_HANDLE,ONE,&this->graphicsPipelineCreateInfo,nullptr,&this->graphicsPipeline)!=VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("failed to create graphics pipeline"));
     }
 
