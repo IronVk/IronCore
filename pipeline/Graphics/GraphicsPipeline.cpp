@@ -180,6 +180,14 @@ void GraphicsPipeline::setupRenderPass() {
     colorAttachmentRef.attachment = ZERO;
     colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
+    //* sub pass description
+    VkSubpassDescription subPassDescription = {};
+    subPassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    subPassDescription.colorAttachmentCount  = ONE;
+    subPassDescription.pColorAttachments = &colorAttachmentRef;
+
+    //* Render pass create info
+    VkRenderPassCreateInfo renderPassCreateInfo = {};
 
 
 
