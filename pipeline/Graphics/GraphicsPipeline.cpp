@@ -194,6 +194,11 @@ void GraphicsPipeline::setupRenderPass() {
     renderPassCreateInfo.subpassCount = ONE;
     renderPassCreateInfo.pSubpasses = &subPassDescription;
 
+    //* Create Render Pass
+    if (vkCreateRenderPass(this->devices.logicalDevice,&renderPassCreateInfo,nullptr,&this->renderPass)!=VK_SUCCESS) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("failed to create render pass"));
+    }
+
 
 
 }
@@ -237,12 +242,8 @@ void GraphicsPipeline::createGraphicsPipeline() {
 
 
 void GraphicsPipeline::destroySelf() {
-    if (this->pipeLineLayout!=VK_NULL_HANDLE) {
-        vkDestroyPipelineLayout(this->devices.logicalDevice,this->pipeLineLayout,nullptr);
-    }
-
-
-
+    if (this->renderPass!=VK_NULL_HANDLE) vkDestroyRenderPass(this->devices.logicalDevice, this->renderPass, nullptr);
+    if (this->pipeLineLayout!=VK_NULL_HANDLE) vkDestroyPipelineLayout(this->devices.logicalDevice,this->pipeLineLayout,nullptr);
 }
 
 
