@@ -136,7 +136,7 @@ void VulkContext::createGraphicsPipeline() {
     graphicsPipeline.setMainDevice(this->context.Device);
     const auto vertSpirChars = SpirParser::parseSpirV(std::format("{}.spv", this->applicationConf.vertShaderPath));
     const auto fragSpirChars = SpirParser::parseSpirV(std::format("{}.spv", this->applicationConf.fragShaderPath));
-    graphicsPipeline.createVerteShaderStage(vertSpirChars);
+    graphicsPipeline.createVertexShaderStage(vertSpirChars);
     graphicsPipeline.createFragmentShaderStage(fragSpirChars);
 }
 

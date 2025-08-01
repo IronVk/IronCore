@@ -42,6 +42,7 @@ public:
     //! destructor
     ~GraphicsPipeline();
 
+    VkRenderPass& getRenderPass() { return renderPass; }
     VkPipeline& getGraphicsPipeline() { return graphicsPipeline; }
 
     //*Cleaner

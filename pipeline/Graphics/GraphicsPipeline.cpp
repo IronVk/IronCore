@@ -155,9 +155,9 @@ void GraphicsPipeline::setupColorBlending() {
 void GraphicsPipeline::setupPipeLineLayout() {
     VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
     pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pipelineLayoutCreateInfo.setLayoutCount = 0;
+    pipelineLayoutCreateInfo.setLayoutCount = ZERO;
     pipelineLayoutCreateInfo.pSetLayouts = nullptr;
-    pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
+    pipelineLayoutCreateInfo.pushConstantRangeCount = ZERO;
     pipelineLayoutCreateInfo.pPushConstantRanges = nullptr;
     if (vkCreatePipelineLayout(this->devices.logicalDevice,&pipelineLayoutCreateInfo,nullptr,&this->pipeLineLayout)!=VK_SUCCESS) {
         throw std::runtime_error("failed to create pipeline layout");
@@ -188,6 +188,11 @@ void GraphicsPipeline::setupRenderPass() {
 
     //* Render pass create info
     VkRenderPassCreateInfo renderPassCreateInfo = {};
+    renderPassCreateInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+    renderPassCreateInfo.attachmentCount = ONE;
+    renderPassCreateInfo.pAttachments = &colorAttachment;
+    renderPassCreateInfo.subpassCount = ONE;
+    renderPassCreateInfo.pSubpasses = &subPassDescription;
 
 
 
@@ -212,7 +217,7 @@ void GraphicsPipeline::createGraphicsPipeline() {
     this->graphicsPipelineCreateInfo.pDepthStencilState = nullptr;
     this->graphicsPipelineCreateInfo.layout = this->pipeLineLayout;
     this->graphicsPipelineCreateInfo.renderPass = this->renderPass;
-    this->graphicsPipelineCreateInfo.subpass = 0;
+    this->graphicsPipelineCreateInfo.subpass = ZERO;
     //* PIPELINE DERIVATIVES TO CREATE MULTIPLE PIPELINE THAT DERIVE FROM ONE ANOTHER FOR OPTIMIZATION
     this->graphicsPipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
     this->graphicsPipelineCreateInfo.basePipelineIndex = -1;
