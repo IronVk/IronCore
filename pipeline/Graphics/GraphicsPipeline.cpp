@@ -199,8 +199,6 @@ void GraphicsPipeline::setupRenderPass() {
         throw std::runtime_error(VULK_RUNTIME_ERROR("failed to create render pass"));
     }
 
-
-
 }
 
 
