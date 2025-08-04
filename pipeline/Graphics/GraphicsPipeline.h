@@ -44,7 +44,7 @@ public:
 
     VkRenderPass& getRenderPass() { return renderPass; }
     VkPipeline& getGraphicsPipeline() { return graphicsPipeline; }
-    VkDevice& getDevice();
+
 
     //*Cleaner
     void destroySelf();

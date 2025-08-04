@@ -238,9 +238,6 @@ void GraphicsPipeline::createGraphicsPipeline() {
 
 }
 
-VkDevice& GraphicsPipeline::getDevice() {
-    return this->devices.logicalDevice;
-}
 
 
 
