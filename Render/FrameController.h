@@ -7,12 +7,21 @@
 #include <vector>
 #include <vulkan/vulkan.h>
 
+#include "../common/VulkCommon.h"
+#include "../pipeline/Graphics/GraphicsPipeline.h"
+
 //# we will handle everything about frame buffer and command buffer from this class
 class FrameController {
 private:
+    GraphicsPipeline graphicsPipeline;
+    DisplayAdapter displayAdapter ;
     std::vector<VkFramebuffer> swapChainFrameBuffers;
     std::vector<VkCommandBuffer> CommandBuffers;
+public:
+    FrameController(const DisplayAdapter& displayAdapter,const GraphicsPipeline& graphicsPipeline);
+    ~FrameController();
 
+    void setupFrameBuffer();
 
 };
 
