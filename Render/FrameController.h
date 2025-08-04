@@ -1,7 +1,7 @@
 //
 // Created by STHEP on 8/3/2025.
 //
-
+#pragma once
 #ifndef FRAMEMANAGER_H
 #define FRAMEMANAGER_H
 #include <vector>
