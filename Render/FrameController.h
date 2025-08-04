@@ -10,7 +10,8 @@
 //# we will handle everything about frame buffer and command buffer from this class
 class FrameController {
 private:
-    std::vector<VkFramebuffer> FrameBuffers;
+    std::vector<VkFramebuffer> swapChainFrameBuffers;
+
 
 };
 
