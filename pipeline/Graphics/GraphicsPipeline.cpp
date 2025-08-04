@@ -241,8 +241,9 @@ void GraphicsPipeline::createGraphicsPipeline() {
 
 void GraphicsPipeline::destroySelf() {
     //!clean pipeline layout
-    if (this->renderPass!=VK_NULL_HANDLE) vkDestroyRenderPass(this->devices.logicalDevice, this->renderPass, nullptr);
     if (this->pipeLineLayout!=VK_NULL_HANDLE) vkDestroyPipelineLayout(this->devices.logicalDevice,this->pipeLineLayout,nullptr);
+    if (this->renderPass!=VK_NULL_HANDLE) vkDestroyRenderPass(this->devices.logicalDevice, this->renderPass, nullptr);
+    if (this->graphicsPipeline!=VK_NULL_HANDLE) vkDestroyPipeline(this->devices.logicalDevice, this->graphicsPipeline, nullptr);
 }
 
 
