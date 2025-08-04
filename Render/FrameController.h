@@ -17,11 +17,13 @@ private:
     DisplayAdapter displayAdapter ;
     std::vector<VkFramebuffer> swapChainFrameBuffers;
     std::vector<VkCommandBuffer> CommandBuffers;
+    VkCommandPool graphicsCommandPool;
 public:
     FrameController(const DisplayAdapter& displayAdapter,const GraphicsPipeline& graphicsPipeline);
     ~FrameController();
 
     void setupFrameBuffer();
+    void setupCommandPool();
 
 };
 

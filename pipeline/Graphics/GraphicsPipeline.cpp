@@ -238,6 +238,11 @@ void GraphicsPipeline::createGraphicsPipeline() {
 
 }
 
+VkDevice& GraphicsPipeline::getDevice() {
+    return this->devices.logicalDevice;
+}
+
+
 
 void GraphicsPipeline::destroySelf() {
     //!clean pipeline layout
