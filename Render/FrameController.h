@@ -11,6 +11,7 @@
 class FrameController {
 private:
     std::vector<VkFramebuffer> swapChainFrameBuffers;
+    std::vector<VkCommandBuffer> CommandBuffers;
 
 
 };
