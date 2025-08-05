@@ -6,7 +6,7 @@
 #ifndef VULKUTILITY_H
 #define VULKUTILITY_H
 #define IS_SET_BIT(number,bit)(((number) & (1<<(bit))) != 0
-#include <vector>
+
 
 
 
