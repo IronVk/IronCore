@@ -8,9 +8,6 @@
 #define IS_SET_BIT(number,bit)(((number) & (1<<(bit))) != 0
 #include <vector>
 
-template<typename T>
-void clearVector(const T& data) {
-    std::vector<T>().swap(data);
-}
+
 
 #endif //VULKUTILITY_H

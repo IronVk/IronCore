@@ -53,5 +53,5 @@ FrameController::~FrameController() {
     for (auto frameBuffer: this->swapChainFrameBuffers) {
         vkDestroyFramebuffer(this->applicationContext.Device.logicalDevice,frameBuffer,nullptr);
     }
-    clearVector(this->swapChainFrameBuffers);
+    this->swapChainFrameBuffers.clear();
 }
