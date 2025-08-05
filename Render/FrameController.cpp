@@ -11,7 +11,9 @@ FrameController::FrameController(const AppContext& appContext,const DisplayAdapt
     this->displayAdapter = displayAdapter;
     this->graphicsPipeline = graphicsPipeline;
     this->graphicsCommandPool = VK_NULL_HANDLE;
-    this->swapChainFrameBuffers.resize(this->displayAdapter.swapChainImages.size()); //*resizing swapChain Frame Buffer at constructor level
+    const auto TOTAL_SWAP_CHAIN_IMAGE = this->displayAdapter.swapChainImages.size();
+    this->swapChainFrameBuffers.resize(TOTAL_SWAP_CHAIN_IMAGE); //*resizing swapChain Frame Buffer at constructor level
+    //this->CommandBuffers.resize(TOTAL_SWAP_CHAIN_IMAGE);
 }
 
 void FrameController::setupFrameBuffer() {
@@ -46,6 +48,22 @@ void FrameController::setupCommandPool() {
 
 }
 
+void FrameController::setupCommandBuffer() {
+    VkCommandBufferAllocateInfo commandBufferAllocateInfo = {};
+    commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+    commandBufferAllocateInfo.commandPool = this->graphicsCommandPool;
+    commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+    commandBufferAllocateInfo.commandBufferCount = 1;
+    if (
+    vkAllocateCommandBuffers(this->applicationContext.Device.logicalDevice,&commandBufferAllocateInfo,&this->CommandBuffers)
+    != VK_SUCCESS
+    ) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to allocate command buffers."));
+
+    }
+}
+
+
 
 
 FrameController::~FrameController() {
@@ -54,4 +72,5 @@ FrameController::~FrameController() {
         vkDestroyFramebuffer(this->applicationContext.Device.logicalDevice,frameBuffer,nullptr);
     }
     this->swapChainFrameBuffers.clear();
+   // this->CommandBuffers.clear();
 }

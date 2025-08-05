@@ -17,7 +17,7 @@ private:
     GraphicsPipeline graphicsPipeline;
     DisplayAdapter displayAdapter ;
     std::vector<VkFramebuffer> swapChainFrameBuffers;
-    std::vector<VkCommandBuffer> CommandBuffers;
+    VkCommandBuffer CommandBuffers;
     VkCommandPool graphicsCommandPool;
 public:
     FrameController(const AppContext& appContext,const DisplayAdapter& displayAdapter,const GraphicsPipeline& graphicsPipeline);
@@ -25,6 +25,7 @@ public:
 
     void setupFrameBuffer();
     void setupCommandPool();
+    void setupCommandBuffer();
 
 };
 
