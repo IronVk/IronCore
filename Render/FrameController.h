@@ -26,6 +26,7 @@ public:
     void setupFrameBuffer();
     void setupCommandPool();
     void setupCommandBuffer();
+    void recordCommandBuffer();
 
 };
 

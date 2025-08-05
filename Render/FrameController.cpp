@@ -54,10 +54,7 @@ void FrameController::setupCommandBuffer() {
     commandBufferAllocateInfo.commandPool = this->graphicsCommandPool;
     commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
     commandBufferAllocateInfo.commandBufferCount = 1;
-    if (
-    vkAllocateCommandBuffers(this->applicationContext.Device.logicalDevice,&commandBufferAllocateInfo,&this->CommandBuffers)
-    != VK_SUCCESS
-    ) {
+    if (vkAllocateCommandBuffers(this->applicationContext.Device.logicalDevice,&commandBufferAllocateInfo,&this->CommandBuffers)!= VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to allocate command buffers."));
 
     }
