@@ -26,7 +26,7 @@ public:
     void setupFrameBuffer();
     void setupCommandPool();
     void setupCommandBuffer();
-    void recordCommandBuffer();
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 
 };
 

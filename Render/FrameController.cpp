@@ -59,7 +59,7 @@ void FrameController::setupCommandBuffer() {
 
     }
 }
-void FrameController::recordCommandBuffer() {
+void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
     VkCommandBufferBeginInfo commandBufferBeginInfo  = {};
     commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     commandBufferBeginInfo.flags = 0;
@@ -67,7 +67,11 @@ void FrameController::recordCommandBuffer() {
     if (vkBeginCommandBuffer(this->CommandBuffers,&commandBufferBeginInfo)!=VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
     }
-    //
+    //*Begin Render Pass
+    VkRenderPassBeginInfo renderPassBeginInfo = {};
+    renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+    renderPassBeginInfo.renderPass = this->graphicsPipeline.getRenderPass();
+    renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
 
 }
 
