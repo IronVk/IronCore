@@ -86,5 +86,6 @@ FrameController::~FrameController() {
         vkDestroyFramebuffer(this->applicationContext.Device.logicalDevice,frameBuffer,nullptr);
     }
     this->swapChainFrameBuffers.clear();
+
    // this->CommandBuffers.clear();
 }
