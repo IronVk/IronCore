@@ -72,6 +72,8 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     renderPassBeginInfo.renderPass = this->graphicsPipeline.getRenderPass();
     renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
+    renderPassBeginInfo.renderArea.offset = {0,0};
+    renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
 
 }
 
