@@ -59,6 +59,17 @@ void FrameController::setupCommandBuffer() {
 
     }
 }
+void FrameController::recordCommandBuffer() {
+    VkCommandBufferBeginInfo commandBufferBeginInfo  = {};
+    commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    commandBufferBeginInfo.flags = 0;
+    commandBufferBeginInfo.pInheritanceInfo = nullptr;
+    if (vkBeginCommandBuffer(this->CommandBuffers,&commandBufferBeginInfo)!=VK_SUCCESS) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
+    }
+    //
+
+}
 
 
 
