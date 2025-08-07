@@ -18,11 +18,11 @@ typedef struct {
     int presentationFamilyIndex;
 
     bool isValidGraphicsFamily() const {
-        return graphicsFamilyIndex >= 0;
+        return graphicsFamilyIndex >= ZERO;
     }
 
     bool isValidPresentationFamily() const {
-        return presentationFamilyIndex >= 0;
+        return presentationFamilyIndex >= ZERO;
     }
 } QueueFamilyIndices;
 
