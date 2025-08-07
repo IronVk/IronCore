@@ -80,7 +80,7 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     renderPassBeginInfo.clearValueCount = 1;
     renderPassBeginInfo.pClearValues = &clearValue;
 
-    //*
+    //* Initiate Render Pass
 
 }
 
