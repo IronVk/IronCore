@@ -19,16 +19,16 @@ FrameController::FrameController(const AppContext& appContext,const DisplayAdapt
 void FrameController::setupFrameBuffer() {
     const auto N = this->swapChainFrameBuffers.size();
     if (N<1)throw std::logic_error(VULK_LOGIC_ERROR("Invalid FrameBuffer Size."));
-    for (unsigned int i = 0; i < N; ++i) {
+    for (unsigned int i = ZERO; i < N; ++i) {
         std::array<VkImageView, 1> attachments = {this->displayAdapter.swapChainImages[i].imageView};
         VkFramebufferCreateInfo frameBufferCreateInfo = {};
         frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
         frameBufferCreateInfo.renderPass = this->graphicsPipeline.getRenderPass();
-        frameBufferCreateInfo.attachmentCount = 1;
+        frameBufferCreateInfo.attachmentCount = ONE;
         frameBufferCreateInfo.pAttachments = attachments.data();
         frameBufferCreateInfo.width  = this->displayAdapter.swapChainExtent.width;
         frameBufferCreateInfo.height = this->displayAdapter.swapChainExtent.height;
-        frameBufferCreateInfo.layers = 1;
+        frameBufferCreateInfo.layers = ONE;
         if (vkCreateFramebuffer(this->applicationContext.Device.logicalDevice,&frameBufferCreateInfo,nullptr,&this->swapChainFrameBuffers[i])!=VK_SUCCESS) {
             throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create framebuffer."));
         }
@@ -53,7 +53,7 @@ void FrameController::setupCommandBuffer() {
     commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     commandBufferAllocateInfo.commandPool = this->graphicsCommandPool;
     commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    commandBufferAllocateInfo.commandBufferCount = 1;
+    commandBufferAllocateInfo.commandBufferCount = ONE;
     if (vkAllocateCommandBuffers(this->applicationContext.Device.logicalDevice,&commandBufferAllocateInfo,&this->CommandBuffers)!= VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to allocate command buffers."));
 
@@ -77,7 +77,7 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
     renderPassBeginInfo.renderArea.offset = {0,0};
     renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
-    renderPassBeginInfo.clearValueCount = 1;
+    renderPassBeginInfo.clearValueCount = ONE;
     renderPassBeginInfo.pClearValues = &clearValue;
 
     //* Initiate Render Pass
