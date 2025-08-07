@@ -83,6 +83,8 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     //* Initiate Render Pass
     vkCmdBeginRenderPass(this->CommandBuffers,&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
+    //* BInd with graphics pipeline
+
 }
 
 
