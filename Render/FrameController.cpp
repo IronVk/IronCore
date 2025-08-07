@@ -84,6 +84,7 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     vkCmdBeginRenderPass(this->CommandBuffers,&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
     //* BInd with graphics pipeline
+    vkCmdBindPipeline(this->CommandBuffers,VK_PIPELINE_BIND_POINT_GRAPHICS,this->graphicsPipeline.getGraphicsPipeline());
 
 }
 
