@@ -81,6 +81,7 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     renderPassBeginInfo.pClearValues = &clearValue;
 
     //* Initiate Render Pass
+    vkCmdBeginRenderPass(this->CommandBuffers,&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
 }
 
