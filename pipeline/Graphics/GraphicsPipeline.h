@@ -20,7 +20,6 @@ private:
     DisplayAdapter displayAdapter;
     VkPipelineShaderStageCreateInfo  vertexShaderStage;
     VkPipelineShaderStageCreateInfo  fragmentShaderStage;
-    ViewportScissors viewportScissors;
     //? GRAPHICS PIPELINE STATE HOLDER
     VkPipelineVertexInputStateCreateInfo vertexInputCreateInfo;
     VkPipelineInputAssemblyStateCreateInfo inputAssemblyCreateInfo;
