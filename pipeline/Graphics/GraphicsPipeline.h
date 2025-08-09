@@ -44,7 +44,9 @@ public:
 
     VkRenderPass& getRenderPass() { return renderPass; }
     VkPipeline& getGraphicsPipeline() { return graphicsPipeline; }
-
+    VkRect2D& getScissor() { return scissorInfo; }
+    VkViewport& getViewport() { return viewportInfo; }
+    VkPipelineLayout& getPipelineLayout() { return pipeLineLayout; }
 
 
     //*Cleaner
