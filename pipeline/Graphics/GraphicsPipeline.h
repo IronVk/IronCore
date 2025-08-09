@@ -44,11 +44,7 @@ public:
 
     VkRenderPass& getRenderPass() { return renderPass; }
     VkPipeline& getGraphicsPipeline() { return graphicsPipeline; }
-    ViewportScissors getViewportScissors() const { return {
-        .viewport = this->viewportInfo,
-        .scissor = this->scissorInfo
-    };
-    }
+
 
 
     //*Cleaner
