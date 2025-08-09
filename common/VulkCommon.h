@@ -26,6 +26,11 @@ typedef struct {
     }
 } QueueFamilyIndices;
 
+typedef struct {
+    VkViewport viewport;
+    VkRect2D scissor;
+}ViewportScissors;
+
 // type to hold device related infos
 typedef struct {
     VkPhysicalDevice physicalDevice;

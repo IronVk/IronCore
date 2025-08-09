@@ -20,6 +20,7 @@ private:
     DisplayAdapter displayAdapter;
     VkPipelineShaderStageCreateInfo  vertexShaderStage;
     VkPipelineShaderStageCreateInfo  fragmentShaderStage;
+    ViewportScissors viewportScissors;
     //? GRAPHICS PIPELINE STATE HOLDER
     VkPipelineVertexInputStateCreateInfo vertexInputCreateInfo;
     VkPipelineInputAssemblyStateCreateInfo inputAssemblyCreateInfo;
@@ -44,6 +45,11 @@ public:
 
     VkRenderPass& getRenderPass() { return renderPass; }
     VkPipeline& getGraphicsPipeline() { return graphicsPipeline; }
+    ViewportScissors getViewportScissors() const { return {
+        .viewport = this->viewportInfo,
+        .scissor = this->scissorInfo
+    };
+    }
 
 
     //*Cleaner
