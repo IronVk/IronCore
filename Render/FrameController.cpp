@@ -87,6 +87,8 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     vkCmdBindPipeline(this->CommandBuffers,VK_PIPELINE_BIND_POINT_GRAPHICS,this->graphicsPipeline.getGraphicsPipeline());
     vkCmdSetViewport(this->CommandBuffers,ZERO,ONE,&this->graphicsPipeline.getViewport());
     vkCmdSetScissor(this->CommandBuffers,ZERO,ONE,&this->graphicsPipeline.getScissor());
+    vkCmdDraw(this->CommandBuffers,3,ONE,ZERO,ZERO);
+
 
 }
 
