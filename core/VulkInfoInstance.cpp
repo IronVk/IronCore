@@ -36,7 +36,7 @@ VkInstanceCreateInfo createInstanceInfo(const VkApplicationInfo &appInfo, Extens
         info.enabledLayerCount = static_cast<uint32_t>(extAdapter.validationLayers.size());
         info.ppEnabledLayerNames = extAdapter.validationLayers.data();
     }else {
-        info.enabledLayerCount = 0;
+        info.enabledLayerCount = ZERO;
         info.ppEnabledLayerNames = nullptr;
     }
     info.pNext = nullptr;
