@@ -1,0 +1,13 @@
+//
+// Created by STHEP on 8/10/2025.
+//
+
+#ifndef PRACTICEVK_COMPUTEPIPELINE_H
+#define PRACTICEVK_COMPUTEPIPELINE_H
+
+
+class ComputePipeline {
+};
+
+
+#endif //PRACTICEVK_COMPUTEPIPELINE_H
