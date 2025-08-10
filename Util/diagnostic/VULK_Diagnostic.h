@@ -35,14 +35,14 @@ std::string format_log(const std::string& x, Args&&... args) {
 // The macro: wraps everything into a log
 #define VLOG(x, ...) \
 if (prod_mode==1) {\
-    std::cout<<"VULK::VLOG::$" << format_log(x, ##__VA_ARGS__) << "\n";\
+    std::cout<<"Iron::$" << format_log(x, ##__VA_ARGS__) << "\n";\
 }
 
 
-#define VULK_RUNTIME_ERROR(msg) ("VULK::RUNTIME::ERROR::$" + std::string(msg))
-#define VULK_LOGIC_ERROR(msg) ("VULK::LOGIC::ERROR::$" + std::string(msg))
-#define VULK_NOT_FOUND_ERROR(msg) ("VULK::NOT_FOUND::ERROR::$" + std::string(msg))
-#define VULK_OUT_OF_RANGE_ERROR(msg) ("VULK::OUT_OF_RANGE::ERROR::$" + std::string(msg))
-#define VULK_INTERNAL_MESSAGE(msg) ("VULK::INTERNAL_MESSAGE::$" + std::string(msg))
-#define VULK_INSTANCE_INITIALIZATION_ERROR(msg) ("VULK::INSTANCE_INITIALIZATION::ERROR::$" + std::string(msg))
+#define VULK_RUNTIME_ERROR(msg) ("Iron::RUNTIME::ERROR::$" + std::string(msg))
+#define VULK_LOGIC_ERROR(msg) ("Iron::LOGIC::ERROR::$" + std::string(msg))
+#define VULK_NOT_FOUND_ERROR(msg) ("Iron::NOT_FOUND::ERROR::$" + std::string(msg))
+#define VULK_OUT_OF_RANGE_ERROR(msg) ("Iron::OUT_OF_RANGE::ERROR::$" + std::string(msg))
+#define VULK_INTERNAL_MESSAGE(msg) ("Iron::INTERNAL_MESSAGE::$" + std::string(msg))
+#define VULK_INSTANCE_INITIALIZATION_ERROR(msg) ("Iron::INSTANCE_INITIALIZATION::ERROR::$" + std::string(msg))
 #endif //DIAGONISTIC_H
