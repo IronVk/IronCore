@@ -11,7 +11,7 @@
 #include <vulkan/vulkan.h>
 
 std::vector<VkPhysicalDevice> getPhysicalDeviceList(VkInstance &instance) {
-    uint32_t physicalDeviceCount = 0;
+    u32 physicalDeviceCount = 0;
     if (vkEnumeratePhysicalDevices(instance,&physicalDeviceCount,nullptr )!=VK_SUCCESS || physicalDeviceCount<1)throw std::runtime_error(VULK_RUNTIME_ERROR("No Device Found"));// ! if no device found
     auto physicalDevices = std::vector<VkPhysicalDevice>(physicalDeviceCount);
     vkEnumeratePhysicalDevices(instance,&physicalDeviceCount,physicalDevices.data());
@@ -47,7 +47,7 @@ VkPhysicalDevice pickSuitablePhysicalDevice(const std::vector<VkPhysicalDevice> 
 }
 
 bool checkPhysicalDeviceExtensionSupport(VkPhysicalDevice &device, std::vector<const char *> &given_extensions) {
-    uint32_t ext_count = 0;
+    u32 ext_count = 0;
     vkEnumerateDeviceExtensionProperties(device,nullptr,&ext_count,nullptr);
     if (ext_count<0)return false;
     std::vector<VkExtensionProperties> extensionHolder = std::vector<VkExtensionProperties>(ext_count);
@@ -70,7 +70,7 @@ bool checkPhysicalDeviceExtensionSupport(VkPhysicalDevice &device, std::vector<c
 }
 
 std::vector<VkQueueFamilyProperties> getQueueFamilies(const VkPhysicalDevice& physical_device) {
-    uint32_t queueFamilyCount = 0;
+    u32 queueFamilyCount = 0;
     vkGetPhysicalDeviceQueueFamilyProperties(physical_device,&queueFamilyCount,nullptr);
     auto queueFamilyList = std::vector<VkQueueFamilyProperties>(queueFamilyCount);
     vkGetPhysicalDeviceQueueFamilyProperties(physical_device,&queueFamilyCount,queueFamilyList.data());
@@ -80,7 +80,7 @@ std::vector<VkQueueFamilyProperties> getQueueFamilies(const VkPhysicalDevice& ph
 
 QueueFamilyIndices getGraphicsQueueFamilyIndices(const std::vector<VkQueueFamilyProperties>& queueFamilyList) {
     QueueFamilyIndices Indices;
-    for (uint8_t i=0;i<queueFamilyList.size();i++) {
+    for (u8 i=0;i<queueFamilyList.size();i++) {
         const auto queueFamily = queueFamilyList[i];
         //? checking if queue family has at least one queue then checking if  first byte of queueFlags binary is 1 using bit manipulation
         if (queueFamily.queueCount> 0  && (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)) {
@@ -117,7 +117,7 @@ VkDeviceCreateInfo createLogicalDeviceInfo(const VkDeviceQueueCreateInfo& queueC
     deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     deviceCreateInfo.queueCreateInfoCount = 1;
     deviceCreateInfo.pQueueCreateInfos = &queueCreateInfo;
-    deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensionAdapter.extensions.size()); // we dont need it for device
+    deviceCreateInfo.enabledExtensionCount = static_cast<u32>(extensionAdapter.extensions.size()); // we dont need it for device
     deviceCreateInfo.ppEnabledExtensionNames = extensionAdapter.extensions.data(); // we're not using any extensions for our logical device
     deviceCreateInfo.pEnabledFeatures = &device.deviceFeatures;
     if (useValidation && !extensionAdapter.validationLayers.empty()) {
