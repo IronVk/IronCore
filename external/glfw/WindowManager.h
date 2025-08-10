@@ -1,6 +1,7 @@
 //
 // Created by adnan on 7/2/25.
 //
+#ifndef IRON_VK_USE_SDL
 #pragma once
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
@@ -141,3 +142,4 @@ public:
 
 
 #endif //WINDOWMANAGER_H
+#endif

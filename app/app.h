@@ -5,7 +5,12 @@
 #ifndef APP_H
 #define APP_H
 #define VULK_VERSION 0.1
-#include "../external/glfw/WindowManager.h"
+#if defined(IRON_VK_USE_SDL)
+    #include "../external/glfw/WindowManager.h"
+#else
+    #include "../external/sdl/WindowManager.h"
+#endif
+
 #include "../core/VulkContext.h"
 #include "conf/VulkConfig.h"
 
@@ -13,7 +18,7 @@ class app {
 private:
     VulkConf createConfStruct;
     VulkContext* appContext;
-
+    WindowManager* window_manager;
 public:
     //! test check implementation
     app();

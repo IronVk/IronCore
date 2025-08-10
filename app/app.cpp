@@ -40,15 +40,15 @@ void app::build() {
     this->createConfStruct.window_width = this->createConfStruct.window_width ?this->createConfStruct.window_width: 800;
     this->createConfStruct.window_height = this->createConfStruct.window_height?this->createConfStruct.window_height : 600;
     this->createConfStruct.build_mode = this->createConfStruct.build_mode?this->createConfStruct.build_mode:BuildMode::DEV;
-    WindowManager* window_manager = new WindowManager(this->createConfStruct.window_width, this->createConfStruct.window_height,this->createConfStruct.window_title);
-    this->createConfStruct.extensions = window_manager->getRequiredInstanceExtensionList();
-    this->createConfStruct.window = window_manager->getWindow();
+    this->window_manager = new WindowManager(this->createConfStruct.window_width, this->createConfStruct.window_height,this->createConfStruct.window_title);
+    this->createConfStruct.extensions = this->window_manager->getRequiredInstanceExtensionList();
+    this->createConfStruct.window = this->window_manager->getWindow();
     this->appContext = new VulkContext(this->createConfStruct);
     appContext->createContext();
     appContext->setupSwapChain();
     appContext->createGraphicsPipeline();
-    window_manager->launch();
-    window_manager->destroy();
+    this->window_manager->launch();
+    this->window_manager->destroy();
 }
 
 
