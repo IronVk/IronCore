@@ -11,4 +11,4 @@ class WindowManager {
 
 
 #endif //PRACTICEVK_WINDOWMANAGER_H
-#endif
+#endif //IRON_VK_USE_SDL
