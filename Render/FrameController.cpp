@@ -88,6 +88,10 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     vkCmdSetViewport(this->CommandBuffers,ZERO,ONE,&this->graphicsPipeline.getViewport());
     vkCmdSetScissor(this->CommandBuffers,ZERO,ONE,&this->graphicsPipeline.getScissor());
     vkCmdDraw(this->CommandBuffers,3,ONE,ZERO,ZERO);
+    vkCmdEndRenderPass(this->CommandBuffers);
+    if (vkEndCommandBuffer(this->CommandBuffers)!=VK_SUCCESS) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to end command buffers."));
+    }
 
 
 }
