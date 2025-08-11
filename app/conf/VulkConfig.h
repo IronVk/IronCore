@@ -41,6 +41,17 @@ typedef struct {
     const char* vertShaderPath;
 } VulkConf;
 
+//#IronConf:
+//* under development. Iron script will be used by user to init application of ironCore
+typedef struct {
+    std::string appName;
+    std::string engineName;
+    int window_initial_width;
+    int window_initial_height;
+    bool resizableWindow;
+
+} IronConf;
+
 
 
 
