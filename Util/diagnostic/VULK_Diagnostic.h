@@ -16,7 +16,7 @@ std::string to_string_any(const T& value) {
     return oss.str();
 }
 
-// Replaces each `${}` in the input string with next value in args
+//* Replaces each `${}` in the input string with next value in args
 template<typename... Args>
 std::string format_log(const std::string& x, Args&&... args) {
     std::vector<std::string> values = { to_string_any(std::forward<Args>(args))... };
@@ -32,17 +32,16 @@ std::string format_log(const std::string& x, Args&&... args) {
     return result;
 }
 
-// The macro: wraps everything into a log
 #define VLOG(x, ...) \
 if (prod_mode==1) {\
-    std::cout<<"Iron::$" << format_log(x, ##__VA_ARGS__) << "\n";\
+    std::cout<<"IronCore::$" << format_log(x, ##__VA_ARGS__) << "\n";\
 }
 
 
-#define VULK_RUNTIME_ERROR(msg) ("Iron::RUNTIME::ERROR::$" + std::string(msg))
-#define VULK_LOGIC_ERROR(msg) ("Iron::LOGIC::ERROR::$" + std::string(msg))
-#define VULK_NOT_FOUND_ERROR(msg) ("Iron::NOT_FOUND::ERROR::$" + std::string(msg))
-#define VULK_OUT_OF_RANGE_ERROR(msg) ("Iron::OUT_OF_RANGE::ERROR::$" + std::string(msg))
-#define VULK_INTERNAL_MESSAGE(msg) ("Iron::INTERNAL_MESSAGE::$" + std::string(msg))
-#define VULK_INSTANCE_INITIALIZATION_ERROR(msg) ("Iron::INSTANCE_INITIALIZATION::ERROR::$" + std::string(msg))
+#define VULK_RUNTIME_ERROR(msg) ("IronCore::RUNTIME::ERROR::$" + std::string(msg))
+#define VULK_LOGIC_ERROR(msg) ("IronCore::LOGIC::ERROR::$" + std::string(msg))
+#define VULK_NOT_FOUND_ERROR(msg) ("IronCore::NOT_FOUND::ERROR::$" + std::string(msg))
+#define VULK_OUT_OF_RANGE_ERROR(msg) ("IronCore::OUT_OF_RANGE::ERROR::$" + std::string(msg))
+#define VULK_INTERNAL_MESSAGE(msg) ("IronCore::INTERNAL_MESSAGE::$" + std::string(msg))
+#define VULK_INSTANCE_INITIALIZATION_ERROR(msg) ("IronCore::INSTANCE_INITIALIZATION::ERROR::$" + std::string(msg))
 #endif //DIAGONISTIC_H

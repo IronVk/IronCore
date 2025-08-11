@@ -52,11 +52,9 @@ bool checkPhysicalDeviceExtensionSupport(VkPhysicalDevice &device, std::vector<c
     if (ext_count<0)return false;
     std::vector<VkExtensionProperties> extensionHolder = std::vector<VkExtensionProperties>(ext_count);
     vkEnumerateDeviceExtensionProperties(device,nullptr,&ext_count,extensionHolder.data());
-    //std::cout<<"extension count: "<<given_extensions.size()<<std::endl;
     for (const auto &ext:given_extensions) {
         auto found = false;
         for (const auto &available_ext:extensionHolder) {
-            //std::cout<<"current given extension: "<<ext<<"\t checking with available: "<<available_ext.extensionName<<std::endl;
             if (strcmp(available_ext.extensionName,ext)==0) {
                 found=true;
                 break;
