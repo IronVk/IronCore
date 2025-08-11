@@ -49,6 +49,7 @@ typedef struct {
     int window_initial_width;
     int window_initial_height;
     bool resizableWindow;
+    BuildMode buildMode;
 
 } IronConf;
 
