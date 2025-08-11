@@ -6,7 +6,7 @@
 #define VULKCONTEXT_H
 #include <string>
 #include "../app/conf/VulkConfig.h"
-#include "../common/VulkCommon.h"
+#include "../common/VulkPredefs.h"
 #include "../pipeline/Graphics/GraphicsPipeline.h"
 
 class VulkContext {

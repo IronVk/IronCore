@@ -7,7 +7,7 @@
 #include <vector>
 #include <vulkan/vulkan.h>
 
-#include "../common/VulkCommon.h"
+#include "../common/VulkPredefs.h"
 #include "../pipeline/Graphics/GraphicsPipeline.h"
 
 //# we will handle everything about frame buffer and command buffer from this class

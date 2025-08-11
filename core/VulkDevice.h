@@ -6,7 +6,7 @@
 #define VULKDEVICE_H
 #include <vector>
 #include <vulkan/vulkan.h>
-#include "../common/VulkCommon.h"
+#include "../common/VulkPredefs.h"
 //Device Related Functionalities
 //? 1. Physical Device
 std::vector<VkPhysicalDevice> getPhysicalDeviceList(VkInstance& instance);

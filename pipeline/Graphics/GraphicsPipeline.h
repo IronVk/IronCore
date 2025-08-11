@@ -7,7 +7,7 @@
 #include <vulkan/vulkan.h>
 #include <vector>
 
-#include "../../common/VulkCommon.h"
+#include "../../common/VulkPredefs.h"
 
 class GraphicsPipeline {
 private:

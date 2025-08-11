@@ -6,7 +6,7 @@
 
 #include "../Util/diagnostic/VULK_Diagnostic.h"
 #include "VulkDebug.h"
-#include "../common/VulkCommon.h"
+#include "../common/VulkPredefs.h"
 #include "../Validation/VulkValidateInstance.h"
 #include <exception>
 

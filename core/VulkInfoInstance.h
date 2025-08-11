@@ -6,7 +6,7 @@
 #define VULKINSTANCE_H
 #include <iostream>
 #include <vulkan/vulkan.h>
-#include "../common/VulkCommon.h"
+#include "../common/VulkPredefs.h"
 
 VkApplicationInfo createAppInfo(std::string appName,std::string engineName);
 

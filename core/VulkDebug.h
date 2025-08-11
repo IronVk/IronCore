@@ -10,11 +10,12 @@
 #include <cstring>
 #include <vulkan/vulkan.h>
 #include <iostream>
+#include "../common/VulkPredefs.h"
 
 class VulkanDebugMessenger {
 private:
-    VkDebugUtilsMessageSeverityFlagsEXT enabledSeverities = 0;
-    VkDebugUtilsMessageTypeFlagsEXT enabledTypes = 0;
+    VkDebugUtilsMessageSeverityFlagsEXT enabledSeverities = ZERO;
+    VkDebugUtilsMessageTypeFlagsEXT enabledTypes = ZERO;
 
 public:
 
@@ -35,9 +36,9 @@ public:
     }
 
     bool has_ValidationLayerSupport(const std::vector<const char *>& inputExtensionList){
-        uint32_t validation_layer_count = 0;
+        u32 validation_layer_count = ZERO;
         vkEnumerateInstanceLayerProperties(&validation_layer_count, nullptr);
-        if (validation_layer_count<1)return false;
+        if (validation_layer_count<ONE)return false;
         std:: vector<VkLayerProperties> available_layers(validation_layer_count);
         vkEnumerateInstanceLayerProperties(&validation_layer_count, available_layers.data());
         for (const auto &current_layer: inputExtensionList) {
@@ -100,7 +101,7 @@ public:
         VkDebugUtilsMessengerCreateInfoEXT createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
         createInfo.pNext = nullptr;
-        createInfo.flags = 0;
+        createInfo.flags = ZERO;
         createInfo.messageSeverity = enabledSeverities;
         createInfo.messageType = enabledTypes;
         createInfo.pfnUserCallback = debugCallback;
