@@ -9,8 +9,8 @@
 #include <vector>
 #include "../external/glfw/WindowManager.h"
 #include "NumericDefs.h"
-inline thread_local bool prod_mode; //@ 🚩 flag to check mode of the app
 
+inline thread_local bool prod_mode; //@ 🚩 flag to check mode of the app
 typedef struct {
     int graphicsFamilyIndex;
     int presentationFamilyIndex;
