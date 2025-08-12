@@ -9,7 +9,8 @@
 #include <vector>
 #include "../external/glfw/WindowManager.h"
 #include "NumericDefs.h"
-
+#include "../pipeline/Graphics/GraphicsPipeline.h"
+#include "../pipeline/Compute/ComputePipeline.h"
 inline thread_local bool prod_mode; //@ 🚩 flag to check mode of the app
 typedef struct {
     int graphicsFamilyIndex;
@@ -33,7 +34,7 @@ typedef struct {
     VkPhysicalDeviceFeatures deviceFeatures;
 } MainDevice;
 
-typedef struct {
+typedef struct QueueList{
     VkQueue graphicsQueue;
     VkQueue presentationQueue;
 } QueueList;
@@ -84,9 +85,15 @@ typedef enum {
 } COLOR_WRITE_MASK;
 
 
+
 typedef struct {
     AppContext applicationContext;
     QueueFamilyIndices queueFamilyIndices;
+    DisplayAdapter& displayAdapter;
+    GraphicsPipeline graphicsPipeline;
 }RenderInitInfo;
 
 #endif //VULKCOMMON_H
+
+
+

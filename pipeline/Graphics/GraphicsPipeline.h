@@ -1,7 +1,7 @@
 //
 // Created by STHEP on 7/16/2025.
 //
-
+#pragma once
 #ifndef GRAPHICSPIPELINE_H
 #define GRAPHICSPIPELINE_H
 #include <vulkan/vulkan.h>
