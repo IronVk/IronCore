@@ -19,7 +19,7 @@ FrameController::FrameController(const AppContext& appContext,const DisplayAdapt
 void FrameController::setupFrameBuffer() {
     const auto N = this->swapChainFrameBuffers.size();
     if (N<1)throw std::logic_error(VULK_LOGIC_ERROR("Invalid FrameBuffer Size."));
-    for (unsigned int i = ZERO; i < N; ++i) {
+    for (u32 i = ZERO; i < N; ++i) {
         std::array<VkImageView, 1> attachments = {this->displayAdapter.swapChainImages[i].imageView};
         VkFramebufferCreateInfo frameBufferCreateInfo = {};
         frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -62,7 +62,7 @@ void FrameController::setupCommandBuffer() {
 void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
     VkCommandBufferBeginInfo commandBufferBeginInfo  = {};
     commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    commandBufferBeginInfo.flags = 0;
+    commandBufferBeginInfo.flags = ZERO;
     commandBufferBeginInfo.pInheritanceInfo = nullptr;
     if (vkBeginCommandBuffer(this->CommandBuffers,&commandBufferBeginInfo)!=VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
@@ -70,7 +70,7 @@ void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
     VkClearValue clearValue = {
-        {0.0,0.0,0.0,0.0}
+        {ZERO,ZERO,ZERO,ZERO}
     };
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     renderPassBeginInfo.renderPass = this->graphicsPipeline.getRenderPass();

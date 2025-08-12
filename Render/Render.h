@@ -4,11 +4,16 @@
 
 #ifndef RENDER_H
 #define RENDER_H
-
-
+#include "../common/VulkPredefs.h"
 
 
 class Render {
+private:
+
+
+public:
+    Render(RenderInitInfo renderInitInfo);
+    ~Render();
 
 };
 
