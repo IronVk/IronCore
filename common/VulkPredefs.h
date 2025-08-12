@@ -84,4 +84,9 @@ typedef enum {
 } COLOR_WRITE_MASK;
 
 
+typedef struct {
+    AppContext applicationContext;
+    QueueFamilyIndices queueFamilyIndices;
+}RenderInitInfo;
+
 #endif //VULKCOMMON_H
