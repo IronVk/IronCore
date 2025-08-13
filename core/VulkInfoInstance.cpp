@@ -3,7 +3,6 @@
 //
 
 #include "VulkInfoInstance.h"
-
 #include "../Util/diagnostic/VULK_Diagnostic.h"
 #include "VulkDebug.h"
 #include "../common/VulkPredefs.h"

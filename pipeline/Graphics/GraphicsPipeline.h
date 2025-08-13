@@ -6,7 +6,6 @@
 #define GRAPHICSPIPELINE_H
 #include <vulkan/vulkan.h>
 #include <vector>
-
 #include "../../common/VulkPredefs.h"
 
 class GraphicsPipeline {
@@ -14,7 +13,6 @@ private:
     //!temporary shader module holder
     VkShaderModule vertexShaderModule;
     VkShaderModule fragmentShaderModule;
-
     //?Required lifetime instances
     MainDevice devices; //! warning: Don't Reference MainDevice directly.Rather use AppContext from here.
     DisplayAdapter displayAdapter;

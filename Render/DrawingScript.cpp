@@ -31,10 +31,6 @@ DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
         }
         VLOG("SEMAPHORES & Fences INITIALIZED");
 
-
-
-
-
     }catch(std::exception& e) {
         VLOG("Drawing Script Failed To Due ${}",e.what());
         throw std::runtime_error(VULK_RUNTIME_ERROR("Drawing Script Failed."));
