@@ -18,6 +18,8 @@ DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
         this->frameController->setupCommandBuffer();
 
         //* Work With Semaphores
+        this->imageAvailableSemaphore = {};
+
     }catch(std::exception& e) {
         VLOG("${}")
     }
