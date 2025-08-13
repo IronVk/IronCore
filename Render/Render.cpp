@@ -11,7 +11,7 @@ Render::Render(const RenderInitInfo& renderInitInfo) {
      this->appInitInfo->pDisplayAdapter,
      this->appInitInfo->pGraphicsPipeline
     );
-
+    //* Work With Semaphores
 }
 
 
