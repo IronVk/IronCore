@@ -26,7 +26,7 @@ DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
         ) {
             throw std::runtime_error(VULK_RUNTIME_ERROR("Failed To Create Semaphore."));
         }
-
+        VLOG("SEMAPHORES INITIALIZED");
 
         //* setting up fences
 
