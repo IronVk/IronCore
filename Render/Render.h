@@ -10,12 +10,15 @@
 
 class Render {
 private:
-    std::unique_ptr<FrameController> controller = nullptr;
-    RenderInitInfo appRenderInitInfo;
+    std::unique_ptr<FrameController> frameController = nullptr;
+    RenderInitInfo appRenderInitInfo = {};
+    VkSemaphore imageAvailableSemaphore = VK_NULL_HANDLE;
+    VkSemaphore renderCompleteSemaphore = VK_NULL_HANDLE;
+    VkFence inFlightFence = VK_NULL_HANDLE;
 
 
 public:
-    Render(RenderInitInfo renderInitInfo);
+    Render(const RenderInitInfo& renderInitInfo);
     ~Render();
 
 };
