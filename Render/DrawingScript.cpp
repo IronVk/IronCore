@@ -17,8 +17,13 @@ DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
         this->frameController->setupCommandPool();
         this->frameController->setupCommandBuffer();
 
-        //* Work With Semaphores
-        this->imageAvailableSemaphore = {};
+        //* Setting UpSemaphores
+        VkSemaphoreCreateInfo semaphoreCreateInfo = {};
+        semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+
+
+        //* W
 
     }catch(std::exception& e) {
         VLOG("${}")
