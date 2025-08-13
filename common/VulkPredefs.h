@@ -87,10 +87,10 @@ typedef enum {
 
 
 typedef struct {
-    AppContext applicationContext;
-    QueueFamilyIndices queueFamilyIndices;
-    DisplayAdapter& displayAdapter;
-    GraphicsPipeline graphicsPipeline;
+    AppContext& pApplicationContext;
+    QueueFamilyIndices& pQueueFamilyIndices;
+    DisplayAdapter& pDisplayAdapter;
+    GraphicsPipeline& pGraphicsPipeline;
 }RenderInitInfo;
 
 #endif //VULKCOMMON_H

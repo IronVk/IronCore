@@ -10,8 +10,8 @@
 
 class Render {
 private:
+    std::unique_ptr<RenderInitInfo> appInitInfo = nullptr;
     std::unique_ptr<FrameController> frameController = nullptr;
-    RenderInitInfo appRenderInitInfo = {};
     VkSemaphore imageAvailableSemaphore = VK_NULL_HANDLE;
     VkSemaphore renderCompleteSemaphore = VK_NULL_HANDLE;
     VkFence inFlightFence = VK_NULL_HANDLE;
