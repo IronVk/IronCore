@@ -17,13 +17,19 @@ DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
         this->frameController->setupCommandPool();
         this->frameController->setupCommandBuffer();
 
-        //* Setting UpSemaphores
+        //* Setting Up Semaphores
         VkSemaphoreCreateInfo semaphoreCreateInfo = {};
         semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+        if (
+            vkCreateSemaphore(this->appInitInfo->pApplicationContext.Device.logicalDevice,&semaphoreCreateInfo,nullptr,&this->imageAvailableSemaphore)!=VK_SUCCESS ||
+            vkCreateSemaphore(this->appInitInfo->pApplicationContext.Device.logicalDevice,&semaphoreCreateInfo,nullptr,&this->renderCompleteSemaphore)!=VK_SUCCESS
+        ) {
+            throw std::runtime_error(VULK_RUNTIME_ERROR("Failed To Create Semaphore."));
+        }
 
 
+        //* setting up fences
 
-        //* W
 
     }catch(std::exception& e) {
         VLOG("${}")
