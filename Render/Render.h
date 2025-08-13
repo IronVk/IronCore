@@ -4,11 +4,14 @@
 
 #ifndef RENDER_H
 #define RENDER_H
+#include "FrameController.h"
 #include "../common/VulkPredefs.h"
 
 
 class Render {
 private:
+    std::unique_ptr<FrameController> controller = nullptr;
+    RenderInitInfo appRenderInitInfo;
 
 
 public:
