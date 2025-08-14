@@ -49,6 +49,9 @@ void DrawingScript::draw() {
     vkResetCommandBuffer(this->frameController->getCommandBuffer(),0);
     this->frameController->recordCommandBuffer(imageIndex);
     //# submitting CommandBuffer
+    VkSubmitInfo submitInfo = {};
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
 
 
 
