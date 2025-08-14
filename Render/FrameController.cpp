@@ -16,6 +16,10 @@ FrameController::FrameController(const AppContext& appContext,const DisplayAdapt
     //this->CommandBuffers.resize(TOTAL_SWAP_CHAIN_IMAGE);
 }
 
+VkCommandBuffer& FrameController::getCommandBuffer() {
+    return this->CommandBuffers;
+}
+
 void FrameController::setupFrameBuffer() {
     const auto N = this->swapChainFrameBuffers.size();
     if (N<1)throw std::logic_error(VULK_LOGIC_ERROR("Invalid FrameBuffer Size."));
@@ -59,7 +63,7 @@ void FrameController::setupCommandBuffer() {
 
     }
 }
-void FrameController::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
+void FrameController::recordCommandBuffer( uint32_t imageIndex) {
     VkCommandBufferBeginInfo commandBufferBeginInfo  = {};
     commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     commandBufferBeginInfo.flags = ZERO;

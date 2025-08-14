@@ -14,7 +14,8 @@ private:
     VkShaderModule vertexShaderModule;
     VkShaderModule fragmentShaderModule;
     //?Required lifetime instances
-    MainDevice devices; //! warning: Don't Reference MainDevice directly.Rather use AppContext from here.
+    //! warning: Don't Reference MainDevice directly.Rather use AppContext from here.
+    MainDevice devices;
     DisplayAdapter displayAdapter;
     VkPipelineShaderStageCreateInfo  vertexShaderStage;
     VkPipelineShaderStageCreateInfo  fragmentShaderStage;

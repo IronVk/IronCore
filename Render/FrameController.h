@@ -22,11 +22,11 @@ private:
 public:
     FrameController(const AppContext& appContext,const DisplayAdapter& displayAdapter,const GraphicsPipeline& graphicsPipeline);
     ~FrameController();
-
+    VkCommandBuffer& getCommandBuffer();
     void setupFrameBuffer();
     void setupCommandPool();
     void setupCommandBuffer();
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+    void recordCommandBuffer(uint32_t imageIndex);
 
 };
 

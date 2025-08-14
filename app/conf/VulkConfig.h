@@ -23,9 +23,7 @@ typedef struct {
     bool enableMessageTypeValidation;
     bool enableMessageTypePerformance;
 } Validation;
-typedef struct {
 
-}GraphicsPipelineStateController;
 
 typedef struct {
     std::string window_title;
@@ -41,8 +39,8 @@ typedef struct {
     const char* vertShaderPath;
 } VulkConf;
 
-//#IronConf:
-//* under development. Iron script will be used by user to init application of ironCore
+
+//* under development.Developers have to use IronConf struct to initialize IronCore.
 typedef struct {
     std::string appName;
     std::string engineName;

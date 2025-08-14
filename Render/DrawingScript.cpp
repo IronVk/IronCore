@@ -6,11 +6,11 @@
 
 DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
     try {
-        this->appInitInfo = std::make_unique<RenderInitInfo>(renderInitInfo);
+        this->drawInitInfo = std::make_unique<RenderInitInfo>(renderInitInfo);
         this->frameController = std::make_unique<FrameController>
-        (this->appInitInfo->pApplicationContext,
-         this->appInitInfo->pDisplayAdapter,
-         this->appInitInfo->pGraphicsPipeline
+        (this->drawInitInfo->pApplicationContext,
+         this->drawInitInfo->pDisplayAdapter,
+         this->drawInitInfo->pGraphicsPipeline
         );
         //* Build the FrameController
         this->frameController->setupFrameBuffer();
@@ -22,10 +22,12 @@ DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
         semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
         VkFenceCreateInfo fenceCreateInfo = {};
         fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        // need to initialize fence as signalled. Either it will block for ever
+        fenceCreateInfo.flags  = VK_FENCE_CREATE_SIGNALED_BIT;
         if (
-            vkCreateSemaphore(this->appInitInfo->pApplicationContext.Device.logicalDevice,&semaphoreCreateInfo,nullptr,&this->imageAvailableSemaphore)!=VK_SUCCESS ||
-            vkCreateSemaphore(this->appInitInfo->pApplicationContext.Device.logicalDevice,&semaphoreCreateInfo,nullptr,&this->renderCompleteSemaphore)!=VK_SUCCESS ||
-            vkCreateFence(this->appInitInfo->pApplicationContext.Device.logicalDevice,&fenceCreateInfo,nullptr,&this->inFlightFence)!=VK_SUCCESS
+            vkCreateSemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice,&semaphoreCreateInfo,nullptr,&this->imageAvailableSemaphore)!=VK_SUCCESS ||
+            vkCreateSemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice,&semaphoreCreateInfo,nullptr,&this->renderCompleteSemaphore)!=VK_SUCCESS ||
+            vkCreateFence(this->drawInitInfo->pApplicationContext.Device.logicalDevice,&fenceCreateInfo,nullptr,&this->inFlightFence)!=VK_SUCCESS
         ) {
             throw std::runtime_error(VULK_RUNTIME_ERROR("Failed To Create Semaphore."));
         }
@@ -39,14 +41,23 @@ DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
 }
 
 void DrawingScript::draw() {
+    VkDevice& logicalDevice = this->drawInitInfo->pApplicationContext.Device.logicalDevice;
+    vkWaitForFences(logicalDevice,1,&this->inFlightFence,VK_TRUE,u64_max);
+    vkResetFences(logicalDevice,1,&this->inFlightFence);
+    u32 imageIndex;
+    vkAcquireNextImageKHR(logicalDevice,this->drawInitInfo->pDisplayAdapter.swapchain,u64_max,this->imageAvailableSemaphore,VK_NULL_HANDLE,&imageIndex);
+    vkResetCommandBuffer(this->frameController->getCommandBuffer(),0);
+    this->frameController->recordCommandBuffer()
+
+
 
 }
 
 void DrawingScript::cleanup() {
-    vkDestroySemaphore(this->appInitInfo->pApplicationContext.Device.logicalDevice, this->imageAvailableSemaphore,nullptr);
-    vkDestroySemaphore(this->appInitInfo->pApplicationContext.Device.logicalDevice, this->renderCompleteSemaphore,nullptr);
-    vkDestroyFence(this->appInitInfo->pApplicationContext.Device.logicalDevice,this->inFlightFence,nullptr);
-    this->appInitInfo.reset();
+    vkDestroySemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice, this->imageAvailableSemaphore,nullptr);
+    vkDestroySemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice, this->renderCompleteSemaphore,nullptr);
+    vkDestroyFence(this->drawInitInfo->pApplicationContext.Device.logicalDevice,this->inFlightFence,nullptr);
+    this->drawInitInfo.reset();
     this->frameController.reset();
 }
 
