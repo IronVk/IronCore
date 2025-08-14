@@ -32,17 +32,26 @@ DrawingScript::DrawingScript(RenderInitInfo renderInitInfo) {
         VLOG("SEMAPHORES & Fences INITIALIZED");
 
     }catch(std::exception& e) {
-        VLOG("Drawing Script Failed To Due ${}",e.what());
+        VLOG("Drawing Script Failed: ${}",e.what());
+        this->cleanup();
         throw std::runtime_error(VULK_RUNTIME_ERROR("Drawing Script Failed."));
     }
 }
 
-DrawingScript::~DrawingScript() {
+void DrawingScript::draw() {
+
+}
+
+void DrawingScript::cleanup() {
     vkDestroySemaphore(this->appInitInfo->pApplicationContext.Device.logicalDevice, this->imageAvailableSemaphore,nullptr);
     vkDestroySemaphore(this->appInitInfo->pApplicationContext.Device.logicalDevice, this->renderCompleteSemaphore,nullptr);
-
+    vkDestroyFence(this->appInitInfo->pApplicationContext.Device.logicalDevice,this->inFlightFence,nullptr);
     this->appInitInfo.reset();
     this->frameController.reset();
+}
 
+
+DrawingScript::~DrawingScript() {
+    this->cleanup();
 }
 

@@ -14,10 +14,13 @@ private:
     VkSemaphore imageAvailableSemaphore = VK_NULL_HANDLE;
     VkSemaphore renderCompleteSemaphore = VK_NULL_HANDLE;
     VkFence inFlightFence = VK_NULL_HANDLE;
-
+    void cleanup();
 public:
     DrawingScript(RenderInitInfo renderInitInfo);
     ~DrawingScript();
+
+    void draw();
+
 };
 
 
