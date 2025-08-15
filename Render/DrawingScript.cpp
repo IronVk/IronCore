@@ -51,7 +51,7 @@ void DrawingScript::draw() {
     //# submitting CommandBuffer
     VkSubmitInfo submitInfo = {};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-
+    
 
 
 
