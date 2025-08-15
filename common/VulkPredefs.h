@@ -9,6 +9,9 @@
 #include <vector>
 #include "../external/glfw/WindowManager.h"
 #include "NumericDefs.h"
+
+class GraphicsPipeline;
+
 inline thread_local bool prod_mode; //@ 🚩 flag to check mode of the app
 typedef struct {
     int graphicsFamilyIndex;
@@ -82,8 +85,7 @@ typedef enum {
     A = VK_COLOR_COMPONENT_A_BIT
 } COLOR_WRITE_MASK;
 
-#include "../pipeline/Graphics/GraphicsPipeline.h"
-#include "../pipeline/Compute/ComputePipeline.h"
+
 
 typedef struct {
     AppContext& pApplicationContext;
