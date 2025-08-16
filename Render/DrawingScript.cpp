@@ -57,6 +57,8 @@ void DrawingScript::draw() {
     submitInfo.waitSemaphoreCount = 1;
     submitInfo.pWaitSemaphores = waitSemaphore;
     submitInfo.pWaitDstStageMask = pipelineWaitStageFlags;
+    submitInfo.commandBufferCount = 1;
+    submitInfo.pCommandBuffers = &this->frameController->getCommandBuffer();
 
     
 
