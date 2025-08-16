@@ -10,9 +10,12 @@
 #include "../external/glfw/WindowManager.h"
 #include "NumericDefs.h"
 
+//*Forward declaring Graphics Pipeline
 class GraphicsPipeline;
 
-inline thread_local bool prod_mode; //@ 🚩 flag to check mode of the app
+//@ 🚩 flag to check mode of the app
+inline thread_local bool prod_mode;
+
 typedef struct {
     int graphicsFamilyIndex;
     int presentationFamilyIndex;
@@ -40,7 +43,7 @@ typedef struct QueueList{
     VkQueue presentationQueue;
 } QueueList;
 
-
+//* AppContext holds everything required for application Context
 typedef struct {
     VkInstance Instance;
     MainDevice Device;
