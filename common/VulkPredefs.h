@@ -38,7 +38,7 @@ typedef struct {
     VkPhysicalDeviceFeatures deviceFeatures;
 } MainDevice;
 
-typedef struct QueueList{
+typedef struct{
     VkQueue graphicsQueue;
     VkQueue presentationQueue;
 } QueueList;

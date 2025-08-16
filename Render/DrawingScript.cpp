@@ -56,10 +56,15 @@ void DrawingScript::draw() {
     VkSubmitInfo submitInfo = {};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
     submitInfo.waitSemaphoreCount = 1;
-    submitInfo.pWaitSemaphores = waitSemaphore;
-    submitInfo.pWaitDstStageMask = pipelineWaitStageFlags;
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &this->frameController->getCommandBuffer();
+    submitInfo.pWaitSemaphores = waitSemaphore;
+    submitInfo.pWaitDstStageMask = pipelineWaitStageFlags;
+    submitInfo.signalSemaphoreCount = 1;
+    submitInfo.pSignalSemaphores = signalSemaphore;
+
+    if (vkQueueSubmit(this->drawInitInfo->pApplicationContext.queueFamilyIndices.))
+
 
     
 
