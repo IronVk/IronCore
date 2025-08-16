@@ -63,7 +63,9 @@ void DrawingScript::draw() {
     submitInfo.signalSemaphoreCount = 1;
     submitInfo.pSignalSemaphores = signalSemaphore;
 
-    if (vkQueueSubmit(this->drawInitInfo->pQueueList.graphicsQueue,))
+    if (vkQueueSubmit(this->drawInitInfo->pQueueList.graphicsQueue,1,&submitInfo,this->inFlightFence)!=VK_SUCCESS) {
+
+    }
 
 
     
