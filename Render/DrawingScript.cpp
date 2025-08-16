@@ -67,12 +67,6 @@ void DrawingScript::draw() {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Drawing Script Failed."));
     }
 
-
-    
-
-
-
-
 }
 
 void DrawingScript::cleanup() {
