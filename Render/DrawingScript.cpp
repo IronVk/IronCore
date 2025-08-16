@@ -50,6 +50,7 @@ void DrawingScript::draw() {
     this->frameController->recordCommandBuffer(imageIndex);
     //# submitting CommandBuffer
     VkSemaphore waitSemaphore[] = {this->imageAvailableSemaphore};
+    VkSemaphore signalSemaphore[] = {this->renderCompleteSemaphore};
     VkPipelineStageFlags pipelineWaitStageFlags[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
     VkSubmitInfo submitInfo = {};
