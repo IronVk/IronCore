@@ -63,7 +63,7 @@ void DrawingScript::draw() {
     submitInfo.signalSemaphoreCount = 1;
     submitInfo.pSignalSemaphores = signalSemaphore;
 
-    if (vkQueueSubmit(this->drawInitInfo->pApplicationContext.queueFamilyIndices.))
+    if (vkQueueSubmit(this->drawInitInfo->pQueueList.graphicsQueue,))
 
 
     

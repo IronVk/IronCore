@@ -95,6 +95,7 @@ typedef struct {
     QueueFamilyIndices& pQueueFamilyIndices;
     DisplayAdapter& pDisplayAdapter;
     GraphicsPipeline& pGraphicsPipeline;
+    QueueList& pQueueList;
 }RenderInitInfo;
 
 #endif //VULKCOMMON_H
