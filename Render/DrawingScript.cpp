@@ -64,7 +64,7 @@ void DrawingScript::draw() {
     submitInfo.pSignalSemaphores = signalSemaphore;
 
     if (vkQueueSubmit(this->drawInitInfo->pQueueList.graphicsQueue,1,&submitInfo,this->inFlightFence)!=VK_SUCCESS) {
-        throw std::runtime_error(VULK_RUNTIME_ERROR("Drawing Script Failed."));
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Drawing Script Failed To Submit CommandBuffer in Queue"));
     }
 
 }
