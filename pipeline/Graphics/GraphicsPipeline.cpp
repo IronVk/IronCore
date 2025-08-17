@@ -195,7 +195,7 @@ void GraphicsPipeline::setupRenderPass() {
     renderPassCreateInfo.pSubpasses = &subPassDescription;
 
     //* subpass
-    VkSu
+    VkSubpass
 
     //* Create Render Pass
     if (vkCreateRenderPass(this->devices.logicalDevice,&renderPassCreateInfo,nullptr,&this->renderPass)!=VK_SUCCESS) {
