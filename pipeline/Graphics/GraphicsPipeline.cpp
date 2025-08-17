@@ -194,6 +194,9 @@ void GraphicsPipeline::setupRenderPass() {
     renderPassCreateInfo.subpassCount = ONE;
     renderPassCreateInfo.pSubpasses = &subPassDescription;
 
+    //* subpass
+    V
+
     //* Create Render Pass
     if (vkCreateRenderPass(this->devices.logicalDevice,&renderPassCreateInfo,nullptr,&this->renderPass)!=VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("failed to create render pass"));
