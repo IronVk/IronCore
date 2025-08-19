@@ -207,12 +207,12 @@ void GraphicsPipeline::setupRenderPass() {
     //*transition must happen after
     subPassDependency[1].srcSubpass = 0;
     subPassDependency[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-    subpassDependencies[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+    subPassDependency[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
     //*transition must happen before
-    subpassDependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;
-    subpassDependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
-    subpassDependencies[1].dstAccessMask =  VK_ACCESS_MEMORY_READ_BIT;
-    subpassDependencies[1].dependencyFlags = 0;
+    subPassDependency[1].dstSubpass = VK_SUBPASS_EXTERNAL;
+    subPassDependency[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    subPassDependency[1].dstAccessMask =  VK_ACCESS_MEMORY_READ_BIT;
+    subPassDependency[1].dependencyFlags = 0;
 
 
     //* Create Render Pass
