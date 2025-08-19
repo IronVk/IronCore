@@ -214,6 +214,9 @@ void GraphicsPipeline::setupRenderPass() {
     subPassDependency[1].dstAccessMask =  VK_ACCESS_MEMORY_READ_BIT;
     subPassDependency[1].dependencyFlags = 0;
 
+    //*attach subpass dependency to render pass
+    renderPassCreateInfo.dependencyCount = subPassDependency.size();
+
 
     //* Create Render Pass
     if (vkCreateRenderPass(this->devices.logicalDevice,&renderPassCreateInfo,nullptr,&this->renderPass)!=VK_SUCCESS) {
