@@ -216,6 +216,7 @@ void GraphicsPipeline::setupRenderPass() {
 
     //*attach subpass dependency to render pass
     renderPassCreateInfo.dependencyCount = subPassDependency.size();
+    renderPassCreateInfo.pDependencies = subPassDependency.data();
 
 
     //* Create Render Pass
