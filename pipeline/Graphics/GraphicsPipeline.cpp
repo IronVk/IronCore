@@ -194,7 +194,26 @@ void GraphicsPipeline::setupRenderPass() {
     renderPassCreateInfo.pSubpasses = &subPassDescription;
 
     //* subpass
-    VkSubpassDependency subPassDependency = {};
+    std::array<VkSubpassDependency,2> subPassDependency{};
+    subPassDependency[0].srcSubpass = VK_SUBPASS_EXTERNAL;
+    subPassDependency[0].srcStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    subPassDependency[0].srcAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+    //*transition must happen before
+    subPassDependency[0].dstSubpass = 0;
+    subPassDependency[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    subPassDependency[0].dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+    subPassDependency[0].dependencyFlags = 0;
+    //$ Convertion From VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL to VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+    //*transition must happen after
+    subPassDependency[1].srcSubpass = 0;
+    subPassDependency[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    subpassDependencies[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+    //*transition must happen before
+    subpassDependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;
+    subpassDependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    subpassDependencies[1].dstAccessMask =  VK_ACCESS_MEMORY_READ_BIT;
+    subpassDependencies[1].dependencyFlags = 0;
+
 
     //* Create Render Pass
     if (vkCreateRenderPass(this->devices.logicalDevice,&renderPassCreateInfo,nullptr,&this->renderPass)!=VK_SUCCESS) {
