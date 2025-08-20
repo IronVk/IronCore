@@ -75,7 +75,11 @@ void DrawingScript::draw() {
     presentInfo.pWaitSemaphores = signalSemaphore;
     presentInfo.swapchainCount = 1;
     presentInfo.pSwapchains = swapChains;
-    presentInfo
+    presentInfo.pImageIndices = &imageIndex;
+    presentInfo.pResults = nullptr;
+
+    //submit present queue
+    vkQueuePresentKHR(this->drawInitInfo->pQueueList.presentationQueue,&presentInfo);
 
 
 }
