@@ -132,12 +132,18 @@ void VulkContext::setupDebugLayer() {
 }
 
 void VulkContext::createGraphicsPipeline() {
-    graphicsPipeline.setDisplayAdapter(this->displayAdapter);
+    this->graphicsPipeline.setDisplayAdapter(this->displayAdapter);
     graphicsPipeline.setMainDevice(this->context.Device);
     const auto vertSpirChars = SpirParser::parseSpirV(std::format("{}.spv", this->applicationConf.vertShaderPath));
     const auto fragSpirChars = SpirParser::parseSpirV(std::format("{}.spv", this->applicationConf.fragShaderPath));
-    graphicsPipeline.createVertexShaderStage(vertSpirChars);
-    graphicsPipeline.createFragmentShaderStage(fragSpirChars);
+    this->graphicsPipeline.createVertexShaderStage(vertSpirChars);
+    this->graphicsPipeline.createFragmentShaderStage(fragSpirChars);
+    this->graphicsPipeline.setupVertexInputInfo();
+    this->graphicsPipeline.setupInputAssembly();
+    this->graphicsPipeline.setupViewportState();
+    this->graphicsPipeline.setupRasterizationState();
+    this->graphicsPipeline.setupMultisampleState();
+    this->graphicsPipeline
 }
 
 
