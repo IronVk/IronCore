@@ -67,6 +67,13 @@ void DrawingScript::draw() {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Drawing Script Failed To Submit CommandBuffer in Queue"));
     }
 
+    //*Presentation
+    VkPresentInfoKHR presentInfo = {};
+    presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+    presentInfo.waitSemaphoreCount = 1;
+    presentInfo.pWaitSemaphores = &signalSemaphore;
+
+
 }
 
 void DrawingScript::cleanup() {
