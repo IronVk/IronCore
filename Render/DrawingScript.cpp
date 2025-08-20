@@ -51,6 +51,7 @@ void DrawingScript::draw() {
     //# submitting CommandBuffer
     VkSemaphore waitSemaphore[] = {this->imageAvailableSemaphore};
     VkSemaphore signalSemaphore[] = {this->renderCompleteSemaphore};
+    VkSwapchainKHR swapChains[] = {this->drawInitInfo->pDisplayAdapter.swapchain};
     VkPipelineStageFlags pipelineWaitStageFlags[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
     VkSubmitInfo submitInfo = {};
@@ -71,7 +72,10 @@ void DrawingScript::draw() {
     VkPresentInfoKHR presentInfo = {};
     presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
     presentInfo.waitSemaphoreCount = 1;
-    presentInfo.pWaitSemaphores = &signalSemaphore;
+    presentInfo.pWaitSemaphores = signalSemaphore;
+    presentInfo.swapchainCount = 1;
+    presentInfo.pSwapchains = swapChains;
+    presentInfo
 
 
 }
