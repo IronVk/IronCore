@@ -64,7 +64,7 @@ VkExtent2D pickSuitableExtent(const VkSurfaceCapabilitiesKHR &capabilities) {
     return currentExtent;
 }
 
-bool createSwapChain(AppContext& context,DisplayAdapter& displayAdapter) {
+bool createSwapChain(const AppContext& context,DisplayAdapter& displayAdapter) {
     const auto& surfaceCapabilities = displayAdapter.swapChainInfo.surfaceCapabilities;
     if (surfaceCapabilities.maxImageCount<1)throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to get swapchain max image count"));
     //? pick suitable surface formats
@@ -112,7 +112,7 @@ bool createSwapChain(AppContext& context,DisplayAdapter& displayAdapter) {
     return true;
 }
 
-std::vector<VkImage> getSwapChainImages(AppContext& context,DisplayAdapter& displayAdapter) {
+std::vector<VkImage> getSwapChainImages(const AppContext& context, const DisplayAdapter& displayAdapter) {
     std::vector<VkImage> swapChainImages;
     uint32_t imageCount = 0;
     vkGetSwapchainImagesKHR(context.Device.logicalDevice,displayAdapter.swapchain,&imageCount,nullptr);
@@ -122,7 +122,8 @@ std::vector<VkImage> getSwapChainImages(AppContext& context,DisplayAdapter& disp
     return swapChainImages;
 }
 
-VkImageView createImageView(AppContext& context,DisplayAdapter& displayAdapter,VkImage& img) {
+VkImageView createImageView(const AppContext& context,const VkImage& img) {
+    VkImageView imageView = VK_NULL_HANDLE;
     VkImageViewCreateInfo imageViewCreateInfo = {};
     imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
     imageViewCreateInfo.image = img;
@@ -132,13 +133,14 @@ VkImageView createImageView(AppContext& context,DisplayAdapter& displayAdapter,V
     imageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
     imageViewCreateInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
     imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-    imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
-    imageViewCreateInfo.subresourceRange.levelCount = 1;
-    imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
-    imageViewCreateInfo.subresourceRange.layerCount = 1;
-    VkImageView imageView = VK_NULL_HANDLE;
+    imageViewCreateInfo.subresourceRange.baseMipLevel = ZERO;
+    imageViewCreateInfo.subresourceRange.levelCount = ONE;
+    imageViewCreateInfo.subresourceRange.baseArrayLayer = ZERO;
+    imageViewCreateInfo.subresourceRange.layerCount = ONE;
+
     if (vkCreateImageView(context.Device.logicalDevice,&imageViewCreateInfo,nullptr,&imageView)!=VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create Vulk Image View"));
     }
+    if (imageView==VK_NULL_HANDLE) throw std::runtime_error(VULK_RUNTIME_ERROR("Invalid ImageView Generated"));
     return imageView;
 }
