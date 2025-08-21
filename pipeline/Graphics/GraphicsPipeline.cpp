@@ -18,7 +18,7 @@ GraphicsPipeline::GraphicsPipeline() {
     this->multisampleStateCreateInfo = {};
     this->colorBlendAttachmentState = {};
     this->colorBlendStateCreateInfo = {};
-    this->pipeLineLayout = {};
+    this->pipeLineLayout = VK_NULL_HANDLE;
     this->graphicsPipelineCreateInfo = {};
     this->graphicsPipeline = VK_NULL_HANDLE;
     this->vertexShaderModule = VK_NULL_HANDLE;
@@ -155,12 +155,14 @@ void GraphicsPipeline::setupColorBlending() {
 void GraphicsPipeline::setupPipeLineLayout() {
     VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo;
     pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pipelineLayoutCreateInfo.setLayoutCount = ZERO;
+    pipelineLayoutCreateInfo.pNext = nullptr;
+    pipelineLayoutCreateInfo.flags = 0;
+    pipelineLayoutCreateInfo.setLayoutCount = 0;
     pipelineLayoutCreateInfo.pSetLayouts = nullptr;
-    pipelineLayoutCreateInfo.pushConstantRangeCount = ZERO;
+    pipelineLayoutCreateInfo.pushConstantRangeCount = 0;
     pipelineLayoutCreateInfo.pPushConstantRanges = nullptr;
     if (vkCreatePipelineLayout(this->devices.logicalDevice,&pipelineLayoutCreateInfo,nullptr,&this->pipeLineLayout)!=VK_SUCCESS) {
-        throw std::runtime_error("failed to create pipeline layout");
+        throw std::runtime_error(VULK_RUNTIME_ERROR("failed to create pipeline layout"));
     }
 
 }

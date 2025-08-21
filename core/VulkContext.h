@@ -8,6 +8,7 @@
 #include "../app/conf/VulkConfig.h"
 #include "../common/VulkPredefs.h"
 #include "../pipeline/Graphics/GraphicsPipeline.h"
+#include "../Render/DrawingScript.h"
 
 class VulkContext {
 private:
@@ -23,7 +24,7 @@ private:
     // helper functions
     void acquireDeviceQueues();
     void setupDebugLayer();
-
+    std::unique_ptr<DrawingScript> drawingScript;
     //shader compilation
 
 public:
@@ -33,6 +34,7 @@ public:
     void createContext();
     void setupSwapChain();
     void createGraphicsPipeline();
+    DrawingScript& getDrawingScriptInstance();
     AppContext& getContext();
     MainDevice& getDevice();
 };

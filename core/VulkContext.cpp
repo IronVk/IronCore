@@ -27,6 +27,7 @@ VulkContext::VulkContext(const VulkConf &vulk_conf) {
     this->extensionAdapter.extensions = vulk_conf.extensions;
     this->queueList.graphicsQueue = VK_NULL_HANDLE;
     this->queueList.presentationQueue = VK_NULL_HANDLE;
+    this->drawingScript = nullptr;
     prod_mode=this->useValidation;
 }
 
@@ -143,11 +144,25 @@ void VulkContext::createGraphicsPipeline() {
     this->graphicsPipeline.setupViewportState();
     this->graphicsPipeline.setupRasterizationState();
     this->graphicsPipeline.setupMultisampleState();
-    this->graphicsPipeline
+    this->graphicsPipeline.setupColorBlending();
+    this->graphicsPipeline.setupPipeLineLayout();
+    this->graphicsPipeline.setupRenderPass();
+    this->graphicsPipeline.createGraphicsPipeline();
+    VLOG("Pipeline Creation Successful");
+}
+
+DrawingScript& VulkContext::getDrawingScriptInstance() {
+    RenderInitInfo renderInitInfo = {
+        .pApplicationContext = this->context;
+        .pQueueFamilyIndices = this->
+    };
+
+    return *this->drawingScript;
 }
 
 
 void VulkContext::dropContext() {
+    this->graphicsPipeline.destroySelf();
     vkDestroySwapchainKHR(this->context.Device.logicalDevice, this->displayAdapter.swapchain, nullptr);
     for (const auto &[_, imageView]: this->displayAdapter.swapChainImages) {
         vkDestroyImageView(this->context.Device.logicalDevice, imageView, nullptr);
