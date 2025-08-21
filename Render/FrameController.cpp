@@ -26,7 +26,7 @@ void FrameController::setupFrameBuffer() {
     for (u32 i = ZERO; i < N; ++i) {
         //TODO:: FrameBuffer is creation is failing because image view is null
         if (this->displayAdapter.swapChainImages[i].imageView==VK_NULL_HANDLE) {
-            throw std::logic_error(VULK_LOGIC_ERROR("Invalid swapchain image."));
+            throw std::logic_error(VULK_LOGIC_ERROR("Invalid SwapChain image."));
         }
 
         std::array<VkImageView, 1> attachments = {this->displayAdapter.swapChainImages[i].imageView};
