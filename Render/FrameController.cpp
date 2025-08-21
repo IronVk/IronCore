@@ -24,7 +24,7 @@ void FrameController::setupFrameBuffer() {
     const auto N = this->displayAdapter.swapChainImages.size();
     if (N<1)throw std::logic_error(VULK_LOGIC_ERROR("Invalid FrameBuffer Size."));
     for (u32 i = ZERO; i < N; ++i) {
-
+        //TODO:: FrameBuffer is creation is failing because image view is null
         std::array<VkImageView, 1> attachments = {this->displayAdapter.swapChainImages[i].imageView};
         VkFramebufferCreateInfo frameBufferCreateInfo = {};
         frameBufferCreateInfo.pNext = nullptr;
