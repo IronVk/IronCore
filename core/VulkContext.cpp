@@ -159,9 +159,6 @@ void VulkContext::initDrawingScriptInstance() {
            .pQueueList = this->queueList
        };
        this->drawingScript = std::make_unique<DrawingScript>(renderInitInfo);
-
-
-
 }
 
 
