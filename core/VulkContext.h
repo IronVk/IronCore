@@ -34,7 +34,7 @@ public:
     void createContext();
     void setupSwapChain();
     void createGraphicsPipeline();
-    DrawingScript& getDrawingScriptInstance();
+    void initDrawingScriptInstance();
     AppContext& getContext();
     MainDevice& getDevice();
 };

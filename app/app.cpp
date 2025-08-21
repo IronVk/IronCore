@@ -47,6 +47,7 @@ void app::build() {
     appContext->createContext();
     appContext->setupSwapChain();
     appContext->createGraphicsPipeline();
+    appContext->initDrawingScriptInstance();
     this->window_manager->launch();
     this->window_manager->destroy();
 }

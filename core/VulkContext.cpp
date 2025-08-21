@@ -151,13 +151,17 @@ void VulkContext::createGraphicsPipeline() {
     VLOG("Pipeline Creation Successful");
 }
 
-DrawingScript& VulkContext::getDrawingScriptInstance() {
-    RenderInitInfo renderInitInfo = {
-        .pApplicationContext = this->context;
-        .pQueueFamilyIndices = this->
-    };
+void VulkContext::initDrawingScriptInstance() {
+       RenderInitInfo renderInitInfo = {
+           .pApplicationContext = this->context,
+           .pDisplayAdapter = this->displayAdapter,
+           .pGraphicsPipeline = this->graphicsPipeline,
+           .pQueueList = this->queueList
+       };
+       this->drawingScript = std::make_unique<DrawingScript>(renderInitInfo);
 
-    return *this->drawingScript;
+
+
 }
 
 

@@ -92,7 +92,6 @@ typedef enum {
 
 typedef struct {
     AppContext& pApplicationContext;
-    QueueFamilyIndices& pQueueFamilyIndices;
     DisplayAdapter& pDisplayAdapter;
     GraphicsPipeline& pGraphicsPipeline;
     QueueList& pQueueList;
