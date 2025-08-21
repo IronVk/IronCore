@@ -99,7 +99,6 @@ void VulkContext::setupSwapChain() {
         VULK_RUNTIME_ERROR("Failed to create Vulk Swap Chain"));
     std::vector<SwapChainImage> swapChainImageList;
     std::vector<VkImage> imageList = getSwapChainImages(this->context, this->displayAdapter);
-    swapChainImageList.resize(imageList.size());
     for (VkImage& img: imageList) {
         SwapChainImage swapChainImg  = {};
         swapChainImg.imageView =  createImageView(this->context, img);
@@ -107,10 +106,6 @@ void VulkContext::setupSwapChain() {
         swapChainImageList.push_back(swapChainImg);
     }
     this->displayAdapter.swapChainImages = std::move(swapChainImageList);
-    if (this->displayAdapter.swapChainImages[0].imageView == VK_NULL_HANDLE) {
-        VLOG("INVALID SWAPCHAIN IMAGE");
-        throw std::runtime_error(VULK_RUNTIME_ERROR("Invalid SwapChain ImageX"));
-    }
     VLOG("VALID SWAPCHAIN IMAGE");
 }
 
