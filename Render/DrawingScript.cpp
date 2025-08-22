@@ -47,13 +47,14 @@ void DrawingScript::draw() {
     u32 imageIndex;
     vkAcquireNextImageKHR(logicalDevice,this->drawInitInfo->pDisplayAdapter.swapchain,u64_max,this->imageAvailableSemaphore,VK_NULL_HANDLE,&imageIndex);
     vkResetCommandBuffer(this->frameController->getCommandBuffer(),0);
+    VLOG("DRAW step 49%");
     this->frameController->recordCommandBuffer(imageIndex);
+    VLOG("DRAW step 50%");
     //# submitting CommandBuffer
     VkSemaphore waitSemaphore[] = {this->imageAvailableSemaphore};
     VkSemaphore signalSemaphore[] = {this->renderCompleteSemaphore};
     VkSwapchainKHR swapChains[] = {this->drawInitInfo->pDisplayAdapter.swapchain};
     VkPipelineStageFlags pipelineWaitStageFlags[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
-
     VkSubmitInfo submitInfo = {};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
     submitInfo.waitSemaphoreCount = 1;

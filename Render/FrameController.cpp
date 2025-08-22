@@ -72,6 +72,7 @@ void FrameController::setupCommandBuffer() {
 }
 void FrameController::recordCommandBuffer( uint32_t imageIndex) {
     VkCommandBufferBeginInfo commandBufferBeginInfo  = {};
+    commandBufferBeginInfo.pNext = nullptr;
     commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     commandBufferBeginInfo.flags = ZERO;
     commandBufferBeginInfo.pInheritanceInfo = nullptr;
@@ -80,7 +81,7 @@ void FrameController::recordCommandBuffer( uint32_t imageIndex) {
     }
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
-    VkClearValue clearValue = {
+    VkClearValue clearValue[] = {
         {ZERO,ZERO,ZERO,ZERO}
     };
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -89,11 +90,10 @@ void FrameController::recordCommandBuffer( uint32_t imageIndex) {
     renderPassBeginInfo.renderArea.offset = {0,0};
     renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
     renderPassBeginInfo.clearValueCount = ONE;
-    renderPassBeginInfo.pClearValues = &clearValue;
-
+    renderPassBeginInfo.pClearValues = clearValue;
     //* Initiate Render Pass
     vkCmdBeginRenderPass(this->CommandBuffers,&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-
+    VLOG("PX")
     //* BInd with graphics pipeline
     vkCmdBindPipeline(this->CommandBuffers,VK_PIPELINE_BIND_POINT_GRAPHICS,this->graphicsPipeline.getGraphicsPipeline());
     vkCmdSetViewport(this->CommandBuffers,ZERO,ONE,&this->graphicsPipeline.getViewport());
