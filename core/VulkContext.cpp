@@ -161,8 +161,13 @@ void VulkContext::initDrawingScriptInstance() {
        this->drawingScript = std::make_unique<DrawingScript>(renderInitInfo);
 }
 
+DrawingScript& VulkContext::getDrawingScript() {
+    return *this->drawingScript;
+}
+
 
 void VulkContext::dropContext() {
+    this->drawingScript.reset();
     this->graphicsPipeline.destroySelf();
     vkDestroySwapchainKHR(this->context.Device.logicalDevice, this->displayAdapter.swapchain, nullptr);
     for (const auto &[_, imageView]: this->displayAdapter.swapChainImages) {

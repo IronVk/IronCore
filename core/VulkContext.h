@@ -37,6 +37,7 @@ public:
     void initDrawingScriptInstance();
     AppContext& getContext();
     MainDevice& getDevice();
+    DrawingScript& getDrawingScript();
 };
 
 
