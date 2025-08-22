@@ -81,16 +81,15 @@ void FrameController::recordCommandBuffer( uint32_t imageIndex) {
     }
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
-    VkClearValue clearValue[] = {
-        {ZERO,ZERO,ZERO,ZERO}
-    };
+    VkClearValue clearValue{};
+    clearValue.color = {{0.0f, 0.0f, 0.0f, 1.0f}};
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     renderPassBeginInfo.renderPass = this->graphicsPipeline.getRenderPass();
     renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
     renderPassBeginInfo.renderArea.offset = {0,0};
     renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
     renderPassBeginInfo.clearValueCount = ONE;
-    renderPassBeginInfo.pClearValues = clearValue;
+    renderPassBeginInfo.pClearValues = &clearValue;
     VLOG("WIDTH:${},Height: ${} ",renderPassBeginInfo.renderArea.extent.width,renderPassBeginInfo.renderArea.extent.height);
     //* Initiate Render Pass
     vkCmdBeginRenderPass(this->CommandBuffers,&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
