@@ -86,11 +86,11 @@ void DrawingScript::draw() {
 }
 
 void DrawingScript::cleanup() {
+    this->frameController.reset();
     vkDestroySemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice, this->imageAvailableSemaphore,nullptr);
     vkDestroySemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice, this->renderCompleteSemaphore,nullptr);
     vkDestroyFence(this->drawInitInfo->pApplicationContext.Device.logicalDevice,this->inFlightFence,nullptr);
     this->drawInitInfo.reset();
-    this->frameController.reset();
 }
 
 

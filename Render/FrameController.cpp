@@ -91,9 +91,10 @@ void FrameController::recordCommandBuffer( uint32_t imageIndex) {
     renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
     renderPassBeginInfo.clearValueCount = ONE;
     renderPassBeginInfo.pClearValues = clearValue;
+    VLOG("TX")
     //* Initiate Render Pass
+    if (  this->swapChainFrameBuffers[imageIndex]==nullptr ){throw std::runtime_error("swapChainFrameBuffers IS NULLPTR");}
     vkCmdBeginRenderPass(this->CommandBuffers,&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-    VLOG("PX")
     //* BInd with graphics pipeline
     vkCmdBindPipeline(this->CommandBuffers,VK_PIPELINE_BIND_POINT_GRAPHICS,this->graphicsPipeline.getGraphicsPipeline());
     vkCmdSetViewport(this->CommandBuffers,ZERO,ONE,&this->graphicsPipeline.getViewport());
