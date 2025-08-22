@@ -48,9 +48,10 @@ void app::build() {
     appContext->setupSwapChain();
     appContext->createGraphicsPipeline();
     appContext->initDrawingScriptInstance();
+    appContext->getDrawingScript().draw();
     this->window_manager->onTick([=]()
     {
-      appContext->getDrawingScript().draw();
+
 
 
     });
