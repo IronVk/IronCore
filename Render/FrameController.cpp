@@ -70,7 +70,7 @@ void FrameController::setupCommandBuffer() {
 
     }
 }
-void FrameController::recordCommandBuffer( uint32_t imageIndex) {
+void FrameController::recordCommandBuffer(const  u32 imageIndex) {
     VkCommandBufferBeginInfo commandBufferBeginInfo  = {};
     commandBufferBeginInfo.pNext = nullptr;
     commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;

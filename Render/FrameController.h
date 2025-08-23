@@ -26,7 +26,7 @@ public:
     void setupFrameBuffer();
     void setupCommandPool();
     void setupCommandBuffer();
-    void recordCommandBuffer(uint32_t imageIndex);
+    void recordCommandBuffer(const u32 imageIndex);
 
 };
 
