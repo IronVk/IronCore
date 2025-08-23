@@ -71,25 +71,22 @@ void FrameController::setupCommandBuffer() {
     }
 }
 void FrameController::recordCommandBuffer(const  u32 imageIndex) {
+    VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
     VkCommandBufferBeginInfo commandBufferBeginInfo  = {};
-    commandBufferBeginInfo.pNext = nullptr;
     commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    commandBufferBeginInfo.flags = ZERO;
-    commandBufferBeginInfo.pInheritanceInfo = nullptr;
     if (vkBeginCommandBuffer(this->CommandBuffers,&commandBufferBeginInfo)!=VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
     }
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
-    VkClearValue clearValue{};
-    clearValue.color = {{0.0f, 0.0f, 0.0f, 1.0f}};
+    renderPassBeginInfo.pNext = nullptr;
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     renderPassBeginInfo.renderPass = this->graphicsPipeline.getRenderPass();
     renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
     renderPassBeginInfo.renderArea.offset = {0,0};
     renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
-    renderPassBeginInfo.clearValueCount = ONE;
-    renderPassBeginInfo.pClearValues = &clearValue;
+    renderPassBeginInfo.clearValueCount = 1;
+    renderPassBeginInfo.pClearValues = &clearColor;
     VLOG("WIDTH:${},Height: ${} ",renderPassBeginInfo.renderArea.extent.width,renderPassBeginInfo.renderArea.extent.height);
     //* Initiate Render Pass
     vkCmdBeginRenderPass(this->CommandBuffers,&renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
