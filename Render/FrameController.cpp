@@ -24,7 +24,6 @@ void FrameController::setupFrameBuffer() {
     const auto N = this->displayAdapter.swapChainImages.size();
     if (N<1)throw std::logic_error(VULK_LOGIC_ERROR("Invalid FrameBuffer Size."));
     for (u32 i = ZERO; i < N; ++i) {
-        //TODO:: FrameBuffer is creation is failing because image view is null
         if (this->displayAdapter.swapChainImages[i].imageView==VK_NULL_HANDLE) {
             throw std::logic_error(VULK_LOGIC_ERROR("Invalid SwapChain image."));
         }
@@ -43,8 +42,8 @@ void FrameController::setupFrameBuffer() {
         if (vkCreateFramebuffer(this->applicationContext.Device.logicalDevice,&frameBufferCreateInfo,nullptr,&this->swapChainFrameBuffers[i])!=VK_SUCCESS) {
             throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create framebuffer."));
         }
-        VLOG("Frame Buffer Setup Complete");
     }
+    VLOG("Frame Buffer Setup Complete");
 
 }
 
