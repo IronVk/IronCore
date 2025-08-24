@@ -88,8 +88,6 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
     renderPassBeginInfo.clearValueCount = 1;
     renderPassBeginInfo.pClearValues =&CLEAR_COLOR;
-    VLOG("WIDTH:${},Height: ${} ", renderPassBeginInfo.renderArea.extent.width,
-         renderPassBeginInfo.renderArea.extent.height);
     //* Initiate Render Pass
     vkCmdBeginRenderPass(this->CommandBuffers, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
     VLOG("SX")
