@@ -87,7 +87,7 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     renderPassBeginInfo.renderArea.offset = {0, 0};
     renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
     renderPassBeginInfo.clearValueCount = 1;
-    renderPassBeginInfo.pClearValues = &CLEAR_COLOR;
+    renderPassBeginInfo.pClearValues =&CLEAR_COLOR;
     VLOG("WIDTH:${},Height: ${} ", renderPassBeginInfo.renderArea.extent.width,
          renderPassBeginInfo.renderArea.extent.height);
     //* Initiate Render Pass

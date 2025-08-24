@@ -6,10 +6,9 @@
 #define FRAMEMANAGER_H
 #include <vector>
 #include <vulkan/vulkan.h>
-
 #include "../common/VulkPredefs.h"
 #include "../pipeline/Graphics/GraphicsPipeline.h"
-
+inline VkClearValue CLEAR_COLOR = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
 //# we will handle everything about frame buffer and command buffer from this class
 class FrameController {
 private:
