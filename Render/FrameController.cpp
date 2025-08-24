@@ -71,14 +71,7 @@ void FrameController::setupCommandBuffer() {
     }
 }
 
-void FrameController::recordCommandBuffer(const u32 imageIndex) {
-
-    VkCommandBufferBeginInfo commandBufferBeginInfo = {};
-    commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-    if (vkBeginCommandBuffer(this->CommandBuffers, &commandBufferBeginInfo) != VK_SUCCESS) {
-        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
-    }
-
+VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex) {
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
     renderPassBeginInfo.pNext = nullptr;
@@ -86,9 +79,21 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     renderPassBeginInfo.renderPass = this->graphicsPipeline.getRenderPass();
     renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
     renderPassBeginInfo.renderArea.offset = {0, 0};
-    renderPassBeginInfo.renderArea.extent = this->displayAdapter.swapChainExtent;
+    renderPassBeginInfo.renderArea.extent =this->displayAdapter.swapChainExtent;
     renderPassBeginInfo.clearValueCount = 1;
     renderPassBeginInfo.pClearValues=&CLEAR_COLOR;
+    return renderPassBeginInfo;
+}
+
+
+void FrameController::recordCommandBuffer(const u32 imageIndex) {
+
+    VkCommandBufferBeginInfo commandBufferBeginInfo = {};
+    commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    if (vkBeginCommandBuffer(this->CommandBuffers, &commandBufferBeginInfo) != VK_SUCCESS) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
+    }
+    const auto renderPassBeginInfo = this->obtainRenderPassInfo(imageIndex);
     //* Initiate Render Pass
     vkCmdBeginRenderPass(this->CommandBuffers, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
     VLOG("SX")
