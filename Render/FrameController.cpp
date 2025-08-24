@@ -78,6 +78,7 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     if (vkBeginCommandBuffer(this->CommandBuffers, &commandBufferBeginInfo) != VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
     }
+
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
     renderPassBeginInfo.pNext = nullptr;

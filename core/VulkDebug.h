@@ -20,6 +20,7 @@ private:
 public:
 
     void enableAllDebugLayers() {
+        VLOG("DEBUG_VULKAN::ENABLING_ALL_DEBUG_LAYERS");
         this->enableSeverity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT);
         this->enableSeverity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT);
         this->enableSeverity(VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT);
