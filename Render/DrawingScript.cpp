@@ -47,7 +47,6 @@ void DrawingScript::draw() {
     u32 imageIndex;
     vkAcquireNextImageKHR(logicalDevice, this->drawInitInfo->pDisplayAdapter.swapchain,u64_max,
                           this->imageAvailableSemaphore,VK_NULL_HANDLE, &imageIndex);
-    VLOG("NEXT IMAG INDEX ${}", imageIndex);
     vkResetCommandBuffer(this->frameController->getCommandBuffer(), 0);
     this->frameController->recordCommandBuffer(imageIndex);
     VLOG("DRAW step 50%");
