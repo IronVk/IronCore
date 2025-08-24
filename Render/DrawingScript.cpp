@@ -48,7 +48,7 @@ void DrawingScript::draw() {
     vkAcquireNextImageKHR(logicalDevice, this->drawInitInfo->pDisplayAdapter.swapchain,u64_max,
                           this->imageAvailableSemaphore,VK_NULL_HANDLE, &imageIndex);
     vkResetCommandBuffer(this->frameController->getCommandBuffer(), 0);
-    if (imageIndex<0)throw std::runtime_error(VULK_RUNTIME_ERROR("DrawingScript"));
+    if (imageIndex<0)throw std::runtime_error(VULK_RUNTIME_ERROR("DrawingScript Failed"));
     this->frameController->recordCommandBuffer(imageIndex);
     VLOG("DRAW step 50%");
     //# submitting CommandBuffer
