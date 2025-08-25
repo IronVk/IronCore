@@ -33,14 +33,19 @@ SwapChainInfo getSwapChainInfo(const VkPhysicalDevice& physical_device,const Dis
 
 VkSurfaceFormatKHR pickSuitableSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &formats) {
     if (formats.empty())throw std::runtime_error(VULK_RUNTIME_ERROR("Could Not Pick From Empty Surface Formats"));
+    VkSurfaceFormatKHR surfaceFormat = formats[0];
     //? Trying to check if VK_FORMAT_R8G8B8A8_UNORM is available.if it is then return it else return first one
     for (const auto& format : formats) {
-        if ((format.format==VK_FORMAT_R8G8B8A8_UNORM || format.format==VK_FORMAT_B8G8R8A8_UNORM) && format.colorSpace==VK_COLORSPACE_SRGB_NONLINEAR_KHR) {
+        if (format.format==VK_FORMAT_R8G8B8A8_UNORM  && format.colorSpace==VK_COLORSPACE_SRGB_NONLINEAR_KHR) {
+            VLOG("Selected SURFACE FORMAT ${} & ColorSpace: ${}",format.format==VK_FORMAT_R8G8B8A8_UNORM?"VK_FORMAT_R8G8B8A8_UNORM":"VK_FORMAT_B8G8R8A8_UNORM", "VK_COLORSPACE_SRGB_NONLINEAR_KHR");
             return format;
         }
+        if (format.format==VK_FORMAT_B8G8R8A8_UNORM &&  format.colorSpace==VK_COLORSPACE_SRGB_NONLINEAR_KHR) {
+            surfaceFormat = format;
+        }
     }
-    std::cerr<<VULK_NOT_FOUND_ERROR("Unable To Pick: format(VK_FORMAT_R8G8B8A8_UNORM) or format(VK_FORMAT_B8G8R8A8_UNORM) and colorSpace(VK_COLORSPACE_SRGB_NONLINEAR_KHR). Fallback To default one")<<"\n";
-    return formats[0];
+    VLOG("Selected SURFACE FORMAT ${} & ColorSpace: ${}",surfaceFormat.format==VK_FORMAT_R8G8B8A8_UNORM?"VK_FORMAT_R8G8B8A8_UNORM":"VK_FORMAT_B8G8R8A8_UNORM", "VK_COLORSPACE_SRGB_NONLINEAR_KHR");
+    return surfaceFormat;
 }
 VkPresentModeKHR pickSuitablePresentMode(const std::vector<VkPresentModeKHR> &presentationModes){
     if (presentationModes.empty()) throw std::runtime_error(VULK_RUNTIME_ERROR("Could Not Pick From Empty Presentation Modes"));
