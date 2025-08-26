@@ -16,13 +16,13 @@ SwapChainInfo getSwapChainInfo(const VkPhysicalDevice& physical_device,const Dis
     //*parsing surface capabilities from device
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physical_device,display_adapter.surface,&swapChainInfo.surfaceCapabilities);
     //*parsing format from device
-    uint32_t formatCount = 0;
+    u32 formatCount = 0;
     vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device,display_adapter.surface,&formatCount,nullptr);
     swapChainInfo.surfaceFormats.resize(formatCount);
     if (formatCount<1) throw std::runtime_error(VULK_RUNTIME_ERROR("Cound not detect surface format"));
     vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device,display_adapter.surface,&formatCount,swapChainInfo.surfaceFormats.data());
     //* parsing presentation modes from device
-    uint32_t presentationModeCount = 0;
+    u32 presentationModeCount = 0;
     vkGetPhysicalDeviceSurfacePresentModesKHR(physical_device,display_adapter.surface,&presentationModeCount,nullptr);
     if (presentationModeCount<1) throw std::runtime_error(VULK_RUNTIME_ERROR("Cound not detect presentation modes"));
     swapChainInfo.presentModes.resize(presentationModeCount);
@@ -37,24 +37,25 @@ VkSurfaceFormatKHR pickSuitableSurfaceFormat(const std::vector<VkSurfaceFormatKH
     //? Trying to check if VK_FORMAT_R8G8B8A8_UNORM is available.if it is then return it else return first one
     for (const auto& format : formats) {
         if (format.format==VK_FORMAT_R8G8B8A8_UNORM  && format.colorSpace==VK_COLORSPACE_SRGB_NONLINEAR_KHR) {
-            VLOG("Selected SURFACE FORMAT ${} & ColorSpace: ${}",format.format==VK_FORMAT_R8G8B8A8_UNORM?"VK_FORMAT_R8G8B8A8_UNORM":"VK_FORMAT_B8G8R8A8_UNORM", "VK_COLORSPACE_SRGB_NONLINEAR_KHR");
+            VLOG("Selecting SURFACE FORMAT ${} & ColorSpace: ${}",format.format==VK_FORMAT_R8G8B8A8_UNORM?"VK_FORMAT_R8G8B8A8_UNORM":"VK_FORMAT_B8G8R8A8_UNORM", "VK_COLORSPACE_SRGB_NONLINEAR_KHR");
             return format;
         }
         if (format.format==VK_FORMAT_B8G8R8A8_UNORM &&  format.colorSpace==VK_COLORSPACE_SRGB_NONLINEAR_KHR) {
             surfaceFormat = format;
         }
     }
-    VLOG("Selected SURFACE FORMAT ${} & ColorSpace: ${}",surfaceFormat.format==VK_FORMAT_R8G8B8A8_UNORM?"VK_FORMAT_R8G8B8A8_UNORM":"VK_FORMAT_B8G8R8A8_UNORM", "VK_COLORSPACE_SRGB_NONLINEAR_KHR");
+    VLOG("Selecting SURFACE FORMAT ${} & ColorSpace: ${}",surfaceFormat.format==VK_FORMAT_R8G8B8A8_UNORM?"VK_FORMAT_R8G8B8A8_UNORM":"VK_FORMAT_B8G8R8A8_UNORM", "VK_COLORSPACE_SRGB_NONLINEAR_KHR");
     return surfaceFormat;
 }
 VkPresentModeKHR pickSuitablePresentMode(const std::vector<VkPresentModeKHR> &presentationModes){
     if (presentationModes.empty()) throw std::runtime_error(VULK_RUNTIME_ERROR("Could Not Pick From Empty Presentation Modes"));
     for (const auto &presentationMode:presentationModes) {
         if (presentationMode==VK_PRESENT_MODE_MAILBOX_KHR) {
+            VLOG("SELECTING PRESENT MODE: ${}","VK_PRESENT_MODE_MAILBOX_KHR");
             return presentationMode;
         }
     }
-    std::cerr<<"FALL BACK PRESENT MODE VK_PRESENT_MODE_FIFO_KHR\n  ";
+    std::cerr<<VULK_NOT_FOUND_ERROR("NOT FOUND VK_PRESENT_MODE_MAILBOX_KHR\tFALL BACK PRESENT MODE VK_PRESENT_MODE_FIFO_KHR");
     // vulkan guaranteed that `VK_PRESENT_MODE_FIFO_KHR` is present
     return  VK_PRESENT_MODE_FIFO_KHR;
 }
@@ -63,8 +64,8 @@ VkExtent2D pickSuitableExtent(const VkSurfaceCapabilitiesKHR &capabilities) {
     const auto currentExtent = capabilities.currentExtent;
     if (currentExtent.width<=0 ||
         currentExtent.height<=0 ||
-        currentExtent.width>=std::numeric_limits<uint32_t>::max() ||
-        currentExtent.height>=std::numeric_limits<uint32_t>::max()
+        currentExtent.width>=std::numeric_limits<u32>::max() ||
+        currentExtent.height>=std::numeric_limits<u32>::max()
         ) throw std::runtime_error(VULK_RUNTIME_ERROR("Invalid Extent. Fallback Failed"));
     return currentExtent;
 }
@@ -78,7 +79,7 @@ bool createSwapChain(const AppContext& context,DisplayAdapter& displayAdapter) {
     VkPresentModeKHR presentMode = pickSuitablePresentMode(displayAdapter.swapChainInfo.presentModes);
     //? pick image resolution
     VkExtent2D swapChainExtent = pickSuitableExtent(surfaceCapabilities);
-    uint32_t imageCount = static_cast<uint32_t>(surfaceCapabilities.minImageCount+1);
+    u32 imageCount = static_cast<u32>(surfaceCapabilities.minImageCount+ONE);
     if (surfaceCapabilities.maxImageCount<imageCount)imageCount=surfaceCapabilities.maxImageCount;
     VkSwapchainCreateInfoKHR swapChainCreateInfo = {};
     swapChainCreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -91,7 +92,7 @@ bool createSwapChain(const AppContext& context,DisplayAdapter& displayAdapter) {
     swapChainCreateInfo.imageUsage =  VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // what attachment we will be using
     swapChainCreateInfo.preTransform = surfaceCapabilities.currentTransform; // transform to perform on swap chain
     swapChainCreateInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // how to blend with external graphics , like how to blend with things outside of window area
-    swapChainCreateInfo.clipped = VK_TRUE;     //Clipping part of image which are off screen
+    swapChainCreateInfo.clipped = VK_TRUE;     //Clipping part of image which are off-screen
     swapChainCreateInfo.presentMode = presentMode;
     if (context.queueFamilyIndices.graphicsFamilyIndex==context.queueFamilyIndices.presentationFamilyIndex) {
         swapChainCreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
@@ -99,9 +100,9 @@ bool createSwapChain(const AppContext& context,DisplayAdapter& displayAdapter) {
         swapChainCreateInfo.pQueueFamilyIndices = nullptr;
     }else {
         // ? Image will be share between queue families concurrently
-        uint32_t queueFamilyIndices[]={
-            static_cast<uint32_t>(context.queueFamilyIndices.graphicsFamilyIndex),
-            static_cast<uint32_t>(context.queueFamilyIndices.presentationFamilyIndex),
+        u32 queueFamilyIndices[]={
+            static_cast<u32>(context.queueFamilyIndices.graphicsFamilyIndex),
+            static_cast<u32>(context.queueFamilyIndices.presentationFamilyIndex),
           };
         swapChainCreateInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
         swapChainCreateInfo.queueFamilyIndexCount = 2;
@@ -119,7 +120,7 @@ bool createSwapChain(const AppContext& context,DisplayAdapter& displayAdapter) {
 
 std::vector<VkImage> getSwapChainImages(const AppContext& context, const DisplayAdapter& displayAdapter) {
     std::vector<VkImage> swapChainImages;
-    uint32_t imageCount = 0;
+    u32 imageCount = 0;
     vkGetSwapchainImagesKHR(context.Device.logicalDevice,displayAdapter.swapchain,&imageCount,nullptr);
     if (imageCount==0) throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to get swapchain images"));
     swapChainImages.resize(imageCount);
