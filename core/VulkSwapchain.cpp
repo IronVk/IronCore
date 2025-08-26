@@ -16,7 +16,7 @@ SwapChainInfo getSwapChainInfo(const VkPhysicalDevice& physical_device,const Dis
     //*parsing surface capabilities from device
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physical_device,display_adapter.surface,&swapChainInfo.surfaceCapabilities);
     //*parsing format from device
-    u32 formatCount = 0;
+    u32 formatCount = ZERO;
     vkGetPhysicalDeviceSurfaceFormatsKHR(physical_device,display_adapter.surface,&formatCount,nullptr);
     swapChainInfo.surfaceFormats.resize(formatCount);
     if (formatCount<1) throw std::runtime_error(VULK_RUNTIME_ERROR("Cound not detect surface format"));
