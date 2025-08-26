@@ -9,6 +9,7 @@
 
 class DrawingScript {
 private:
+    u32 imageIndex;
     std::unique_ptr<RenderInitInfo> drawInitInfo = nullptr;
     std::unique_ptr<FrameController> frameController = nullptr;
     VkSemaphore imageAvailableSemaphore = VK_NULL_HANDLE;

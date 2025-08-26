@@ -44,11 +44,10 @@ void DrawingScript::draw() {
     VkDevice &logicalDevice = this->drawInitInfo->pApplicationContext.Device.logicalDevice;
     vkWaitForFences(logicalDevice, 1, &this->inFlightFence,VK_TRUE,u64_max);
     vkResetFences(logicalDevice, 1, &this->inFlightFence);
-    u32 imageIndex;
     vkAcquireNextImageKHR(logicalDevice, this->drawInitInfo->pDisplayAdapter.swapchain,u64_max,
-                          this->imageAvailableSemaphore,VK_NULL_HANDLE, &imageIndex);
+                          this->imageAvailableSemaphore,VK_NULL_HANDLE, &this->imageIndex);
     vkResetCommandBuffer(this->frameController->getCommandBuffer(), 0);
-    this->frameController->recordCommandBuffer(imageIndex);
+    this->frameController->recordCommandBuffer(this->imageIndex);
     VLOG("DRAW step 50%");
     //# submitting CommandBuffer
     VkSemaphore waitSemaphore[] = {this->imageAvailableSemaphore};
@@ -77,7 +76,7 @@ void DrawingScript::draw() {
     presentInfo.pWaitSemaphores = signalSemaphore;
     presentInfo.swapchainCount = 1;
     presentInfo.pSwapchains = swapChains;
-    presentInfo.pImageIndices = &imageIndex;
+    presentInfo.pImageIndices = &this->imageIndex;
     presentInfo.pResults = nullptr;
 
     //submit present queue
