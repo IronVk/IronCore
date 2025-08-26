@@ -49,6 +49,7 @@ void GraphicsPipeline::createVertexShaderStage(const std::vector<char> &vertexCo
     this->vertexShaderStage.stage = VK_SHADER_STAGE_VERTEX_BIT;
     this->vertexShaderStage.module = this->vertexShaderModule;
     this->vertexShaderStage.pName = "main";
+    this->vertexShaderStage.pSpecializationInfo = nullptr;
 
 }
 
@@ -66,6 +67,7 @@ void GraphicsPipeline::createFragmentShaderStage(const std::vector<char> &fragme
     this->fragmentShaderStage.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
     this->fragmentShaderStage.module = this->fragmentShaderModule;
     this->fragmentShaderStage.pName = "main";
+    this->fragmentShaderStage.pSpecializationInfo = nullptr;
 }
 
 void GraphicsPipeline::setupVertexInputInfo() {
@@ -112,7 +114,7 @@ void GraphicsPipeline::setupRasterizationState() {
     this->rasterizationStateCreateInfo.lineWidth = ONE;
     this->rasterizationStateCreateInfo.cullMode = VK_CULL_MODE_BACK_BIT;
     this->rasterizationStateCreateInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
-    this->rasterizationStateCreateInfo.depthBiasClamp = VK_FALSE;
+    this->rasterizationStateCreateInfo.depthBiasClamp = 0.0f;
     this->rasterizationStateCreateInfo.depthBiasEnable = VK_FALSE;
     this->rasterizationStateCreateInfo.depthBiasConstantFactor = ZERO; // Optional
     this->rasterizationStateCreateInfo.depthBiasClamp = ZERO; // Optional
@@ -123,7 +125,7 @@ void GraphicsPipeline::setupMultisampleState() {
     this->multisampleStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
     this->multisampleStateCreateInfo.sampleShadingEnable = VK_FALSE;
     this->multisampleStateCreateInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-    this->multisampleStateCreateInfo.minSampleShading = ONE; // Optional
+    this->multisampleStateCreateInfo.minSampleShading = 1.0f; // Optional
     this->multisampleStateCreateInfo.pSampleMask = nullptr; // Optional
     this->multisampleStateCreateInfo.alphaToCoverageEnable = VK_FALSE; // Optional
     this->multisampleStateCreateInfo.alphaToOneEnable = VK_FALSE; // Optional
@@ -142,8 +144,8 @@ void GraphicsPipeline::setupColorBlending() {
 
     //? color blend attachment.
     this->colorBlendStateCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    this->colorBlendStateCreateInfo.logicOp = VK_LOGIC_OP_COPY;
     this->colorBlendStateCreateInfo.logicOpEnable = VK_FALSE;
-    this->colorBlendStateCreateInfo.logicOpEnable = VK_LOGIC_OP_COPY;
     this->colorBlendStateCreateInfo.attachmentCount = ONE;
     this->colorBlendStateCreateInfo.pAttachments = &this->colorBlendAttachmentState;
     this->colorBlendStateCreateInfo.blendConstants[0] = ZERO;// Optional
