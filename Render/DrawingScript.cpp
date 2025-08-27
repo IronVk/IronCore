@@ -46,7 +46,7 @@ void DrawingScript::draw() {
     vkResetFences(logicalDevice, 1, &this->inFlightFence);
     const VkResult result = vkAcquireNextImageKHR(logicalDevice, this->drawInitInfo->pDisplayAdapter.swapchain,u64_max,
                           this->imageAvailableSemaphore,VK_NULL_HANDLE, &this->imageIndex);
-    if (result!=VK_SUCCESS)throw std::runtime_error(VULK_RUNTIME_ERROR("Drawing Script Failed.FRAME BUFFER RECREATED OR OTHER ISSUE"));
+    if (result!=VK_SUCCESS)throw std::runtime_error(VULK_RUNTIME_ERROR("Draw Failed.FRAME BUFFER RECREATED OR OTHER ISSUE"));
     vkResetCommandBuffer(this->frameController->getCommandBuffer(), 0);
     this->frameController->recordCommandBuffer(this->imageIndex);
     VLOG("DRAW step 50%");
