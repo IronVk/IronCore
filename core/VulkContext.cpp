@@ -137,6 +137,9 @@ void VulkContext::createGraphicsPipeline() {
     graphicsPipeline.setMainDevice(this->context.Device);
     const auto vertSpirChars = SpirParser::parseSpirV(std::format("{}.spv", this->applicationConf.vertShaderPath));
     const auto fragSpirChars = SpirParser::parseSpirV(std::format("{}.spv", this->applicationConf.fragShaderPath));
+    if (vertSpirChars.empty() || fragSpirChars.empty()  ) {
+        throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to parse SpirV"));
+    }
     this->graphicsPipeline.createVertexShaderStage(vertSpirChars);
     this->graphicsPipeline.createFragmentShaderStage(fragSpirChars);
     this->graphicsPipeline.setupVertexInputInfo();
