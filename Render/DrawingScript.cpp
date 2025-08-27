@@ -49,7 +49,6 @@ void DrawingScript::draw() {
     if (result!=VK_SUCCESS)throw std::runtime_error(VULK_RUNTIME_ERROR("Draw Failed.FRAME BUFFER RECREATED OR OTHER ISSUE"));
     vkResetCommandBuffer(this->frameController->getCommandBuffer(), 0);
     this->frameController->recordCommandBuffer(this->imageIndex);
-    VLOG("DRAW step 50%");
     //# submitting CommandBuffer
     VkSemaphore waitSemaphore[] = {this->imageAvailableSemaphore};
     VkSemaphore signalSemaphore[] = {this->renderCompleteSemaphore};
