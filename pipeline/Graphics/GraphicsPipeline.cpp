@@ -233,7 +233,7 @@ void GraphicsPipeline::setupRenderPass() {
 
 
 void GraphicsPipeline::createGraphicsPipeline() {
-    VkPipelineShaderStageCreateInfo shaderStages[2]={
+    VkPipelineShaderStageCreateInfo shaderStages[]={
         this->vertexShaderStage,
         this->fragmentShaderStage
     };
