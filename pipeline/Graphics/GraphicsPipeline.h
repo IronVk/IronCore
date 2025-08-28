@@ -41,11 +41,11 @@ public:
     //! destructor
     ~GraphicsPipeline();
 
-    VkRenderPass& getRenderPass() { return renderPass; }
-    VkPipeline& getGraphicsPipeline() { return graphicsPipeline; }
-    VkRect2D& getScissor() { return scissorInfo; }
-    VkViewport& getViewport() { return viewportInfo; }
-    VkPipelineLayout& getPipelineLayout() { return pipeLineLayout; }
+    VkRenderPass& getRenderPass() { return this->renderPass; }
+    VkPipeline& getGraphicsPipeline() { return this->graphicsPipeline; }
+    VkRect2D& getScissor() { return this->scissorInfo; }
+    VkViewport& getViewport() { return this->viewportInfo; }
+    VkPipelineLayout& getPipelineLayout() { return this->pipeLineLayout; }
 
 
     //*Cleaner

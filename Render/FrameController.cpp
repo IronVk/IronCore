@@ -72,6 +72,7 @@ void FrameController::setupCommandBuffer() {
 }
 
 VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex) {
+
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
     renderPassBeginInfo.pNext = nullptr;
@@ -81,7 +82,7 @@ VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex
     renderPassBeginInfo.renderArea.offset = {0, 0};
     renderPassBeginInfo.renderArea.extent =this->displayAdapter.swapChainExtent;
     renderPassBeginInfo.clearValueCount = 1;
-    renderPassBeginInfo.pClearValues=&CLEAR_COLOR;
+    renderPassBeginInfo.pClearValues=CLEAR_COLOR;
     return renderPassBeginInfo;
 }
 
