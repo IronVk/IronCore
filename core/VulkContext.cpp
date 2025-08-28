@@ -55,7 +55,7 @@ void VulkContext::createContext() {
     this->extensionAdapter.extensions.clear();
     //* we have already created instance so we don't need to check instance level extension support
     this->extensionAdapter.extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-    //* we have created surface so now it's time to check swapchain support
+    //* we have created surface so now it's time to check swapChain support
     const auto device = pickSuitablePhysicalDevice(getPhysicalDeviceList(this->context.Instance),
                                                    this->extensionAdapter.extensions);
     //* picking suitable physical  device
