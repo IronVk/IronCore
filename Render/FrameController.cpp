@@ -75,7 +75,6 @@ VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex
 
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
-    renderPassBeginInfo.pNext = nullptr;
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
     renderPassBeginInfo.renderPass = this->graphicsPipeline.getRenderPass();
     renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
