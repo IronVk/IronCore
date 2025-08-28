@@ -72,7 +72,6 @@ void FrameController::setupCommandBuffer() {
 }
 
 VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex) {
-
     //*Begin Render Pass
     VkRenderPassBeginInfo renderPassBeginInfo = {};
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
