@@ -272,7 +272,6 @@ void GraphicsPipeline::createGraphicsPipeline() {
 
 
 void GraphicsPipeline::destroySelf() {
-
     VLOG("GraphicsPipeline DESTROYED");
     //!clean pipeline layout
     if (this->pipeLineLayout!=VK_NULL_HANDLE) vkDestroyPipelineLayout(this->devices.logicalDevice,this->pipeLineLayout,nullptr);
