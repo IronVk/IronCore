@@ -17,7 +17,7 @@ private:
     VkFence inFlightFence = VK_NULL_HANDLE;
     void cleanup();
 public:
-    DrawingScript(RenderInitInfo renderInitInfo);
+    DrawingScript(const RenderInitInfo& renderInitInfo);
     ~DrawingScript();
 
     void draw();

@@ -37,7 +37,7 @@ public:
     void initDrawingScriptInstance();
     AppContext& getContext();
     MainDevice& getDevice();
-    DrawingScript& getDrawingScript();
+    std::unique_ptr<DrawingScript>& getDrawingScript();
 };
 
 

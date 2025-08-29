@@ -164,8 +164,8 @@ void VulkContext::initDrawingScriptInstance() {
        this->drawingScript = std::make_unique<DrawingScript>(renderInitInfo);
 }
 
-DrawingScript& VulkContext::getDrawingScript() {
-    return *this->drawingScript;
+std::unique_ptr<DrawingScript>& VulkContext::getDrawingScript() {
+    return this->drawingScript;
 }
 
 
