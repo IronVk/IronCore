@@ -170,6 +170,7 @@ std::unique_ptr<DrawingScript>& VulkContext::getDrawingScript() {
 
 
 void VulkContext::dropContext() {
+    VLOG("DRO{{ING CONTEXT");
     this->drawingScript.reset();
     this->graphicsPipeline.destroySelf();
     vkDestroySwapchainKHR(this->context.Device.logicalDevice, this->displayAdapter.swapchain, nullptr);
