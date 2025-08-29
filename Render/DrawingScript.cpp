@@ -20,7 +20,7 @@ DrawingScript::DrawingScript(const RenderInitInfo& renderInitInfo) {
         semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
         VkFenceCreateInfo fenceCreateInfo = {};
         fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-        // need to initialize fence as signalled. Either it will block for ever
+        // need to initialize fence as signalled. Either it will block forever
         fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
         if (
             vkCreateSemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice, &semaphoreCreateInfo,
