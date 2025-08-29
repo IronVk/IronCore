@@ -111,7 +111,6 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
 
 
 FrameController::~FrameController() {
-    VLOG("FRAMECONTROLLER DESTROYED");
     if (this->graphicsCommandPool != VK_NULL_HANDLE)vkDestroyCommandPool(
         this->applicationContext.Device.logicalDevice, this->graphicsCommandPool, nullptr);
     for (auto frameBuffer: this->swapChainFrameBuffers) {
