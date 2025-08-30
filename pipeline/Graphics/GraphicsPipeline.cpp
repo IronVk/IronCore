@@ -228,6 +228,7 @@ void GraphicsPipeline::setupRenderPass() {
         this->destroySelf();
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create RenderPass"));
     }
+    VLOG("RenderPass Created")
 
 }
 
