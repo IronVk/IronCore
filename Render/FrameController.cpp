@@ -79,7 +79,7 @@ VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex
     renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
     renderPassBeginInfo.renderArea.offset = {0, 0};
     renderPassBeginInfo.renderArea.extent =this->displayAdapter.swapChainExtent;
-    renderPassBeginInfo.clearValueCount = 1;
+    renderPassBeginInfo.clearValueCount = ONE;
     renderPassBeginInfo.pClearValues=CLEAR_COLOR;
     return renderPassBeginInfo;
 }
