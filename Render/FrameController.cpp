@@ -86,7 +86,6 @@ VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex
 
 
 void FrameController::recordCommandBuffer(const u32 imageIndex) {
-
     VkCommandBufferBeginInfo commandBufferBeginInfo = {};
     commandBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     if (vkBeginCommandBuffer(this->CommandBuffers, &commandBufferBeginInfo) != VK_SUCCESS) {
