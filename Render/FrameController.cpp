@@ -16,7 +16,7 @@ FrameController::FrameController(const AppContext &appContext, const DisplayAdap
     this->graphicsCommandPool = VK_NULL_HANDLE;
     const auto TOTAL_SWAP_CHAIN_IMAGE = this->displayAdapter.swapChainImages.size();
     this->swapChainFrameBuffers.resize(TOTAL_SWAP_CHAIN_IMAGE); //*resizing swapChain Frame Buffer at constructor level
-    //this->CommandBuffers.resize(TOTAL_SWAP_CHAIN_IMAGE);
+    this->CommandBuffers = VK_NULL_HANDLE;
 }
 
 VkCommandBuffer &FrameController::getCommandBuffer() {
@@ -71,6 +71,7 @@ void FrameController::setupCommandBuffer() {
                                  &this->CommandBuffers) != VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to allocate command buffers."));
     }
+    VLOG("CMD ALLOCATED");
 }
 
 VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex) {
@@ -94,7 +95,6 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
     }
     const auto renderPassBeginInfo = this->obtainRenderPassInfo(imageIndex);
-    assert(renderPassBeginInfo.renderPass == this->graphicsPipeline.getRenderPass() && "RenderPass Error");
     //* Initiate Render Pass
     VLOG("RX")
     vkCmdBeginRenderPass(this->CommandBuffers, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
