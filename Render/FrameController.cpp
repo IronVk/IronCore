@@ -10,9 +10,9 @@
 
 FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter,
                                  const GraphicsPipeline &graphicsPipeline) {
-    this->applicationContext = appContext;
-    this->displayAdapter = displayAdapter;
-    this->graphicsPipeline = graphicsPipeline;
+    this->applicationContext = new AppContext(appContext);
+    this->displayAdapter = new DisplayAdapter(displayAdapter);
+    this->graphicsPipeline = new GraphicsPipeline(graphicsPipeline);
     this->graphicsCommandPool = VK_NULL_HANDLE;
     const auto TOTAL_SWAP_CHAIN_IMAGE = this->displayAdapter.swapChainImages.size();
     this->swapChainFrameBuffers.resize(TOTAL_SWAP_CHAIN_IMAGE); //*resizing swapChain Frame Buffer at constructor level
