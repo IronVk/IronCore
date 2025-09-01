@@ -95,6 +95,8 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
     }
     const auto renderPassBeginInfo = this->obtainRenderPassInfo(imageIndex);
+    assert(renderPassBeginInfo.renderPass!=VK_NULL_HANDLE && "RenderPass is Undefined");
+    assert(renderPassBeginInfo.framebuffer!=VK_NULL_HANDLE );
     //* Initiate Render Pass
     VLOG("RX")
     vkCmdBeginRenderPass(this->CommandBuffers, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
