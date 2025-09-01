@@ -67,6 +67,7 @@ void FrameController::setupCommandBuffer() {
     commandBufferAllocateInfo.commandPool = this->graphicsCommandPool;
     commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
     commandBufferAllocateInfo.commandBufferCount = ONE;
+
     if (vkAllocateCommandBuffers(this->applicationContext.Device.logicalDevice, &commandBufferAllocateInfo,
                                  &this->CommandBuffers) != VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to allocate command buffers."));
@@ -84,6 +85,11 @@ VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex
     renderPassBeginInfo.renderArea.extent =this->displayAdapter.swapChainExtent;
     renderPassBeginInfo.clearValueCount = ONE;
     renderPassBeginInfo.pClearValues=CLEAR_COLOR;
+    printf("imageIndex=%u, cmd=0x%llx, renderPass=0x%llx, framebuffer=0x%llx\n",
+       imageIndex,
+       (unsigned long long)this->CommandBuffers,
+       (unsigned long long)renderPassBeginInfo.renderPass,
+       (unsigned long long)renderPassBeginInfo.framebuffer);
     return renderPassBeginInfo;
 }
 
@@ -95,8 +101,9 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to begin command buffers."));
     }
     const auto renderPassBeginInfo = this->obtainRenderPassInfo(imageIndex);
+    assert(this->CommandBuffers!=VK_NULL_HANDLE && "CommandBuffers is Undefined");
     assert(renderPassBeginInfo.renderPass!=VK_NULL_HANDLE && "RenderPass is Undefined");
-    assert(renderPassBeginInfo.framebuffer!=VK_NULL_HANDLE );
+    assert(renderPassBeginInfo.framebuffer!=VK_NULL_HANDLE && "Framebuffer is Undefined");
     //* Initiate Render Pass
     VLOG("RX")
     vkCmdBeginRenderPass(this->CommandBuffers, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
