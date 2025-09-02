@@ -78,7 +78,6 @@ void FrameController::setupCommandBuffer() {
 VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex) const {
     VkRenderPass renderPass = VK_NULL_HANDLE;
     VkExtent2D extent{0,0};
-
     renderPass = this->graphicsPipeline->getRenderPass();
     assert(imageIndex < this->displayAdapter.swapChainImages.size());
     extent = this->displayAdapter.swapChainExtent;
@@ -116,7 +115,7 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     VLOG("SX")
     //* BInd with graphics pipeline
     vkCmdBindPipeline(this->CommandBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                      this->graphicsPipeline->getGraphicsPipeline());
+                      this->graphicsPipeline->getRenderPass());
     vkCmdSetViewport(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline->getViewport());
     vkCmdSetScissor(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline->getScissor());
     vkCmdDraw(this->CommandBuffers, 3,ONE,ZERO,ZERO);
