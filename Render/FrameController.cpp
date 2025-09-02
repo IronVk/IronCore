@@ -10,9 +10,9 @@
 
 FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter,
                                  const GraphicsPipeline &graphicsPipeline) {
-    this->applicationContext = &appContext;
-    this->displayAdapter = &displayAdapter;
+    this->applicationContext = appContext;
     this->graphicsPipeline = &graphicsPipeline;
+    this->displayAdapter = displayAdapter;
     this->graphicsCommandPool = VK_NULL_HANDLE;
     const auto TOTAL_SWAP_CHAIN_IMAGE = this->displayAdapter.swapChainImages.size();
     this->swapChainFrameBuffers.resize(TOTAL_SWAP_CHAIN_IMAGE); //*resizing swapChain Frame Buffer at constructor level
@@ -24,25 +24,25 @@ VkCommandBuffer &FrameController::getCommandBuffer() {
 }
 
 void FrameController::setupFrameBuffer() {
-    const auto N = this->displayAdapter->swapChainImages.size();
+    const auto N = this->displayAdapter.swapChainImages.size();
     if (N < 1)throw std::logic_error(VULK_LOGIC_ERROR("Invalid FrameBuffer Size."));
     for (u32 i = ZERO; i < N; ++i) {
-        if (this->displayAdapter->swapChainImages[i].imageView == VK_NULL_HANDLE) {
+        if (this->displayAdapter.swapChainImages[i].imageView == VK_NULL_HANDLE) {
             throw std::logic_error(VULK_LOGIC_ERROR("Invalid SwapChain image."));
         }
 
-        std::array<VkImageView, 1> attachments = {this->displayAdapter->swapChainImages[i].imageView};
+        std::array<VkImageView, 1> attachments = {this->displayAdapter.swapChainImages[i].imageView};
         VkFramebufferCreateInfo frameBufferCreateInfo = {};
         frameBufferCreateInfo.pNext = nullptr;
         frameBufferCreateInfo.flags = 0;
         frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-        frameBufferCreateInfo.renderPass = graphicsPipeline->getRenderPass();
+        frameBufferCreateInfo.renderPass = this->graphicsPipeline->getRenderPass();
         frameBufferCreateInfo.attachmentCount = ONE;
         frameBufferCreateInfo.pAttachments = attachments.data();
-        frameBufferCreateInfo.width = this->displayAdapter->swapChainExtent.width;
-        frameBufferCreateInfo.height = this->displayAdapter->swapChainExtent.height;
+        frameBufferCreateInfo.width = this->displayAdapter.swapChainExtent.width;
+        frameBufferCreateInfo.height = this->displayAdapter.swapChainExtent.height;
         frameBufferCreateInfo.layers = ONE;
-        if (vkCreateFramebuffer(this->applicationContext->Device.logicalDevice, &frameBufferCreateInfo, nullptr,
+        if (vkCreateFramebuffer(this->applicationContext.Device.logicalDevice, &frameBufferCreateInfo, nullptr,
                                 &this->swapChainFrameBuffers[i]) != VK_SUCCESS) {
             throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create framebuffer."));
         }
@@ -54,8 +54,8 @@ void FrameController::setupCommandPool() {
     VkCommandPoolCreateInfo commandPoolCreateInfo = {};
     commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
     commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-    commandPoolCreateInfo.queueFamilyIndex = this->applicationContext->queueFamilyIndices.graphicsFamilyIndex;
-    if (vkCreateCommandPool(this->applicationContext->Device.logicalDevice, &commandPoolCreateInfo, nullptr,
+    commandPoolCreateInfo.queueFamilyIndex = this->applicationContext.queueFamilyIndices.graphicsFamilyIndex;
+    if (vkCreateCommandPool(this->applicationContext.Device.logicalDevice, &commandPoolCreateInfo, nullptr,
                             &this->graphicsCommandPool) != VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create command pool."));
     }
@@ -68,7 +68,7 @@ void FrameController::setupCommandBuffer() {
     commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
     commandBufferAllocateInfo.commandBufferCount = ONE;
 
-    if (vkAllocateCommandBuffers(this->applicationContext->Device.logicalDevice, &commandBufferAllocateInfo,
+    if (vkAllocateCommandBuffers(this->applicationContext.Device.logicalDevice, &commandBufferAllocateInfo,
                                  &this->CommandBuffers) != VK_SUCCESS) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to allocate command buffers."));
     }
@@ -80,8 +80,8 @@ VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex
     VkExtent2D extent{0,0};
 
     renderPass = this->graphicsPipeline->getRenderPass();
-    assert(imageIndex < this->displayAdapter->swapChainImages.size());
-    extent = this->displayAdapter->swapChainExtent;
+    assert(imageIndex < this->displayAdapter.swapChainImages.size());
+    extent = this->displayAdapter.swapChainExtent;
 
     VkRenderPassBeginInfo renderPassBeginInfo{};
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -116,9 +116,9 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     VLOG("SX")
     //* BInd with graphics pipeline
     vkCmdBindPipeline(this->CommandBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                      this->graphicsPipeline.getGraphicsPipeline());
-    vkCmdSetViewport(this->CommandBuffers,ZERO,ONE, this->graphicsPipeline->getViewport());
-    vkCmdSetScissor(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline.getScissor());
+                      this->graphicsPipeline->getGraphicsPipeline());
+    vkCmdSetViewport(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline->getViewport());
+    vkCmdSetScissor(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline->getScissor());
     vkCmdDraw(this->CommandBuffers, 3,ONE,ZERO,ZERO);
     vkCmdEndRenderPass(this->CommandBuffers);
     if (vkEndCommandBuffer(this->CommandBuffers) != VK_SUCCESS) {
@@ -129,9 +129,9 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
 
 FrameController::~FrameController() {
     if (this->graphicsCommandPool != VK_NULL_HANDLE)vkDestroyCommandPool(
-        this->applicationContext->Device.logicalDevice, this->graphicsCommandPool, nullptr);
+        this->applicationContext.Device.logicalDevice, this->graphicsCommandPool, nullptr);
     for (auto frameBuffer: this->swapChainFrameBuffers) {
-        vkDestroyFramebuffer(this->applicationContext->Device.logicalDevice, frameBuffer, nullptr);
+        vkDestroyFramebuffer(this->applicationContext.Device.logicalDevice, frameBuffer, nullptr);
     }
     this->swapChainFrameBuffers.clear();
 
