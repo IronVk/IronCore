@@ -36,7 +36,7 @@ void FrameController::setupFrameBuffer() {
         frameBufferCreateInfo.pNext = nullptr;
         frameBufferCreateInfo.flags = 0;
         frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-        frameBufferCreateInfo.renderPass = this->graphicsPipeline->getRenderPass();
+        frameBufferCreateInfo.renderPass = static_cast<GraphicsPipeline>(this->graphicsPipeline).getRenderPass();
         frameBufferCreateInfo.attachmentCount = ONE;
         frameBufferCreateInfo.pAttachments = attachments.data();
         frameBufferCreateInfo.width = this->displayAdapter.swapChainExtent.width;
