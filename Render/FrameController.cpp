@@ -75,23 +75,18 @@ void FrameController::setupCommandBuffer() {
     VLOG("CMD ALLOCATED");
 }
 
-VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex) {
-    VkRenderPass rp = VK_NULL_HANDLE;
-    VkFramebuffer fb = VK_NULL_HANDLE;
+VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex) const {
+    VkRenderPass renderPass = VK_NULL_HANDLE;
     VkExtent2D extent{0,0};
 
-    rp = this->graphicsPipeline->getRenderPass();
+    renderPass = this->graphicsPipeline->getRenderPass();
     assert(imageIndex < this->displayAdapter->swapChainImages.size());
-    if (imageIndex < this->swapChainFrameBuffers.size())
-        fb = this->swapChainFrameBuffers[imageIndex];
     extent = this->displayAdapter->swapChainExtent;
-
-
 
     VkRenderPassBeginInfo renderPassBeginInfo{};
     renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-    renderPassBeginInfo.renderPass = rp;
-    renderPassBeginInfo.framebuffer = fb;
+    renderPassBeginInfo.renderPass = renderPass;
+    renderPassBeginInfo.framebuffer = this->swapChainFrameBuffers[imageIndex];
     renderPassBeginInfo.renderArea.offset = {0, 0};
     renderPassBeginInfo.renderArea.extent = extent;
     renderPassBeginInfo.clearValueCount = 1;
@@ -122,7 +117,7 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     //* BInd with graphics pipeline
     vkCmdBindPipeline(this->CommandBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS,
                       this->graphicsPipeline.getGraphicsPipeline());
-    vkCmdSetViewport(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline.getViewport());
+    vkCmdSetViewport(this->CommandBuffers,ZERO,ONE, this->graphicsPipeline->getViewport());
     vkCmdSetScissor(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline.getScissor());
     vkCmdDraw(this->CommandBuffers, 3,ONE,ZERO,ZERO);
     vkCmdEndRenderPass(this->CommandBuffers);

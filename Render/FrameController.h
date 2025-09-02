@@ -21,7 +21,7 @@ private:
     VkCommandBuffer CommandBuffers;
     VkCommandPool graphicsCommandPool;
 
-    VkRenderPassBeginInfo obtainRenderPassInfo(const u32 imageIndex);
+    VkRenderPassBeginInfo obtainRenderPassInfo(const u32 imageIndex) const;
 public:
     FrameController(const AppContext& appContext,const DisplayAdapter& displayAdapter,const GraphicsPipeline& graphicsPipeline);
     ~FrameController();
