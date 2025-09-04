@@ -41,7 +41,7 @@ void FrameController::setupFrameBuffer() {
         frameBufferCreateInfo.pAttachments = attachments.data();
         frameBufferCreateInfo.width = this->displayAdapter.swapChainExtent.width;
         frameBufferCreateInfo.height = this->displayAdapter.swapChainExtent.height;
-        frameBufferCreateInfo.layers = ONE;
+        frameBufferCreateInfo.layers = 1;
         if (vkCreateFramebuffer(this->applicationContext.Device.logicalDevice, &frameBufferCreateInfo, nullptr,
                                 &this->swapChainFrameBuffers[i]) != VK_SUCCESS) {
             throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to create framebuffer."));
