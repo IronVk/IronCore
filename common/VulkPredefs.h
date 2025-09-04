@@ -93,7 +93,7 @@ typedef enum {
 typedef struct {
     AppContext& pApplicationContext;
     DisplayAdapter& pDisplayAdapter;
-    GraphicsPipeline& pGraphicsPipeline;
+    std::shared_ptr<GraphicsPipeline> pGraphicsPipeline;
     QueueList& pQueueList;
 }RenderInitInfo;
 

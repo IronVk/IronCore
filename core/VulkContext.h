@@ -20,7 +20,7 @@ private:
     std::string engineName;
     bool useValidation;
     ExtensionAdapter extensionAdapter;
-    GraphicsPipeline graphicsPipeline;
+    std::shared_ptr<GraphicsPipeline> graphicsPipeline = nullptr;
     // helper functions
     void acquireDeviceQueues();
     void setupDebugLayer();

@@ -9,7 +9,7 @@ DrawingScript::DrawingScript(const RenderInitInfo& renderInitInfo) {
         this->drawInitInfo = std::make_unique<RenderInitInfo>(renderInitInfo);
         this->frameController = std::make_unique<FrameController>(this->drawInitInfo->pApplicationContext,
                                                                   this->drawInitInfo->pDisplayAdapter,
-                                                                  this->drawInitInfo->pGraphicsPipeline);
+                                                                  *this->drawInitInfo->pGraphicsPipeline);
         //* Build the FrameController
         this->frameController->setupFrameBuffer();
         this->frameController->setupCommandPool();

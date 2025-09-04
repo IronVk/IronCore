@@ -133,24 +133,25 @@ void VulkContext::setupDebugLayer() {
 }
 
 void VulkContext::createGraphicsPipeline() {
-    this->graphicsPipeline.setDisplayAdapter(this->displayAdapter);
-    graphicsPipeline.setMainDevice(this->context.Device);
+    this->graphicsPipeline = std::make_shared<GraphicsPipeline>();
+    this->graphicsPipeline->setDisplayAdapter(this->displayAdapter);
+    graphicsPipeline->setMainDevice(this->context.Device);
     const auto vertSpirChars = SpirParser::parseSpirV(std::format("{}.spv", this->applicationConf.vertShaderPath));
     const auto fragSpirChars = SpirParser::parseSpirV(std::format("{}.spv", this->applicationConf.fragShaderPath));
     if (vertSpirChars.empty() || fragSpirChars.empty() ||  vertSpirChars.size()==0 || fragSpirChars.size()==0) {
         throw std::runtime_error(VULK_RUNTIME_ERROR("Failed to parse SpirV"));
     }
-    this->graphicsPipeline.createVertexShaderStage(vertSpirChars);
-    this->graphicsPipeline.createFragmentShaderStage(fragSpirChars);
-    this->graphicsPipeline.setupVertexInputInfo();
-    this->graphicsPipeline.setupInputAssembly();
-    this->graphicsPipeline.setupViewportState();
-    this->graphicsPipeline.setupRasterizationState();
-    this->graphicsPipeline.setupMultisampleState();
-    this->graphicsPipeline.setupColorBlending();
-    this->graphicsPipeline.setupPipeLineLayout();
-    this->graphicsPipeline.setupRenderPass();
-    this->graphicsPipeline.createGraphicsPipeline();
+    this->graphicsPipeline->createVertexShaderStage(vertSpirChars);
+    this->graphicsPipeline->createFragmentShaderStage(fragSpirChars);
+    this->graphicsPipeline->setupVertexInputInfo();
+    this->graphicsPipeline->setupInputAssembly();
+    this->graphicsPipeline->setupViewportState();
+    this->graphicsPipeline->setupRasterizationState();
+    this->graphicsPipeline->setupMultisampleState();
+    this->graphicsPipeline->setupColorBlending();
+    this->graphicsPipeline->setupPipeLineLayout();
+    this->graphicsPipeline->setupRenderPass();
+    this->graphicsPipeline->createGraphicsPipeline();
     VLOG("Pipeline Creation Successful");
 }
 
