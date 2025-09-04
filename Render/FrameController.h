@@ -15,7 +15,7 @@ inline VkClearValue CLEAR_COLOR[] = {
 class FrameController {
 private:
     AppContext applicationContext;
-    const GraphicsPipeline *graphicsPipeline = nullptr;
+    std::unique_ptr<GraphicsPipeline> graphicsPipeline = nullptr;
     DisplayAdapter displayAdapter;
     std::vector<VkFramebuffer> swapChainFrameBuffers;
     VkCommandBuffer CommandBuffers;
