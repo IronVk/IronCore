@@ -110,9 +110,9 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     }
     const auto renderPassBeginInfo = this->obtainRenderPassInfo(imageIndex);
     //* Initiate Render Pass
-    VLOG("RX")
+    VLOG("RX");
     vkCmdBeginRenderPass(this->CommandBuffers, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-    VLOG("SX")
+    VLOG("SX");
     //* BInd with graphics pipeline
     vkCmdBindPipeline(this->CommandBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS,
                       this->graphicsPipeline->getRenderPass());
