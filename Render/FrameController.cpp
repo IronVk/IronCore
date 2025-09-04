@@ -66,7 +66,7 @@ void FrameController::setupCommandBuffer() {
     commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     commandBufferAllocateInfo.commandPool = this->graphicsCommandPool;
     commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    commandBufferAllocateInfo.commandBufferCount = ONE;
+    commandBufferAllocateInfo.commandBufferCount = 1;
 
     if (vkAllocateCommandBuffers(this->applicationContext.Device.logicalDevice, &commandBufferAllocateInfo,
                                  &this->CommandBuffers) != VK_SUCCESS) {
