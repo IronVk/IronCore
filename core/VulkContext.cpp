@@ -12,7 +12,7 @@
 #include "../Util/diagnostic/InstanceInitializationError.h"
 
 //* constructor
-VulkContext::VulkContext(const VulkConf &vulk_conf) {
+VulkContext::VulkContext(const VulkConf &vulk_conf)  {
     this->applicationConf = vulk_conf;
     this->useValidation = vulk_conf.build_mode == BuildMode::DEV;
     this->appName = vulk_conf.app_name;
@@ -28,7 +28,7 @@ VulkContext::VulkContext(const VulkConf &vulk_conf) {
     this->queueList.graphicsQueue = VK_NULL_HANDLE;
     this->queueList.presentationQueue = VK_NULL_HANDLE;
     this->drawingScript = nullptr;
-    prod_mode=this->useValidation;
+    prod_mode = this->useValidation;
 }
 
 
@@ -156,15 +156,10 @@ void VulkContext::createGraphicsPipeline() {
 }
 
 void VulkContext::initDrawingScriptInstance() {
-       RenderInitInfo renderInitInfo = {};
-        renderInitInfo.pApplicationContext = this->context;
-        renderInitInfo.pDisplayAdapter = this->displayAdapter;
-        renderInitInfo.pGraphicsPipeline = this->graphicsPipeline;
-        renderInitInfo.pQueueList = this->queueList;
-       this->drawingScript = std::make_shared<RenderInitInfo>(RenderInitInfo(this->context,this->displayAdapter,this->graphicsPipeline,this->queueList));
+        this->drawingScript = std::make_shared<RenderInitInfo>(RenderInitInfo(this->context,this->displayAdapter,this->graphicsPipeline,this->queueList));
 }
 
-std::shared_ptr<DrawingScript> VulkContext::getDrawingScript() {
+std::shared_ptr<RenderInitInfo> VulkContext::getDrawingScript() {
     return this->drawingScript;
 }
 
