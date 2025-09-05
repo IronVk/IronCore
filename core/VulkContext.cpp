@@ -156,17 +156,17 @@ void VulkContext::createGraphicsPipeline() {
 }
 
 void VulkContext::initDrawingScriptInstance() {
-        this->drawingScript = std::make_shared<RenderInitInfo>(RenderInitInfo(this->context,this->displayAdapter,this->graphicsPipeline,this->queueList));
+        this->renderInitInfo = std::make_shared<RenderInitInfo>(RenderInitInfo(this->context,this->displayAdapter,this->graphicsPipeline,this->queueList));
 }
 
-std::shared_ptr<RenderInitInfo> VulkContext::getDrawingScript() {
+DrawingScript& VulkContext::getDrawingScript() const {
     return this->drawingScript;
 }
 
 
 void VulkContext::dropContext() {
     VLOG("DROPING CONTEXT");
-    this->drawingScript.reset();
+    this->renderInitInfo.reset();
     this->graphicsPipeline.reset();
     vkDestroySwapchainKHR(this->context.Device.logicalDevice, this->displayAdapter.swapchain, nullptr);
     for (const auto &[_, imageView]: this->displayAdapter.swapChainImages) {
