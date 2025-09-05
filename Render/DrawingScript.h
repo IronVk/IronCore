@@ -17,7 +17,7 @@ private:
     VkFence inFlightFence = VK_NULL_HANDLE;
     void cleanup();
 public:
-    DrawingScript( std::shared_ptr<RenderInitInfo> renderInitInfo);
+    DrawingScript( const std::shared_ptr<RenderInitInfo>& renderInitInfo);
     ~DrawingScript();
 
     void draw();

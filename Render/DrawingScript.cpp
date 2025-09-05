@@ -4,12 +4,12 @@
 
 #include "DrawingScript.h"
 
-DrawingScript::DrawingScript( std::shared_ptr<RenderInitInfo> renderInitInfo) {
+DrawingScript::DrawingScript( const std::shared_ptr<RenderInitInfo>& renderInitInfo) {
     try {
         this->drawInitInfo = renderInitInfo;
-        this->frameController = std::make_unique<FrameController>(this->drawInitInfo->pApplicationContext,
-                                                                  this->drawInitInfo->pDisplayAdapter,
-                                                                  this->drawInitInfo->pGraphicsPipeline);
+        this->frameController = std::make_unique<FrameController>(renderInitInfo->pApplicationContext,
+                                                                  renderInitInfo->pDisplayAdapter,
+                                                                  renderInitInfo->pGraphicsPipeline);
         //* Build the FrameController
         this->frameController->setupFrameBuffer();
         this->frameController->setupCommandPool();
@@ -23,11 +23,11 @@ DrawingScript::DrawingScript( std::shared_ptr<RenderInitInfo> renderInitInfo) {
         // need to initialize fence as signalled. Either it will block forever
         fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
         if (
-            vkCreateSemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice, &semaphoreCreateInfo,
+            vkCreateSemaphore(renderInitInfo->pApplicationContext.Device.logicalDevice, &semaphoreCreateInfo,
                               nullptr, &this->imageAvailableSemaphore) != VK_SUCCESS ||
-            vkCreateSemaphore(this->drawInitInfo->pApplicationContext.Device.logicalDevice, &semaphoreCreateInfo,
+            vkCreateSemaphore(renderInitInfo->pApplicationContext.Device.logicalDevice, &semaphoreCreateInfo,
                               nullptr, &this->renderCompleteSemaphore) != VK_SUCCESS ||
-            vkCreateFence(this->drawInitInfo->pApplicationContext.Device.logicalDevice, &fenceCreateInfo, nullptr,
+            vkCreateFence(renderInitInfo->pApplicationContext.Device.logicalDevice, &fenceCreateInfo, nullptr,
                           &this->inFlightFence) != VK_SUCCESS
         ) {
             throw std::runtime_error(VULK_RUNTIME_ERROR("Failed To Create Semaphore."));
