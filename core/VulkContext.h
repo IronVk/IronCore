@@ -25,7 +25,7 @@ private:
     void acquireDeviceQueues();
     void setupDebugLayer();
     std::shared_ptr<RenderInitInfo> renderInitInfo  =nullptr;
-    DrawingScript& drawingScript;
+    std::shared_ptr<DrawingScript> drawingScript;
     //shader compilation
 
 public:
@@ -39,7 +39,7 @@ public:
     AppContext& getContext();
     MainDevice& getDevice();
 
-    DrawingScript& getDrawingScript() const;
+    std::shared_ptr<DrawingScript> getDrawingScript() ;
 };
 
 

@@ -157,12 +157,12 @@ void VulkContext::createGraphicsPipeline() {
 
 void VulkContext::initDrawingScriptInstance() {
         this->renderInitInfo = std::make_shared<RenderInitInfo>(RenderInitInfo(this->context,this->displayAdapter,this->graphicsPipeline,this->queueList));
+        this->drawingScript = std::make_shared<DrawingScript>(this->renderInitInfo);
 }
 
-DrawingScript& VulkContext::getDrawingScript() const {
+std::shared_ptr<DrawingScript> VulkContext::getDrawingScript() {
     return this->drawingScript;
 }
-
 
 void VulkContext::dropContext() {
     VLOG("DROPING CONTEXT");
