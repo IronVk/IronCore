@@ -4,9 +4,9 @@
 
 #include "DrawingScript.h"
 
-DrawingScript::DrawingScript(const RenderInitInfo& renderInitInfo) {
+DrawingScript::DrawingScript(const std::shared_ptr<RenderInitInfo> &renderInitInfo) {
     try {
-        this->drawInitInfo = std::make_unique<RenderInitInfo>(renderInitInfo);
+        this->drawInitInfo = renderInitInfo;
         this->frameController = std::make_unique<FrameController>(this->drawInitInfo->pApplicationContext,
                                                                   this->drawInitInfo->pDisplayAdapter,
                                                                   *this->drawInitInfo->pGraphicsPipeline);

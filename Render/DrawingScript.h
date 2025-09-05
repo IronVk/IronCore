@@ -9,15 +9,15 @@
 
 class DrawingScript {
 private:
-    u32 imageIndex;
-    std::unique_ptr<RenderInitInfo> drawInitInfo = nullptr;
-    std::unique_ptr<FrameController> frameController = nullptr;
+    u32 imageIndex{};
+    std::shared_ptr<RenderInitInfo> drawInitInfo = nullptr;
+    std::shared_ptr<FrameController> frameController = nullptr;
     VkSemaphore imageAvailableSemaphore = VK_NULL_HANDLE;
     VkSemaphore renderCompleteSemaphore = VK_NULL_HANDLE;
     VkFence inFlightFence = VK_NULL_HANDLE;
     void cleanup();
 public:
-    DrawingScript(const RenderInitInfo& renderInitInfo);
+    DrawingScript(const std::shared_ptr<RenderInitInfo> &renderInitInfo);
     ~DrawingScript();
 
     void draw();

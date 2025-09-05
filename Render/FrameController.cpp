@@ -9,9 +9,9 @@
 #include "../Util/VulkUtility.h"
 
 FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter,
-                                 const GraphicsPipeline &graphicsPipeline) {
+                                  std::shared_ptr<GraphicsPipeline> graphicsPipeline) {
     this->applicationContext = appContext;
-    this->graphicsPipeline = &graphicsPipeline;
+    this->graphicsPipeline = graphicsPipeline;
     this->displayAdapter = displayAdapter;
     this->graphicsCommandPool = VK_NULL_HANDLE;
     const auto TOTAL_SWAP_CHAIN_IMAGE = this->displayAdapter.swapChainImages.size();

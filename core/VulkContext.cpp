@@ -162,10 +162,10 @@ void VulkContext::initDrawingScriptInstance() {
            .pGraphicsPipeline = this->graphicsPipeline,
            .pQueueList = this->queueList
        };
-       this->drawingScript = std::make_unique<DrawingScript>(renderInitInfo);
+       this->drawingScript = std::make_shared<DrawingScript>(renderInitInfo);
 }
 
-std::unique_ptr<DrawingScript>& VulkContext::getDrawingScript() {
+std::shared_ptr<DrawingScript> VulkContext::getDrawingScript() {
     return this->drawingScript;
 }
 
