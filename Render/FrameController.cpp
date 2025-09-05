@@ -8,7 +8,7 @@
 
 #include "../Util/VulkUtility.h"
 
-FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter,const std::shared_ptr<GraphicsPipeline> graphicsPipeline) {
+FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter, std::shared_ptr<GraphicsPipeline> graphicsPipeline) {
     this->applicationContext = appContext;
     this->graphicsPipeline = graphicsPipeline;
     this->displayAdapter = displayAdapter;
@@ -89,7 +89,12 @@ VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex
     renderPassBeginInfo.renderArea.extent = extent;
     renderPassBeginInfo.clearValueCount = 1;
     renderPassBeginInfo.pClearValues = CLEAR_COLOR;
-
+    printf("SOURCE: imageIndex=%u, cmd=0x%llx, rp=0x%llx, fb=0x%llx, extent=%ux%u\n",
+           imageIndex,
+           (unsigned long long)this->CommandBuffers,
+           (unsigned long long)renderPassBeginInfo.renderPass,
+           (unsigned long long)renderPassBeginInfo.framebuffer,
+           (unsigned)extent.width, (unsigned)extent.height);
 
     return renderPassBeginInfo;
 }
