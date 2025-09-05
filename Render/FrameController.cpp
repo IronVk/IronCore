@@ -8,8 +8,7 @@
 
 #include "../Util/VulkUtility.h"
 
-FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter,const
-                                  std::shared_ptr<GraphicsPipeline> graphicsPipeline) {
+FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter,const std::shared_ptr<GraphicsPipeline> graphicsPipeline) {
     this->applicationContext = appContext;
     this->graphicsPipeline = graphicsPipeline;
     this->displayAdapter = displayAdapter;
@@ -109,7 +108,7 @@ void FrameController::recordCommandBuffer(const u32 imageIndex) {
     VLOG("SX");
     //* BInd with graphics pipeline
     vkCmdBindPipeline(this->CommandBuffers, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                      this->graphicsPipeline->getRenderPass());
+                      this->graphicsPipeline->getGraphicsPipeline());
     vkCmdSetViewport(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline->getViewport());
     vkCmdSetScissor(this->CommandBuffers,ZERO,ONE, &this->graphicsPipeline->getScissor());
     vkCmdDraw(this->CommandBuffers, 3,ONE,ZERO,ZERO);

@@ -156,13 +156,12 @@ void VulkContext::createGraphicsPipeline() {
 }
 
 void VulkContext::initDrawingScriptInstance() {
-       RenderInitInfo renderInitInfo = {
-           .pApplicationContext = this->context,
-           .pDisplayAdapter = this->displayAdapter,
-           .pGraphicsPipeline = this->graphicsPipeline,
-           .pQueueList = this->queueList
-       };
-       this->drawingScript = std::make_shared<DrawingScript>(renderInitInfo);
+       RenderInitInfo renderInitInfo = {};
+        renderInitInfo.pApplicationContext = this->context;
+        renderInitInfo.pDisplayAdapter = this->displayAdapter;
+        renderInitInfo.pGraphicsPipeline = this->graphicsPipeline;
+        renderInitInfo.pQueueList = this->queueList;
+       this->drawingScript = std::make_shared<RenderInitInfo>(RenderInitInfo(this->context,this->displayAdapter,this->graphicsPipeline,this->queueList));
 }
 
 std::shared_ptr<DrawingScript> VulkContext::getDrawingScript() {
@@ -173,7 +172,7 @@ std::shared_ptr<DrawingScript> VulkContext::getDrawingScript() {
 void VulkContext::dropContext() {
     VLOG("DRO{{ING CONTEXT");
     this->drawingScript.reset();
-    this->graphicsPipeline.destroySelf();
+    this->graphicsPipeline.reset();
     vkDestroySwapchainKHR(this->context.Device.logicalDevice, this->displayAdapter.swapchain, nullptr);
     for (const auto &[_, imageView]: this->displayAdapter.swapChainImages) {
         vkDestroyImageView(this->context.Device.logicalDevice, imageView, nullptr);
