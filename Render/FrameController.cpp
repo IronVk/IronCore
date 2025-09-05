@@ -8,7 +8,7 @@
 
 #include "../Util/VulkUtility.h"
 
-FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter,
+FrameController::FrameController(const AppContext &appContext, const DisplayAdapter &displayAdapter,const
                                   std::shared_ptr<GraphicsPipeline> graphicsPipeline) {
     this->applicationContext = appContext;
     this->graphicsPipeline = graphicsPipeline;
@@ -36,7 +36,7 @@ void FrameController::setupFrameBuffer() {
         frameBufferCreateInfo.pNext = nullptr;
         frameBufferCreateInfo.flags = 0;
         frameBufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-        frameBufferCreateInfo.renderPass = static_cast<GraphicsPipeline>(this->graphicsPipeline).getRenderPass();
+        frameBufferCreateInfo.renderPass = this->graphicsPipeline->getRenderPass();
         frameBufferCreateInfo.attachmentCount = 1;
         frameBufferCreateInfo.pAttachments = attachments.data();
         frameBufferCreateInfo.width = this->displayAdapter.swapChainExtent.width;
@@ -91,12 +91,6 @@ VkRenderPassBeginInfo FrameController::obtainRenderPassInfo(const u32 imageIndex
     renderPassBeginInfo.clearValueCount = 1;
     renderPassBeginInfo.pClearValues = CLEAR_COLOR;
 
-    printf("SOURCE: imageIndex=%u, cmd=0x%llx, rp=0x%llx, fb=0x%llx, extent=%ux%u\n",
-           imageIndex,
-           (unsigned long long)this->CommandBuffers,
-           (unsigned long long)renderPassBeginInfo.renderPass,
-           (unsigned long long)renderPassBeginInfo.framebuffer,
-           (unsigned)extent.width, (unsigned)extent.height);
 
     return renderPassBeginInfo;
 }

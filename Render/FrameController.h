@@ -23,7 +23,7 @@ private:
 
     VkRenderPassBeginInfo obtainRenderPassInfo(const u32 imageIndex) const;
 public:
-    FrameController(const AppContext& appContext,const DisplayAdapter& displayAdapter,const GraphicsPipeline& graphicsPipeline);
+    FrameController(const AppContext& appContext,const DisplayAdapter& displayAdapter,const std::shared_ptr<GraphicsPipeline> graphicsPipeline);
     ~FrameController();
     VkCommandBuffer& getCommandBuffer();
     void setupFrameBuffer();
